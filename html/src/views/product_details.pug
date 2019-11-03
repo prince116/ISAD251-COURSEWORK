@@ -1,0 +1,80 @@
+extends layout.pug
+
+block content
+    .jumbotron
+        .container.text-center
+            h1 Cake Shop
+            p Fat and Sweet
+
+    .container
+        .row
+            .col-xs-12
+                a(href="#") Home
+                |  / Product / Products Details
+
+    .container 
+        .row
+            .col-sm-6.col-xs-12
+                .product-thumbnail-wrapper
+                    img.img-responsive(src="https://placehold.it/570x570?text=IMAGE", style="width:100%;", alt="Image", loading="lazy")
+
+            .col-sm-6.col-xs-12
+                .product-details-wrapper
+                    .product-name 
+                        h4 Product Name Here
+                    .product-description Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, recusandae fugiat in facilis error consectetur ipsam odit, necessitatibus porro accusamus fuga asperiores soluta illo nobis quos sunt corrupti laudantium omnis.
+                    .product-price.discounted
+                        span.value $200.00
+                    .product-discounted-price 
+                        span.value $100.00
+                    .product-available-status 
+                        span.value Available: In Stock
+                    .product-qty
+                        //- a.btn-qty-plus(href="javascript:void(0)")
+                        //-     span.glyphicon.glyphicon-minus-sign
+                        //- input.form-control(type="tel", name="quantiy", value="0")
+                        //- a.btn-qty-minus(href="javascript:void(0)")
+                        //-     span.glyphicon.glyphicon-plus-sign
+                        | Quantity: 
+                        select(name="product_quantity")
+                            - for(var n = 0; n < 100; n++){
+                                option(value=n) #{n}
+                            - }
+                        
+                    .product-actions
+                        a.btn.btn-success.btn-block(href="javascript:void(0)")
+                            span.glyphicon.glyphicon-shopping-cart
+                            span.text Add to cart
+                        a.btn.btn-danger.btn-block(href="javascript:void(0)")
+                            span.glyphicon.glyphicon-heart-empty
+                            span.text Add to wishlist
+
+    .container
+        .row
+            .col-xs-12
+                h2 Related Products
+
+        .row
+            - for( var count = 0; count < 4; count++){
+            .col-md-3.col-sm-6.col-xs-12
+                .panel
+                    .panel-body
+                        .product-wrapper
+                            .product-img
+                                a(href="#")
+                                    img.img-responsive(src="https://placehold.it/570x570?text=IMAGE", style="width:100%;", alt="Image")
+                                .product-action
+                                    .product-action-left
+                                        a(href="#", title="Add to cart") 
+                                            span.glyphicon.glyphicon-shopping-cart 
+                                            span.text Add to cart
+                                    .product-action-right
+                                        a(href="#") 
+                                            span.glyphicon.glyphicon-heart-empty
+                                        a(href="#") 
+                                            span.glyphicon.glyphicon-eye-open
+                            .product-details
+                                p Product Name
+                                p $100.00
+                                p In stock
+            - }

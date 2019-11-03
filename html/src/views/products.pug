@@ -5,17 +5,34 @@ block content
         .container.text-center
             h1 Cake Shop
             p Fat and Sweet
-    
+
     .container
         .row
-            - for( var count = 0; count < 8; count++){
-            .col-md-4.col-sm-6.col-xs-12
+            .col-xs-12
+                a(href="#") Home
+                |  / Products
+
+    .container
+        .row
+            .col-xs-12
+                .category-wrapper
+                    .category-options.text-center
+                        a.active(href="#") All
+                        | &nbsp;/&nbsp;
+                        a(href="#") Food
+                        | &nbsp;/&nbsp;
+                        a(href="#") Drink
+    
+    .container 
+        .row
+            - for( var count = 0; count < 18; count++){
+            .col-md-3.col-sm-6.col-xs-12
                 .panel
                     .panel-body
                         .product-wrapper
                             .product-img
                                 a(href="#")
-                                    img.img-responsive(src="https://placehold.it/150x150?text=IMAGE", style="width:100%;", alt="Image")
+                                    img.img-responsive(src="https://placehold.it/150x150?text=IMAGE", style="width:100%;", alt="Image", loading="lazy")
                                 .product-action
                                     .product-action-left
                                         a(href="#", title="Add to cart") 
@@ -25,7 +42,7 @@ block content
                                         a(href="#") 
                                             span.glyphicon.glyphicon-heart-empty
                                         a(href="#") 
-                                            span.glyphicon.glyphicon-eye-open
+                                            span.glyphicon.glyphicon-zoom-in
                             .product-details
                                 p Product Name
                                 p $100.00

@@ -1,0 +1,30 @@
+extends layout.pug
+
+block content
+    .jumbotron
+        .container.text-center
+            h1 Cake Shop
+            p Fat and Sweet
+
+    .container
+        .row
+            .col-xs-12
+                a(href="#") Home
+                |  / Login
+
+    .container
+        .row
+            .col-xs-12.text-center
+                .login-form
+                    form(action="#", method="post")
+                        h2.text-center Login
+                        .form-group
+                            input.form-control(type="text", name="username", placeholder="Username", required="required")
+                        .form-group
+                            input.form-control(type="password", name="password", placeholder="Password", required="required")
+                        .form-group
+                            button.btn.btn-primary.btn-block(type="submit") Login
+                        .form-group
+                            p Don't have account? 
+                                a(href="#") Create now
+
