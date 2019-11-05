@@ -19,6 +19,9 @@
 .panel {
   box-shadow: none; }
 
+.about__wrapper {
+  margin: 50px 0; }
+
 .product__wrapper:hover .product__img .product__action {
   opacity: 1;
   visibility: visible;
@@ -103,16 +106,30 @@
       margin-left: 10px;
       text-transform: uppercase; }
 
-.login__form {
-  width: 400px;
-  margin: 50px auto; }
-  .login__form h2 {
-    margin: 0 0 15px; }
-  .login__form form {
-    margin-bottom: 15px;
-    background: #f7f7f7;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    padding: 30px; }
+.register__wrapper {
+  margin: 50px 0;
+  height: 400px;
+  background: #2f333a; }
+  .register__wrapper .register__part {
+    color: #FFF;
+    margin: 0 auto;
+    text-align: center;
+    height: 600px;
+    padding: 80px 70px;
+    display: table; }
+    .register__wrapper .register__part .register__button {
+      text-transform: uppercase;
+      font-weight: bold;
+      margin: 20px 0;
+      background: none;
+      padding: 10px 40px;
+      border-radius: 30px;
+      border: 1px solid #FFF;
+      transition: 0.5s; }
+      .register__wrapper .register__part .register__button:hover {
+        text-decoration: none;
+        background: #ffffff;
+        color: #2f333a; }
 
 .category__wrapper {
   width: 400px;
@@ -151,6 +168,13 @@ h1.custom-title {
           width: 130px;
           font-weight: bold;
           float: right; }
+
+.cart__add-to-cart {
+  width: 130px;
+  margin: 0 auto;
+  font-weight: bold; }
+  .cart__add-to-cart .text {
+    padding-left: 5px; }
 
 .cart__image-wrapper {
   width: 130px; }
