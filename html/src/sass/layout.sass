@@ -1,12 +1,17 @@
 @import "variables"
 
 // Navbar
-.navbar-inverse
-    background-color: $black-bg
+.navbar
+    margin-bottom: 0
+    border-radius: 0
 
-    .navbar-nav > li > a
+    &-inverse
+        background-color: $black-bg
+
+    &-nav > li > a
         font-weight: bold
         color: #FFF
+
         &:hover
             color: $red
             font-weight: bold
@@ -15,9 +20,8 @@
             -o-transition: all 0.3s ease-out 0s
             transition: all 0.3s ease-out 0s
 
-.navbar
-    margin-bottom: 0
-    border-radius: 0
+    .badge
+        background: $red
 
 .jumbotron
     margin-bottom: 50px
@@ -25,71 +29,129 @@
 .panel
     box-shadow: none
 
-.product-wrapper
+.product
+    $self: &
 
-    &:hover .product-img .product-action
-        opacity: 1
-        visibility: visible
-        bottom: 12px
+    &__wrapper
 
-    .product-img
-        overflow: hidden
-        position: relative
+        &:hover #{$self}__img #{$self}__action
+            opacity: 1
+            visibility: visible
+            bottom: 12px
 
-        .product-action
-            bottom: -30px
-            display: flex
-            justify-content: space-between
-            left: 0
-            padding: 0 20px
-            position: absolute
-            right: 0
-            width: 100%
-            opacity: 0
-            visibility: hidden
-            transition: all .3s ease 0s
+        &:hover img
+            opacity: 0.6
+
+        #{$self}__img
+            overflow: hidden
+            position: relative
+
+            #{$self}__action
+                bottom: -30px
+                display: flex
+                justify-content: space-between
+                left: 0
+                padding: 0 20px
+                position: absolute
+                right: 0
+                width: 100%
+                opacity: 0
+                visibility: hidden
+                transition: all .3s ease 0s
+                text-transform: uppercase
+
+                a
+                    span.glyphicon
+                        font-size: 20px
+                        font-weight: bold
+                        text-decoration: none
+                    span.text
+                        font-size: 13px
+                        font-weight: 500
+                        text-decoration: none
+                        margin-left: 5px
+                    &:hover
+                        text-decoration: none
+                        color: $red
+                        -moz-transition: all 0.3s ease-out 0s
+                        -ms-transition: all 0.3s ease-out 0s
+                        -o-transition: all 0.3s ease-out 0s
+                        transition: all 0.3s ease-out 0s
+
+        #{$self}__details
+            margin-top: 20px
+
+    &__thumbnail-wrapper
+        margin: 50px 0
+
+    &__details-wrapper
+        margin: 50px 0
+
+        #{$self}__name > h4
+            font-size: 30px
+            font-weight: bold
             text-transform: uppercase
 
+        #{$self}__price
+            font-size: 20px
+            font-weight: bold
+            &.discounted
+                text-decoration: line-through
+
+        #{$self}__discounted-price
+            font-size: 25px
+            font-weight: bold
+            color: $red
+            text-decoration: none
+
+        #{$self}__qty
+            margin: 10px 0
+
+            .btn-qty-plus,
+            .btn-qty-minus
+                margin: 0 10px
+                display: inline
+            input
+                width: 50px
+                text-align: center
+                display: inline
+
+        #{$self}__actions
+            margin: 50px 0
             a
-                span.glyphicon
-                    font-size: 20px
-                    font-weight: bold
-                    text-decoration: none
-                span.text
-                    font-size: 13px
-                    font-weight: 500
-                    text-decoration: none
-                    margin-left: 5px
-                &:hover
-                    text-decoration: none
-                    color: $red
-                    -moz-transition: all 0.3s ease-out 0s
-                    -ms-transition: all 0.3s ease-out 0s
-                    -o-transition: all 0.3s ease-out 0s
-                    transition: all 0.3s ease-out 0s
+                width: 200px
+                margin-right: 10px
+                display: inline
+                // float: left
+            span.text
+                margin-left: 10px
+                text-transform: uppercase
 
-    .product-details
-        margin-top: 20px
+// Login
+.login
 
-.login-form
-    width: 400px
-    margin: 50px auto
+    &__form
+        width: 400px
+        margin: 50px auto
 
-    h2
-        margin: 0 0 15px
+        h2
+            margin: 0 0 15px
 
-    form
-        margin-bottom: 15px
-        background: #f7f7f7
-        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3)
-        padding: 30px
+        form
+            margin-bottom: 15px
+            background: #f7f7f7
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3)
+            padding: 30px
 
 // Products
-.category-wrapper
-    width: 400px
-    margin: 50px auto
+.category
+    $self: &
+    
+    &__wrapper
+        width: 400px
+        margin: 50px auto
 
-    .category-options
+    &__options
         font-size: 30px
 
         a.active
@@ -97,51 +159,100 @@
         a:hover
             text-decoration: none
 
-.product-thumbnail-wrapper
-    margin: 50px 0
 
-.product-details-wrapper
-    margin: 50px 0
 
-    .product-name > h4
-        font-size: 30px
-        font-weight: bold
-        text-transform: uppercase
+// Contact
+.contact
+    &-form-wrapper
+        max-width: 500px
+        margin: 50px auto
 
-    .product-price
-        font-size: 20px
-        font-weight: bold
-        &.discounted
-            text-decoration: line-through
+// Cart
+h1.custom-title
+    text-align: center
+    font-size: 2.15em
 
-    .product-discounted-price
-        font-size: 25px
-        font-weight: bold
+.cart
+    $self: &;
+
+    &__wrapper
+        margin: 50px auto 0 auto
+
+        table
+            width: 100%
+
+            tr
+                border-bottom: 1px solid #eeeeee
+                &:last-child
+                    border: 0
+
+                th
+                    font-size: 12px
+                    padding: 28px 0
+
+                td
+                    font-size: 12px
+                    padding: 28px 0
+                    
+                    #{$self}__update
+                        width: 130px
+                        font-weight: bold
+                        float: right
+
+    &__image-wrapper
+        width: 130px
+        @media (max-width: 640px)
+            width: auto
+
+    &__image
+        width: 90px
+        &:hover
+            opacity: 0.6
+    &__product-name
+        padding: 10px 0
+        a:hover
+            text-decoration: none
+            opacity: 0.6
+        @media (max-width: 640px)
+            padding: 5px
+    &__remove
+        width: 100px
         color: $red
-        text-decoration: none
+        &:hover
+            color: $red
+        
+        @media (max-width: 640px)
+            padding: 5px
+    &__qty-input
+        text-align: center
+        margin: 0 auto
+        width: 60px
+        padding: 0 5px
+        @media (max-width: 640px)
+            margin: 0 5px
 
-    .product-qty
-        margin: 10px 0
+    &__footer
+        margin: 25px 0
 
-        .btn-qty-plus,
-        .btn-qty-minus
-            margin: 0 10px
-            display: inline
-        input
-            width: 50px
-            text-align: center
-            display: inline
+        #{$self}__total-wrapper
+            @media (max-width: 640px)
+                text-align: center
 
-    .product-actions
-        margin: 50px 0
-        a
-            width: 200px
-            margin-right: 10px
-            display: inline
-            // float: left
-        span.text
-            margin-left: 10px
-            text-transform: uppercase
+            #{$self}__total-title
+                font-size: 20px
+                font-weight: bold
+
+            #{$self}__total
+                font-size: 20px
+                padding-left: 20px
+
+        #{$self}__checkout-wrapper
+            margin: 30px 0
+
+            #{$self}__checkout
+                margin: 50px auto
+                font-weight: bold
+                width: 200px
 
 footer
     background-color: #f2f2f2

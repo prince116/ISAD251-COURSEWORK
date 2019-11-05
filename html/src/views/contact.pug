@@ -1,0 +1,46 @@
+extends layout.pug
+
+block content
+    .jumbotron
+        .container.text-center
+            h1 Cake Shop
+            p Fat and Sweet
+
+    .container
+        .row
+            .col-xs-12
+                a(href="#") Home
+                |  / Contact
+
+    .container
+        .row
+            .col-xs-12
+                form(action="#", method="post")
+                    .contact-form-wrapper
+                        .row
+                            .col-xs-12
+                                h2 Get in touch
+                        .row
+                            .col-xs-6
+                                .form-group
+                                    input.form-control(type="text", name="first_name", placeholder="First Name")
+                            .col-xs-6
+                                .form-group
+                                    input.form-control(type="text", name="last_name", placeholder="Last Name")
+                        .row
+                            .col-xs-12
+                                .form-group
+                                    input.form-control(type="text", name="email", placeholder="Email")
+                        .row
+                            .col-xs-12
+                                .form-group
+                                    input.form-control(type="text", name="subject", placeholder="Subject")
+                        .row
+                            .col-xs-12
+                                .form-group
+                                    textarea.form-control(row="10", name="message", placeholder="Message")
+                        .row
+                            .col-xs-12
+                                .form-group
+                                    button.btn.btn-block(type="button") Send Message
+

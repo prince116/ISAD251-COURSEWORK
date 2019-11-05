@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Language" content="en">
+    <meta name="language" content="zh-hk">
+    <meta name="Country" content="hk">
+    <meta name="robots" content="follow, index">
+    <link rel="stylesheet" href="css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="css/vendor/w3.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <title>Cake Shop</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#myNavbar"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="#">Cake Shop</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Login</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-heart"></span>&nbsp;&nbsp;Wishlist</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Cart&nbsp;<span class="badge">10</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="jumbotron">
+      <div class="container text-center">
+        <h1>Cake Shop</h1>
+        <p>Fat and Sweet</p>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12"><a href="#">Home</a> / Cart</div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1 class="custom-title">Your Cart</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="cart__wrapper">
+            <table>
+              <tr>
+                <th class="text-left" colspan="2">Product</th>
+                <th class="text-left">Price</th>
+                <th class="text-center">Quanity</th>
+                <th class="text-right">Total</th>
+              </tr>
+              <tr>
+                <td class="cart__image-wrapper"><a href="#"><img class="cart__image" src="https://placehold.it/570x570?text=IMAGE" alt="Image" loading="lazy"></a></td>
+                <td class="text-left"> 
+                  <div class="cart__product-name"> <a href="#">Product Name Here Product Name Here</a></div>
+                  <p><a class="cart__remove" href="#">Remove</a></p>
+                </td>
+                <td class="text-left cart__unit-price">$200.00</td>
+                <td class="text-center">
+                  <input class="cart__qty-input form-control" type="number" name="quantity" value="1" min="1">
+                </td>
+                <td class="text-right cart__product-total">$200.00</td>
+              </tr>
+              <tr>
+                <td class="cart__image-wrapper"><a href="#"><img class="cart__image" src="https://placehold.it/570x570?text=IMAGE" alt="Image" loading="lazy"></a></td>
+                <td class="text-left"> 
+                  <div class="cart__product-name"> <a href="#">Product Name Here Product Name Here</a></div>
+                  <p><a class="cart__remove" href="#">Remove</a></p>
+                </td>
+                <td class="text-left cart__unit-price">$200.00</td>
+                <td class="text-center">
+                  <input class="cart__qty-input form-control" type="number" name="quantity" value="1" min="1">
+                </td>
+                <td class="text-right cart__product-total">$200.00</td>
+              </tr>
+              <tr>
+                <td class="cart__image-wrapper"><a href="#"><img class="cart__image" src="https://placehold.it/570x570?text=IMAGE" alt="Image" loading="lazy"></a></td>
+                <td class="text-left"> 
+                  <div class="cart__product-name"> <a href="#">Product Name Here Product Name Here</a></div>
+                  <p><a class="cart__remove" href="#">Remove</a></p>
+                </td>
+                <td class="text-left cart__unit-price">$200.00</td>
+                <td class="text-center">
+                  <input class="cart__qty-input form-control" type="number" name="quantity" value="1" min="1">
+                </td>
+                <td class="text-right cart__product-total">$200.00</td>
+              </tr>
+              <tr>
+                <td class="cart__image-wrapper"><a href="#"><img class="cart__image" src="https://placehold.it/570x570?text=IMAGE" alt="Image" loading="lazy"></a></td>
+                <td class="text-left"> 
+                  <div class="cart__product-name"> <a href="#">Product Name Here Product Name Here</a></div>
+                  <p><a class="cart__remove" href="#">Remove</a></p>
+                </td>
+                <td class="text-left cart__unit-price">$200.00</td>
+                <td class="text-center">
+                  <input class="cart__qty-input form-control" type="number" name="quantity" value="1" min="1">
+                </td>
+                <td class="text-right cart__product-total">$200.00</td>
+              </tr>
+              <tr>
+                <td class="text-right" colspan="5"><a class="btn btn-block btn-primary cart__update" href="#">Update Cart</a></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="cart__footer text-right">
+            <div class="cart__total-wrapper"><span class="cart__total-title">Total</span><span class="cart__total">$800.00</span></div>
+            <div class="cart__checkout-wrapper"><a class="btn btn-block btn-success cart__checkout" href="#">Proceed to Checkout</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="container-fluid text-center">
+      <p>Cake Shop Copyright</p>
+    </footer>
+    <script src="js/libs/jquery.min.js"></script>
+    <script src="js/libs/bootstrap.min.js"></script>
+  </body>
+</html>

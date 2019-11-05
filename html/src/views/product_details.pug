@@ -15,33 +15,34 @@ block content
     .container 
         .row
             .col-sm-6.col-xs-12
-                .product-thumbnail-wrapper
+                .product__thumbnail-wrapper
                     img.img-responsive(src="https://placehold.it/570x570?text=IMAGE", style="width:100%;", alt="Image", loading="lazy")
 
             .col-sm-6.col-xs-12
-                .product-details-wrapper
-                    .product-name 
+                .product__details-wrapper
+                    .product__name 
                         h4 Product Name Here
-                    .product-description Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, recusandae fugiat in facilis error consectetur ipsam odit, necessitatibus porro accusamus fuga asperiores soluta illo nobis quos sunt corrupti laudantium omnis.
-                    .product-price.discounted
+                    .product__description Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, recusandae fugiat in facilis error consectetur ipsam odit, necessitatibus porro accusamus fuga asperiores soluta illo nobis quos sunt corrupti laudantium omnis.
+                    .product__price.discounted
                         span.value $200.00
-                    .product-discounted-price 
+                    .product__discounted-price 
                         span.value $100.00
-                    .product-available-status 
+                    .product__available-status 
                         span.value Available: In Stock
-                    .product-qty
+                    .product__qty
                         //- a.btn-qty-plus(href="javascript:void(0)")
                         //-     span.glyphicon.glyphicon-minus-sign
                         //- input.form-control(type="tel", name="quantiy", value="0")
                         //- a.btn-qty-minus(href="javascript:void(0)")
                         //-     span.glyphicon.glyphicon-plus-sign
                         | Quantity: 
-                        select(name="product_quantity")
-                            - for(var n = 0; n < 100; n++){
-                                option(value=n) #{n}
-                            - }
+                        //- select(name="product_quantity")
+                        //-     - for(var n = 0; n < 100; n++){
+                        //-         option(value=n) #{n}
+                        //-     - }
+                        input(type="number", name="product_quantity", value="1", min="1")
                         
-                    .product-actions
+                    .product__actions
                         a.btn.btn-success.btn-block(href="javascript:void(0)")
                             span.glyphicon.glyphicon-shopping-cart
                             span.text Add to cart
@@ -59,21 +60,21 @@ block content
             .col-md-3.col-sm-6.col-xs-12
                 .panel
                     .panel-body
-                        .product-wrapper
-                            .product-img
+                        .product__wrapper
+                            .product__img
                                 a(href="#")
                                     img.img-responsive(src="https://placehold.it/570x570?text=IMAGE", style="width:100%;", alt="Image")
-                                .product-action
-                                    .product-action-left
+                                .product__action
+                                    .product__action-left
                                         a(href="#", title="Add to cart") 
                                             span.glyphicon.glyphicon-shopping-cart 
                                             span.text Add to cart
-                                    .product-action-right
+                                    .product__action-right
                                         a(href="#") 
                                             span.glyphicon.glyphicon-heart-empty
                                         a(href="#") 
                                             span.glyphicon.glyphicon-eye-open
-                            .product-details
+                            .product__details
                                 p Product Name
                                 p $100.00
                                 p In stock
