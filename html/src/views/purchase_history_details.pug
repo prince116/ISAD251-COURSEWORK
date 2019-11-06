@@ -1,0 +1,45 @@
+extends layout.pug
+
+block content
+    .jumbotron
+        .container.text-center
+            h1 Cake Shop
+            p Fat and Sweet
+
+    .container
+        .row
+            .col-xs-12
+                a(href="#") Home
+                |  / Purchase Histroy
+
+    .container
+        .row
+            .col-xs-12
+                h1.custom-title Order No. : INV000001
+        .row
+            .col-xs-12
+                .cart__wrapper
+                    table
+                        tr
+                            th.text-left(colspan="2") Product
+                            th.text-left Price
+                            th.text-center Quanity
+                            th.text-right Total
+                        - for(var n = 0; n < 4; n++){
+                        tr
+                            td.cart__image-wrapper
+                                a(href="#")
+                                    img.cart__image(src="https://placehold.it/570x570?text=IMAGE", alt="Image", loading="lazy")
+                            td.text-left 
+                                .cart__product-name 
+                                    a(href="#") Product Name Here Product Name Here
+
+                            td.text-left.cart__unit-price $200.00
+                            td.text-center 1
+                            td.text-right.cart__product-total $200.00
+                        - }
+    
+        .row
+            .col-xs-12
+                .cart__button-wrapper
+                    a.cart__button(href="./account.html") Back

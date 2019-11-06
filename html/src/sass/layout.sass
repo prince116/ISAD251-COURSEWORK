@@ -138,16 +138,18 @@
     
     &__wrapper
         margin: 50px 0
-        height: 400px
+        height: 500px
         background: $black-bg
 
         #{$self}__part
             color: #FFF
             margin: 0 auto
             text-align: center
-            height: 600px
-            padding: 80px 70px
+            padding: 120px 40px
             display: table
+
+            h2
+                font-weight: bold
 
             #{$self}__button
                 text-transform: uppercase
@@ -164,21 +166,113 @@
                     background: #ffffff
                     color: $black-bg
 
-// Login
-// .login
+.login
+    $self: &
 
-//     &__form
-//         width: 400px
-//         margin: 50px auto
+    &__wrapper
+        margin: 50px 0
+        height: 500px
+        background: none
 
-//         h2
-//             margin: 0 0 15px
+        #{$self}__part
+            color: $black-bg
+            margin: 0 auto
+            text-align: center
+            padding: 80px 30px
 
-//         form
-//             margin-bottom: 15px
-//             background: #f7f7f7
-//             box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3)
-//             padding: 30px
+            h2
+                text-align: left
+                font-weight: bold
+                margin-bottom: 50px
+
+            #{$self}__username,
+            #{$self}__password
+                width: 100%
+                outline: none
+                border: none
+                border-bottom: 1px solid #ddd
+                padding: 10px 5px
+                margin: 10px 0
+                box-shadow: none
+
+                &:focus
+                    outline: none
+                    box-shadow: none
+                    -webkit-box-shadow: none
+
+            #{$self}__button
+                text-transform: uppercase
+                font-weight: bold
+                margin: 20px 0
+                background: none
+                padding: 10px 40px
+                border-radius: 30px
+                border: 1px solid $black-bg
+                transition: 0.5s
+
+                &:hover
+                    text-decoration: none
+                    background: $black-bg
+                    color: #ffffff
+
+.registration
+    $self: &
+
+    &__wrapper
+        margin: 50px auto
+        width: 600px
+        @media (max-width: 640px)
+            width: auto
+
+        h2
+            font-weight: bold
+            margin-bottom: 50px
+
+        #{$self}__button
+            text-transform: uppercase
+            font-weight: bold
+            margin: 20px 0
+            background: none
+            padding: 10px 40px
+            border-radius: 30px
+            border: 1px solid $black-bg
+            transition: 0.5s
+
+            &:hover
+                text-decoration: none
+                background: $black-bg
+                color: #ffffff
+
+        #{$self}__input-field
+            width: 100%
+            outline: none
+            border: none
+            border-bottom: 1px solid #ddd
+            padding: 10px 5px
+            margin: 10px 0
+            box-shadow: none
+
+            &:focus
+                outline: none
+                box-shadow: none
+                -webkit-box-shadow: none
+
+        #{$self}__icon-wrapper
+            width: 100%
+            text-align: center
+            font-size: 150px
+            color: green
+
+        #{$self}__text
+            text-align: center
+            &.large
+                font-size: 50px
+                font-weight: bold
+            &.small
+                font-size: 25px
+
+            
+
 
 // Products
 .category
@@ -200,9 +294,44 @@
 
 // Contact
 .contact
-    &-form-wrapper
+    $self: &
+
+    &__wrapper
         max-width: 500px
         margin: 50px auto
+
+        #{$self}__input-field
+            width: 100%
+            outline: none
+            border: none
+            border-bottom: 1px solid #ddd
+            padding: 10px 5px
+            margin: 10px 0
+            box-shadow: none
+
+            &:focus
+                outline: none
+                box-shadow: none
+                -webkit-box-shadow: none
+
+        textarea
+            height: 150px
+            resize: none
+
+        #{$self}__button
+            text-transform: uppercase
+            font-weight: bold
+            margin: 20px 0
+            background: none
+            padding: 10px 40px
+            border-radius: 30px
+            border: 1px solid $black-bg
+            transition: 0.5s
+
+            &:hover
+                text-decoration: none
+                background: $black-bg
+                color: #ffffff
 
 // Cart
 h1.custom-title
@@ -276,6 +405,25 @@ h1.custom-title
         @media (max-width: 640px)
             margin: 0 5px
 
+    &__button-wrapper
+        margin: 50px 0
+        text-align: center
+
+    &__button
+        text-transform: uppercase
+        font-weight: bold
+        margin: 20px 0
+        background: none
+        padding: 10px 40px
+        border-radius: 30px
+        border: 1px solid $black-bg
+        transition: 0.5s
+
+        &:hover
+            text-decoration: none
+            background: $black-bg
+            color: #ffffff
+
     &__footer
         margin: 25px 0
 
@@ -298,6 +446,54 @@ h1.custom-title
                 margin: 50px auto
                 font-weight: bold
                 width: 200px
+
+.account
+    $self: &
+
+    &__details-wrapper
+        margin: 50px 0
+        border: 1px solid #eeeeee
+
+        #{$self}__group
+            width: 300px
+            margin: 30px auto
+
+            #{$self}__label
+                font-size: 12px
+                font-weight: bold
+
+            #{$self}__value
+                font-size: 12px
+
+    &__purchase-history-wrapper
+        margin: 50px 0
+        
+        #{$self}__group
+
+            #{$self}__heading
+                font-size: 20px
+                font-weight: bold
+                margin-bottom: 30px
+            
+            #{$self}__record
+                font-size: 12px
+                border: 1px solid #eeeeee
+                border-radius: 5px
+                margin-bottom: 10px
+                padding: 10px
+                cursor: pointer
+
+                &:nth-child(even)
+                    background: #eeeeee
+
+                #{$self}__sub-group
+                    display: inline-block
+                    vertical-align: middle
+                    
+                    &.left
+                        width: 80%
+                    &.right
+                        width: 18%
 
 footer
     background-color: #f2f2f2

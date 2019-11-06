@@ -108,15 +108,16 @@
 
 .register__wrapper {
   margin: 50px 0;
-  height: 400px;
+  height: 500px;
   background: #2f333a; }
   .register__wrapper .register__part {
     color: #FFF;
     margin: 0 auto;
     text-align: center;
-    height: 600px;
-    padding: 80px 70px;
+    padding: 120px 40px;
     display: table; }
+    .register__wrapper .register__part h2 {
+      font-weight: bold; }
     .register__wrapper .register__part .register__button {
       text-transform: uppercase;
       font-weight: bold;
@@ -131,6 +132,94 @@
         background: #ffffff;
         color: #2f333a; }
 
+.login__wrapper {
+  margin: 50px 0;
+  height: 500px;
+  background: none; }
+  .login__wrapper .login__part {
+    color: #2f333a;
+    margin: 0 auto;
+    text-align: center;
+    padding: 80px 30px; }
+    .login__wrapper .login__part h2 {
+      text-align: left;
+      font-weight: bold;
+      margin-bottom: 50px; }
+    .login__wrapper .login__part .login__username,
+    .login__wrapper .login__part .login__password {
+      width: 100%;
+      outline: none;
+      border: none;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 5px;
+      margin: 10px 0;
+      box-shadow: none; }
+      .login__wrapper .login__part .login__username:focus,
+      .login__wrapper .login__part .login__password:focus {
+        outline: none;
+        box-shadow: none;
+        -webkit-box-shadow: none; }
+    .login__wrapper .login__part .login__button {
+      text-transform: uppercase;
+      font-weight: bold;
+      margin: 20px 0;
+      background: none;
+      padding: 10px 40px;
+      border-radius: 30px;
+      border: 1px solid #2f333a;
+      transition: 0.5s; }
+      .login__wrapper .login__part .login__button:hover {
+        text-decoration: none;
+        background: #2f333a;
+        color: #ffffff; }
+
+.registration__wrapper {
+  margin: 50px auto;
+  width: 600px; }
+  @media (max-width: 640px) {
+    .registration__wrapper {
+      width: auto; } }
+  .registration__wrapper h2 {
+    font-weight: bold;
+    margin-bottom: 50px; }
+  .registration__wrapper .registration__button {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 20px 0;
+    background: none;
+    padding: 10px 40px;
+    border-radius: 30px;
+    border: 1px solid #2f333a;
+    transition: 0.5s; }
+    .registration__wrapper .registration__button:hover {
+      text-decoration: none;
+      background: #2f333a;
+      color: #ffffff; }
+  .registration__wrapper .registration__input-field {
+    width: 100%;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 5px;
+    margin: 10px 0;
+    box-shadow: none; }
+    .registration__wrapper .registration__input-field:focus {
+      outline: none;
+      box-shadow: none;
+      -webkit-box-shadow: none; }
+  .registration__wrapper .registration__icon-wrapper {
+    width: 100%;
+    text-align: center;
+    font-size: 150px;
+    color: green; }
+  .registration__wrapper .registration__text {
+    text-align: center; }
+    .registration__wrapper .registration__text.large {
+      font-size: 50px;
+      font-weight: bold; }
+    .registration__wrapper .registration__text.small {
+      font-size: 25px; }
+
 .category__wrapper {
   width: 400px;
   margin: 50px auto; }
@@ -142,9 +231,37 @@
   .category__options a:hover {
     text-decoration: none; }
 
-.contact-form-wrapper {
+.contact__wrapper {
   max-width: 500px;
   margin: 50px auto; }
+  .contact__wrapper .contact__input-field {
+    width: 100%;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 5px;
+    margin: 10px 0;
+    box-shadow: none; }
+    .contact__wrapper .contact__input-field:focus {
+      outline: none;
+      box-shadow: none;
+      -webkit-box-shadow: none; }
+  .contact__wrapper textarea {
+    height: 150px;
+    resize: none; }
+  .contact__wrapper .contact__button {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 20px 0;
+    background: none;
+    padding: 10px 40px;
+    border-radius: 30px;
+    border: 1px solid #2f333a;
+    transition: 0.5s; }
+    .contact__wrapper .contact__button:hover {
+      text-decoration: none;
+      background: #2f333a;
+      color: #ffffff; }
 
 h1.custom-title {
   text-align: center;
@@ -214,6 +331,24 @@ h1.custom-title {
     .cart__qty-input {
       margin: 0 5px; } }
 
+.cart__button-wrapper {
+  margin: 50px 0;
+  text-align: center; }
+
+.cart__button {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin: 20px 0;
+  background: none;
+  padding: 10px 40px;
+  border-radius: 30px;
+  border: 1px solid #2f333a;
+  transition: 0.5s; }
+  .cart__button:hover {
+    text-decoration: none;
+    background: #2f333a;
+    color: #ffffff; }
+
 .cart__footer {
   margin: 25px 0; }
   @media (max-width: 640px) {
@@ -231,6 +366,41 @@ h1.custom-title {
       margin: 50px auto;
       font-weight: bold;
       width: 200px; }
+
+.account__details-wrapper {
+  margin: 50px 0;
+  border: 1px solid #eeeeee; }
+  .account__details-wrapper .account__group {
+    width: 300px;
+    margin: 30px auto; }
+    .account__details-wrapper .account__group .account__label {
+      font-size: 12px;
+      font-weight: bold; }
+    .account__details-wrapper .account__group .account__value {
+      font-size: 12px; }
+
+.account__purchase-history-wrapper {
+  margin: 50px 0; }
+  .account__purchase-history-wrapper .account__group .account__heading {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 30px; }
+  .account__purchase-history-wrapper .account__group .account__record {
+    font-size: 12px;
+    border: 1px solid #eeeeee;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+    cursor: pointer; }
+    .account__purchase-history-wrapper .account__group .account__record:nth-child(even) {
+      background: #eeeeee; }
+    .account__purchase-history-wrapper .account__group .account__record .account__sub-group {
+      display: inline-block;
+      vertical-align: middle; }
+      .account__purchase-history-wrapper .account__group .account__record .account__sub-group.left {
+        width: 80%; }
+      .account__purchase-history-wrapper .account__group .account__record .account__sub-group.right {
+        width: 18%; }
 
 footer {
   background-color: #f2f2f2;

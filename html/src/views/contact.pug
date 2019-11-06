@@ -15,32 +15,32 @@ block content
     .container
         .row
             .col-xs-12
-                form(action="#", method="post")
-                    .contact-form-wrapper
+                .contact__wrapper
+                    form(action="#", method="post")
                         .row
                             .col-xs-12
                                 h2 Get in touch
                         .row
                             .col-xs-6
                                 .form-group
-                                    input.form-control(type="text", name="first_name", placeholder="First Name")
+                                    input.form-control.contact__input-field(type="text", name="first_name", placeholder="First Name")
                             .col-xs-6
                                 .form-group
-                                    input.form-control(type="text", name="last_name", placeholder="Last Name")
+                                    input.form-control.contact__input-field(type="text", name="last_name", placeholder="Last Name")
                         .row
                             .col-xs-12
                                 .form-group
-                                    input.form-control(type="text", name="email", placeholder="Email")
+                                    input.form-control.contact__input-field(type="text", name="email", placeholder="Email")
                         .row
                             .col-xs-12
                                 .form-group
-                                    input.form-control(type="text", name="subject", placeholder="Subject")
+                                    input.form-control.contact__input-field(type="text", name="subject", placeholder="Subject")
                         .row
                             .col-xs-12
                                 .form-group
-                                    textarea.form-control(row="10", name="message", placeholder="Message")
+                                    textarea.form-control.contact__input-field(row="10", name="message", placeholder="Message")
                         .row
-                            .col-xs-12
+                            .col-xs-12.text-center
                                 .form-group
-                                    button.btn.btn-block(type="button") Send Message
+                                    input.contact__button(type="submit", name="contact_submit", value="Send Message")
 
