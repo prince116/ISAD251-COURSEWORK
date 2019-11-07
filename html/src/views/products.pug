@@ -9,9 +9,10 @@ block content
     .container
         .row
             .col-xs-12
-                a(href="#") Home
-                |  / Products
-
+                ol.breadcrumb
+                    li
+                        a(href="./") Home
+                    li.active Products
     .container
         .row
             .col-xs-12
@@ -42,7 +43,7 @@ block content
                                         a(href="#") 
                                             span.glyphicon.glyphicon-heart-empty
                                         a(href="./product_details.html") 
-                                            span.glyphicon.glyphicon-zoom-in
+                                            span.glyphicon.glyphicon-new-window
                             .product__details
                                 p Product Name
                                 p $100.00

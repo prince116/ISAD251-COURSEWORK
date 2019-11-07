@@ -1,3 +1,7 @@
+.breadcrumb {
+  background: none;
+  padding-left: 0; }
+
 .navbar {
   margin-bottom: 0;
   border-radius: 0; }
@@ -401,6 +405,53 @@ h1.custom-title {
         width: 80%; }
       .account__purchase-history-wrapper .account__group .account__record .account__sub-group.right {
         width: 18%; }
+
+.admin__menu-wrapper {
+  margin: 50px 0; }
+  .admin__menu-wrapper .admin__menu-item .admin__menu-item-group {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 5px;
+    font-size: 14px; }
+    .admin__menu-wrapper .admin__menu-item .admin__menu-item-group .badge {
+      margin-left: 5px; }
+    .admin__menu-wrapper .admin__menu-item .admin__menu-item-group a:hover {
+      color: #2f333a; }
+
+.admin__orders-wrapper {
+  margin: 50px 0; }
+  .admin__orders-wrapper .admin__group .admin__heading {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 30px; }
+  .admin__orders-wrapper .admin__group .admin__record {
+    font-size: 12px;
+    border: 1px solid #eeeeee;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+    cursor: pointer; }
+    .admin__orders-wrapper .admin__group .admin__record:nth-child(even) {
+      background: #eeeeee; }
+    .admin__orders-wrapper .admin__group .admin__record .admin__sub-group {
+      display: inline-block;
+      vertical-align: middle; }
+      .admin__orders-wrapper .admin__group .admin__record .admin__sub-group.left {
+        width: 80%; }
+      .admin__orders-wrapper .admin__group .admin__record .admin__sub-group.right {
+        width: 18%; }
+
+.admin__order-customer-details-wrapper {
+  margin: 50px 0 0 0;
+  font-size: 14px; }
+  .admin__order-customer-details-wrapper .admin__order-group {
+    margin-bottom: 10px; }
+    .admin__order-customer-details-wrapper .admin__order-group label {
+      font-weight: bold; }
+      .admin__order-customer-details-wrapper .admin__order-group label.heading {
+        font-size: 30px; }
+    .admin__order-customer-details-wrapper .admin__order-group span {
+      padding-left: 10px; }
 
 footer {
   background-color: #f2f2f2;

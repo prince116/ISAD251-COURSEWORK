@@ -1,4 +1,5 @@
 @import "variables"
+@import "components/breadcrumb"
 
 // Navbar
 .navbar
@@ -494,6 +495,73 @@ h1.custom-title
                         width: 80%
                     &.right
                         width: 18%
+
+.admin
+    $self: &
+
+    &__menu-wrapper
+        margin: 50px 0
+
+        #{$self}__menu-item
+
+            #{$self}__menu-item-group
+                display: inline-block
+                vertical-align: middle
+                padding: 5px
+                font-size: 14px
+
+                .badge
+                    margin-left: 5px
+
+                a:hover
+                    color: $black-bg
+
+    &__orders-wrapper
+        margin: 50px 0
+        
+        #{$self}__group
+
+            #{$self}__heading
+                font-size: 20px
+                font-weight: bold
+                margin-bottom: 30px
+            
+            #{$self}__record
+                font-size: 12px
+                border: 1px solid #eeeeee
+                border-radius: 5px
+                margin-bottom: 10px
+                padding: 10px
+                cursor: pointer
+
+                &:nth-child(even)
+                    background: #eeeeee
+
+                #{$self}__sub-group
+                    display: inline-block
+                    vertical-align: middle
+                    
+                    &.left
+                        width: 80%
+                    &.right
+                        width: 18%
+
+    &__order-customer-details-wrapper
+        margin: 50px 0 0 0
+        font-size: 14px
+
+        #{$self}__order-group
+            margin-bottom: 10px
+
+            label 
+                font-weight: bold
+                &.heading
+                    font-size: 30px
+
+            span
+                padding-left: 10px
+
+
 
 footer
     background-color: #f2f2f2

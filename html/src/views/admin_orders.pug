@@ -9,38 +9,44 @@ block content
     .container
         .row
             .col-xs-12
-                a(href="#") Home
-                |  / Admin
+                ol.breadcrumb
+                    li
+                        a(href="./") Home
+                    li.active Admin
 
     .container
         .row
-            .col-xs-12.col-sm-4
-                .account__details-wrapper
-                    .account__group
-                        .account__label Username:
-                        .account__value username0123
-                    .account__group
-                        .account__label Email:
-                        .account__value example@example.com
-                    .account__group
-                        .account__label Phone:
-                        .account__value 99956789
-            .col-xs-12.col-sm-8
-                .account__purchase-history-wrapper
-                    .account__group
-                        .account__heading Purchase History
-                    .account__group
+            .col-xs-12.col-sm-3
+                .admin__menu-wrapper
+                    .admin__menu-item
+                        .admin__menu-item-group
+                            span.glyphicon.glyphicon-list
+                        .admin__menu-item-group 
+                            a(href="#") Orders
+                                span.badge 30
+                    .admin__menu-item
+                        .admin__menu-item-group
+                            span.glyphicon.glyphicon-shopping-cart
+                        .admin__menu-item-group
+                            a(href="#") Products
+                                span.badge 100
+                    
+            .col-xs-12.col-sm-9
+                .admin__orders-wrapper
+                    .admin__group
+                        .admin__heading Orders
+                    .admin__group
                         - for( var n = 1; n <= 5; n++){
-                            .account__record
-                                .account__sub-group.left
-                                    .account__text
+                            .admin__record
+                                .admin__sub-group.left
+                                    .admin__text
                                         b Order No. : INV00000#{n}
-                                    .account__text Transaction Status: Payment Successful
-                                    .account__text Order Date: 2019/11/06
-                                    .account__text Amount: $1000.00
-                                .account__sub-group.right
-                                    .account__text.text-right
-                                        a(href="./purchase_history_details.html")
+                                    .admin__text Transaction Status: Payment Successful
+                                    .admin__text Order Date: 2019/11/06
+                                    .admin__text Amount: $1000.00
+                                .admin__sub-group.right
+                                    .admin__text.text-right
+                                        a(href="./admin_order_details.html")
                                             span.glyphicon.glyphicon-menu-right
                         - }
 

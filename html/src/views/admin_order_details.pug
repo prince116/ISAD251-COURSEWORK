@@ -6,18 +6,36 @@ block content
             h1 Cake Shop
             p Fat and Sweet
 
+    //- Breadcrumb
     .container
         .row
             .col-xs-12
                 ol.breadcrumb
                     li
                         a(href="./") Home
-                    li.active Cart
+                    li.active Order Details
 
     .container
         .row
             .col-xs-12
-                h1.custom-title Your Cart
+                .admin__order-customer-details-wrapper
+                    .admin__order-group
+                        label.heading Order Number: INV000001
+                    .admin__order-group
+                        label Order Date: 
+                        span 2019/10/10
+                    .admin__order-group
+                        label First Name: 
+                        span Prince
+                    .admin__order-group
+                        label Last Name: 
+                        span Wong
+                    .admin__order-group
+                        label Email: 
+                        span customer@example.com
+                    .admin__order-group
+                        label Phone: 
+                        span 99956789
         .row
             .col-xs-12
                 .cart__wrapper
@@ -31,30 +49,17 @@ block content
                         tr
                             td.cart__image-wrapper
                                 a(href="#")
-                                    img.cart__image(src="https://placehold.it/570x570?text=IMAGE", alt="Image", title="Product Image")
+                                    img.cart__image(src="https://placehold.it/570x570?text=IMAGE", alt="Image")
                             td.text-left 
                                 .cart__product-name 
                                     a(href="#") Product Name Here Product Name Here
-                                p
-                                    a.cart__remove(href="#") Remove
 
                             td.text-left.cart__unit-price $200.00
-                            td.text-center
-                                input.cart__qty-input.form-control(type="number", name="quantity", value="1", min="1")
+                            td.text-center 1
                             td.text-right.cart__product-total $200.00
                         - }
-                        tr
-                            td.text-right(colspan="5")
-                                a.btn.btn-block.btn-primary.cart__update(href="#") Update Cart
-
-        
+    
         .row
             .col-xs-12
-                .cart__footer.text-right
-                    .cart__total-wrapper
-                        span.cart__total-title Total
-                        span.cart__total $800.00
-                    .cart__checkout-wrapper
-                        a.btn.btn-block.btn-success.cart__checkout(href="#") Proceed to Checkout
-
-
+                .cart__button-wrapper
+                    a.cart__button(href="./admin_orders.html") Back
