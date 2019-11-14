@@ -40,7 +40,13 @@
     </div>
     <div class="container">
       <div class="row">
-        <div class="col-xs-12"><a href="#">Home</a> / Product / Products Details</div>
+        <div class="col-xs-12">
+          <ol class="breadcrumb">
+            <li><a href="./">Home</a></li>
+            <li><a href="./products.html">Product</a></li>
+            <li class="active">Product Details</li>
+          </ol>
+        </div>
       </div>
     </div>
     <div class="container"> 
@@ -60,7 +66,7 @@
             <div class="product__qty">Quantity: 
               <input type="number" name="product_quantity" value="1" min="1">
             </div>
-            <div class="product__actions"><a class="btn btn-success btn-block" href="javascript:void(0)"><span class="glyphicon glyphicon-shopping-cart"></span><span class="text">Add to cart</span></a><a class="btn btn-danger btn-block" href="javascript:void(0)"><span class="glyphicon glyphicon-heart-empty"></span><span class="text">Add to wishlist</span></a></div>
+            <div class="product__actions"><a class="product__button" href="javascript:void(0)"><span class="glyphicon glyphicon-shopping-cart"></span><span class="text">Add to cart</span></a><a class="product__button" href="javascript:void(0)"><span class="glyphicon glyphicon-heart-empty"></span><span class="text">Add to wishlist</span></a></div>
           </div>
         </div>
       </div>

@@ -1,0 +1,56 @@
+﻿@model MyShop.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li class="active">Registration</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <div class="registration__wrapper">
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                    <h2 class="text-center">Registration</h2>
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control registration__input-field", @placeholder="First Name"})
+                    </div>
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control registration__input-field", @placeholder = "Last Name" })
+                    </div>
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control registration__input-field", @placeholder = "Email" })
+                    </div>
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control registration__input-field", @placeholder = "Phone Number" })
+                    </div>
+                    <div class="form-group">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control registration__input-field", @placeholder = "Password" })
+                    </div>
+                    <div class="form-group">
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control registration__input-field", @placeholder = "Confirm Password" })
+                    </div>
+                    <div class="form-group">
+                        <input class="registration__button" type="submit" name="registration" value="Register">
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,14 @@
+@mixin buttonStyle($fontColor, $bgColor)
+    text-transform: uppercase
+    font-weight: bold
+    margin: 20px 5px
+    background: none
+    padding: 10px 30px
+    border-radius: 30px
+    border: 1px solid $bgColor
+    transition: 0.5s
+
+    &:hover
+        text-decoration: none
+        background: $bgColor
+        color: $fontColor

@@ -9,8 +9,12 @@ block content
     .container
         .row
             .col-xs-12
-                a(href="#") Home
-                |  / Product / Products Details
+                ol.breadcrumb
+                    li
+                        a(href="./") Home
+                    li
+                        a(href="./products.html") Product
+                    li.active Product Details
 
     .container 
         .row
@@ -43,10 +47,10 @@ block content
                         input(type="number", name="product_quantity", value="1", min="1")
                         
                     .product__actions
-                        a.btn.btn-success.btn-block(href="javascript:void(0)")
+                        a.product__button(href="javascript:void(0)")
                             span.glyphicon.glyphicon-shopping-cart
                             span.text Add to cart
-                        a.btn.btn-danger.btn-block(href="javascript:void(0)")
+                        a.product__button(href="javascript:void(0)")
                             span.glyphicon.glyphicon-heart-empty
                             span.text Add to wishlist
 

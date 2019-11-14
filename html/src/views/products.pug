@@ -17,12 +17,12 @@ block content
         .row
             .col-xs-12
                 .category__wrapper
-                    .category__options.text-center
-                        a.active(href="#") All
-                        | &nbsp;/&nbsp;
-                        a(href="#") Food
-                        | &nbsp;/&nbsp;
-                        a(href="#") Drink
+                    ol.category__options
+                        li.active All
+                        li
+                            a(href="#") Food
+                        li
+                            a(href="#") Drink
     
     .container 
         .row

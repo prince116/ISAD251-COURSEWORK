@@ -1,0 +1,72 @@
+extends layout.pug
+
+block content
+    .jumbotron
+        .container.text-center
+            h1 Cake Shop
+            p Fat and Sweet
+
+    .container
+        .row
+            .col-xs-12
+                ol.breadcrumb
+                    li
+                        a(href="./") Home
+                    li.active Admin
+
+    .container
+        .row
+            .col-xs-12.col-sm-3
+                .admin__menu-wrapper
+                    .admin__menu-item
+                        .admin__menu-item-group
+                            span.glyphicon.glyphicon-list
+                        .admin__menu-item-group 
+                            a(href="./admin_orders.html") Orders
+                                span.badge 30
+                    .admin__menu-item
+                        .admin__menu-item-group
+                            span.glyphicon.glyphicon-shopping-cart
+                        .admin__menu-item-group
+                            a(href="./admin_products.html") Products
+                                span.badge 100
+                    
+            .col-xs-12.col-sm-9
+                .admin__orders-wrapper
+                    .admin__group
+                        .admin__heading Products
+                    .admin__group
+                        - for( var n = 1; n <= 5; n++){
+                            .admin__record
+                                .admin__sub-group.left
+                                    .admin__text
+                                        b Product Name: Product #{n}
+                                    .admin__text Catgory: Food
+                                    .admin__text Price: $50.00
+                                .admin__sub-group.right
+                                    .admin__text.text-right
+                                        a(href="./admin_order_details.html")
+                                            span.glyphicon.glyphicon-menu-right
+                        - }
+                    .admin__group.text-center
+                        nav(aria-label="...")
+                            ul.pagination
+                                li.disabled
+                                    a(href="#", aria-label="Previous")
+                                        span(aria-hidden="true") &laquo;
+                                li.active
+                                    a(href="#") 1
+                                        span.sr-only (current)
+                                li
+                                    a(href="#") 2
+                                li
+                                    a(href="#") 3
+                                li
+                                    a(href="#") 4
+                                li
+                                    a(href="#", aria-label="Next")
+                                        span(aria-hidden="true") &raquo;
+
+                
+
+

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<MyShop.Models.Product>
+
+@{
+    ViewBag.Title = "Product";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li class="active">Products</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="category__wrapper">
+                <ol class="category__options">
+                    <li><a href="@Url.Action("Index", "Product")">All</a></li>
+                    <li><a href="@Url.Action("Index", "Product", new { categoryID = 1 })">Food</a></li>
+                    <li><a href="@Url.Action("Index", "Product", new { categoryID = 2 })">Drink</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="product__wrapper">
+                            <div class="product__img">
+                                <a href="@Url.Action("Details", "Product", new { id = item.ProductID })"><img class="img-responsive" src="https://placehold.it/570x570?text=IMAGE" alt="Image" title="@Html.DisplayFor(modelItem => item.ProductName)"></a>
+                                <div class="product__action">
+                                    <div class="product__action-left"><a href="#" title="Add to cart"> <span class="glyphicon glyphicon-shopping-cart"> </span><span class="text">Add to cart</span></a></div>
+                                    <div class="product__action-right"><a href="#"> <span class="glyphicon glyphicon-heart-empty"></span></a><a href="@Url.Action("Details", "Product", new { id = item.ProductID })"> <span class="glyphicon glyphicon-new-window"></span></a></div>
+                                </div>
+                            </div>
+                            <div class="product__details">
+                                <p>@Html.DisplayFor(modelItem => item.ProductName)</p>
+                                <p>@Html.DisplayFor(modelItem => item.Price)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

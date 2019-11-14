@@ -1,0 +1,75 @@
+﻿@model MyShop.Models.Contact
+
+@{
+    ViewBag.Title = "Contact";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li class="active">Contact</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="contact__wrapper">
+                @using (Html.BeginForm("Create", "Contact", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h2>Get in touch</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control contact__input-field", @placeholder = "First Name" })
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control contact__input-field", @placeholder = "Last Name" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control contact__input-field", @placeholder = "Email" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.Subject, new { @class = "form-control contact__input-field", @placeholder = "Subject" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                @Html.TextAreaFor(m => m.Message, new { @class = "form-control contact__input-field", @placeholder = "Message" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 text-center">
+                            <div class="form-group">
+                                <input class="contact__button" type="submit" name="contact_submit" value="Send Message">
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

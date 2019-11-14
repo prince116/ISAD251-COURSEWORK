@@ -1,0 +1,105 @@
+﻿@model MyShop.Models.Product
+
+@{
+    ViewBag.Title = "Product";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("Product", "Index", "Product")</li>
+                <li class="active">Product Details</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-xs-12">
+            <div class="product__thumbnail-wrapper"><img class="img-responsive" src="https://placehold.it/570x570?text=IMAGE" style="width:100%;" alt="Image"></div>
+        </div>
+        <div class="col-sm-6 col-xs-12">
+            <div class="product__details-wrapper">
+                <div class="product__name">
+                    <h4>@ViewBag.Details.ProductName</h4>
+                </div>
+                <div class="product__description">@ViewBag.Details.ProductDescription</div>
+                <div class="product__price discounted"><span class="value">$@ViewBag.Details.Price</span></div>
+                <div class="product__discounted-price"> <span class="value">$@ViewBag.Details.DiscountedPrice</span></div>
+                <div class="product__available-status"> <span class="value">Available: In Stock</span></div>
+                @if (Request.IsAuthenticated)
+                {
+                    <div class="product__qty">
+                        Quantity:
+                        <input type="number" name="product_quantity" value="1" min="1">
+                    </div>
+                    <div class="product__actions"><a class="product__button btn-addToCart" data-ProductID="@ViewBag.Details.ProductID" data-QuantityDefault="false" href="javascript:void(0)"><span class="glyphicon glyphicon-shopping-cart"></span><span class="text">Add to cart</span></a><a class="product__button" href="javascript:void(0)"><span class="glyphicon glyphicon-heart-empty"></span><span class="text">Add to wishlist</span></a></div>
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Related Products</h2>
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var item in ViewBag.RelatedProducts)
+        {
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="panel">
+                    <div class="panel-body">
+                        <div class="product__wrapper">
+                            <div class="product__img">
+                                <a href="@Url.Action("Details", "Product", new { id = item.ProductID })"><img class="img-responsive" src="https://placehold.it/570x570?text=IMAGE" style="width:100%;" alt="Image"></a>
+                                <div class="product__action">
+                                    <div class="product__action-left"><a href="javascript:void(0)" class="btn-addToCart" data-ProductID="@item.ProductID" data-QuantityDefault="true" title="Add to cart"> <span class="glyphicon glyphicon-shopping-cart"> </span><span class="text">Add to cart</span></a></div>
+                                    <div class="product__action-right"><a href="javascript:void(0)"> <span class="glyphicon glyphicon-heart-empty"></span></a><a href="@Url.Action("Details", "Product", new { id = item.ProductID })"> <span class="glyphicon glyphicon-new-window"></span></a></div>
+                                </div>
+                            </div>
+                            <div class="product__details">
+                                <p><a href="@Url.Action("Details", "Product", new { id = item.ProductID })">@item.ProductName</a></p>
+                                <p>@item.Price</p>
+                                <p>In stock</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('.btn-addToCart').click(function () {
+
+                var _ProductID = $(this).attr('data-ProductID'),
+                    _Quantity = ($(this).attr('data-QuantityDefault') == "true") ? 1 : $('input[name="product_quantity"]').val();
+
+                $.ajax({
+                    url: "/Order/Create",
+                    method: "POST",
+                    data: {
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+                        ProductID: _ProductID,
+                        Quantity: _Quantity
+                    },
+                    dataType: "JSON",
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+        })
+    </script>
+}

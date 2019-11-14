@@ -1,0 +1,72 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Cake Shop</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#myNavbar"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="@Url.Action("Index", "Home")">Cake Shop</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="@IsCurrentPage("Index", "Home")">@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="@IsCurrentPage("Index", "About")">@Html.ActionLink("About", "Index", "About")</li>
+                    <li class="@IsCurrentPage("Index", "Product")">@Html.ActionLink("Products", "Index", "Product")</li>
+                    <li class="@IsCurrentPage("Index", "Contact")">@Html.ActionLink("Contact", "Index", "Contact")</li>
+                </ul>
+                @if (Request.IsAuthenticated)
+                {
+                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
+                            <li><a href="./wishlist.html"><span class="glyphicon glyphicon-heart"></span>&nbsp;&nbsp;Wishlist</a></li>
+                            <li><a href="./cart.html"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Cart&nbsp;<span class="badge">@ViewBag.NumOfCartItems</span></a></li>
+                            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                        </ul>
+                    }
+                }
+                else
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="@IsCurrentPage("Register", "Account")">@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                        <li class="@IsCurrentPage("Login", "Account")">@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </nav>
+    <div class="jumbotron">
+        <div class="container text-center">
+            <h1>Cake Shop</h1>
+            <p>Fat and Sweet</p>
+        </div>
+    </div>
+
+    @RenderBody()
+
+    <footer class="container-fluid text-center">
+        <p>Cake Shop Copyright</p>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+@functions {
+    public string IsCurrentPage(string actionName, string controllerName)
+    {
+        return (ViewContext.RouteData.Values["action"].ToString() == actionName && ViewContext.RouteData.Values["controller"].ToString() == controllerName) ? "active" : null;
+    }
+}
