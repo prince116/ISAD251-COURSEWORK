@@ -13,25 +13,48 @@ namespace MyShop.Controllers
     public class ProductController : Controller
     {
         private ShopContext db = new ShopContext();
+        private object products;
+        
         // GET: Product
         public ActionResult Index(int? categoryID)
         {
-            if( categoryID == null)
-            {
-                var products = db.products.Where(s => s.SalesPeriodStartAt <= DateTime.Now && s.SalesPeriodEndAt >= DateTime.Now).Include(p => p.ProductCategories).ToList();
+            var keyword = Request["keyword"];
 
-                return View(products.ToList());
+            if (keyword != null)
+            {
+                products = db.products.Where(s => s.SalesPeriodStartAt <= DateTime.Now && s.SalesPeriodEndAt >= DateTime.Now)
+                                        .Where(p => p.ProductName.Contains(keyword) || p.ProductDescription.Contains(keyword))
+                                        .Include(p => p.ProductCategories)
+                                        .ToList();
+
+                if (products == null)
+                {
+                    return RedirectToAction("Index");
+                }
+                return View(products);
+            }
+
+            if ( categoryID == null)
+            {
+                products = db.products.Where(s => s.SalesPeriodStartAt <= DateTime.Now && s.SalesPeriodEndAt >= DateTime.Now)
+                                        .Include(p => p.ProductCategories)
+                                        .ToList();
+
+                return View(products);
             } 
             else
             {
-                var products = db.products.Where(s => s.SalesPeriodStartAt <= DateTime.Now && s.SalesPeriodEndAt >= DateTime.Now && s.CategoryID == categoryID).Include(p => p.ProductCategories).ToList();
+                products = db.products.Where(s => s.SalesPeriodStartAt <= DateTime.Now && s.SalesPeriodEndAt >= DateTime.Now)
+                                        .Where(s => s.CategoryID == categoryID)
+                                        .Include(p => p.ProductCategories)
+                                        .ToList();
 
                 if( products == null)
                 {
                     return RedirectToAction("Index");
                 }
 
-                return View(products.ToList());
+                return View(products);
             }
         }
 
@@ -50,7 +73,11 @@ namespace MyShop.Controllers
             else
             {
                 int categoryID = product.ProductCategories.CategoryID;
-                var relatedProducts = db.products.Where(p => p.CategoryID == product.CategoryID && p.ProductID != id && p.SalesPeriodStartAt <= DateTime.Now && p.SalesPeriodEndAt >= DateTime.Now).Take(4).ToList();
+                var relatedProducts = db.products.Where(p => p.CategoryID == product.CategoryID)
+                                                .Where(p => p.ProductID != id)
+                                                .Where(p => p.SalesPeriodStartAt <= DateTime.Now && p.SalesPeriodEndAt >= DateTime.Now)
+                                                .Take(4)
+                                                .ToList();
                 ViewBag.Details = product;
                 ViewBag.RelatedProducts = relatedProducts;
             }

@@ -213,22 +213,19 @@ namespace MyShop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Checkout()
         {
-            var status = "ERROR";
             var userID = User.Identity.GetUserId();
 
             Order order = db.orders.Where(o => o.CustomerID == userID).FirstOrDefault();
 
             if( order == null)
             {
-
+                return RedirectToAction("Index");
             }
             else
             {
                 order.OrderStatus = "checkout";
                 db.Entry(order).State = EntityState.Modified;
                 db.SaveChanges();
-
-                status = "SUCCESS";
             }
 
             return RedirectToAction("ThankYou");

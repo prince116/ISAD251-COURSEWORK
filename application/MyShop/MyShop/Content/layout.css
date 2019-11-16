@@ -266,7 +266,8 @@
 
 .category__wrapper {
   width: 400px;
-  margin: 50px auto; }
+  margin: 50px auto;
+  margin-bottom: 30px; }
 
 .category__options {
   font-size: 30px; }
@@ -274,6 +275,14 @@
     text-decoration: underline; }
   .category__options a:hover {
     text-decoration: none; }
+
+.search__wrapper {
+  width: 400px;
+  margin: 0 auto;
+  margin-bottom: 30px; }
+  .search__wrapper input:focus {
+    outline: none;
+    box-shadow: none; }
 
 .contact__wrapper {
   max-width: 500px;

@@ -27,6 +27,15 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="search__wrapper input-group">
+                <input class="form-control" type="text" name="keyword" placeholder="Search for..."><span class="input-group-btn">
+                    <button class="btn btn-default btn-search" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                </span>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="container">
@@ -55,3 +64,18 @@
         }
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        $(function () {
+            $('.btn-search').click(function () {
+                var keyword = $('input[name="keyword"]').val();
+
+                if (keyword != "" && keyword != null) {
+                    window.location.href = "/Product?keyword=" + keyword;
+                }
+                console.log(keyword);
+            });
+        })
+    </script>
+}

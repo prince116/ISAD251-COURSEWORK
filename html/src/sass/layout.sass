@@ -279,6 +279,7 @@
     &__wrapper
         width: 400px
         margin: 50px auto
+        margin-bottom: 30px
 
     &__options
         font-size: 30px
@@ -287,6 +288,19 @@
             text-decoration: underline
         a:hover
             text-decoration: none
+
+.search
+    $self: &
+
+    &__wrapper
+        width: 400px
+        margin: 0 auto
+        margin-bottom: 30px
+
+        input
+            &:focus
+                outline: none
+                box-shadow: none
 
 // Contact
 .contact
