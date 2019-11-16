@@ -13,6 +13,7 @@ namespace MyShop.Controllers
     public class ControllerBase : Controller
     {
         private ShopContext db = new ShopContext();
+
         // GET: ControllerBase
         public int GetNoCartItem()
         {

@@ -40,7 +40,11 @@ block content
 
                             td.text-left.cart__unit-price $200.00
                             td.text-center
-                                input.cart__qty-input.form-control(type="number", name="quantity", value="1", min="1")
+                                select.form-control(name="quantity")
+                                    - for(var n = 1; n < 100; n++){
+                                        option(value=n) #{n}
+                                    - }
+                                //- input.cart__qty-input.form-control(type="number", name="quantity", value="1", min="1")
                             td.text-right.cart__product-total $200.00
                         - }
                         tr

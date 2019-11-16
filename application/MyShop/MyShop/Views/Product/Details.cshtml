@@ -32,8 +32,13 @@
                 @if (Request.IsAuthenticated)
                 {
                     <div class="product__qty">
-                        Quantity:
-                        <input type="number" name="product_quantity" value="1" min="1">
+                        <label for="product_quantity">Quantity: </label>
+                        <select class="form-control" name="product_quantity" id="product_quantity" style="width:auto">
+                            @for(var qty = 1; qty < 100; qty++)
+                            {
+                                <option value="@qty">@qty</option>
+                            }
+                        </select>
                     </div>
                     <div class="product__actions"><a class="product__button btn-addToCart" data-ProductID="@ViewBag.Details.ProductID" data-QuantityDefault="false" href="javascript:void(0)"><span class="glyphicon glyphicon-shopping-cart"></span><span class="text">Add to cart</span></a><a class="product__button" href="javascript:void(0)"><span class="glyphicon glyphicon-heart-empty"></span><span class="text">Add to wishlist</span></a></div>
 
@@ -84,7 +89,7 @@
             $('.btn-addToCart').click(function () {
 
                 var _ProductID = $(this).attr('data-ProductID'),
-                    _Quantity = ($(this).attr('data-QuantityDefault') == "true") ? 1 : $('input[name="product_quantity"]').val();
+                    _Quantity = ($(this).attr('data-QuantityDefault') == "true") ? 1 : $('select[name="product_quantity"] option:selected').val();
 
                 $.ajax({
                     url: "/Order/Create",
@@ -97,6 +102,9 @@
                     dataType: "JSON",
                     success: function (response) {
                         console.log(response);
+                        if (response.status == "SUCCESS") {
+                            $('#messageModal').modal('show');
+                        } 
                     }
                 });
             });

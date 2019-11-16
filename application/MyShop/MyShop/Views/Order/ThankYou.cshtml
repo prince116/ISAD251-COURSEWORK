@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Thank You";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li class="active">Cart</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="registration__wrapper text-center">
+                <div class="registration__icon-wrapper"><span class="glyphicon glyphicon-ok-circle"></span></div>
+                <div class="registration__text large"><span>Thank You!</span></div><br><br><a class="registration__button" href="@Url.Action("Index", "Home")">Home</a>
+            </div>
+        </div>
+    </div>
+</div>

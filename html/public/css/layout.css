@@ -329,6 +329,9 @@ h1.custom-title {
           width: 130px;
           font-weight: bold;
           float: right; }
+        .cart__wrapper table tr td select[name="quantity"] {
+          width: auto !important;
+          margin: 0 auto; }
 
 .cart__add-to-cart {
   width: 130px;

@@ -19,7 +19,31 @@ namespace MyShop.Controllers
         // GET: Order
         public ActionResult Index()
         {
-            return View(db.orders.ToList());
+            var UserID = User.Identity.GetUserId();
+
+            if( UserID == null)
+            {
+                return RedirectToRoute(new { action = "Index", controller = "Home" });
+            } 
+            else
+            {
+                var order = db.orders.Where(o => o.OrderStatus == "pending").Where(o => o.CustomerID == UserID).FirstOrDefault();
+
+                if( order == null)
+                {
+                    ViewBag.IsEmpty = true;
+                } else
+                {
+                    ViewBag.IsEmpty = false;
+
+                    var orderItem = db.orderItems.Where(i => i.OrderID == order.OrderID).Include(p => p.Product).ToList();
+                    ViewBag.OrderItems = orderItem;
+                }
+            }
+
+            return View();
+            //return View();
+            //return View(db.orders.ToList());
         }
 
         // GET: Order/Details/5
@@ -88,7 +112,7 @@ namespace MyShop.Controllers
                     {
                         OrderID = orderID,
                         ProductID = ProductID,
-                        Quantiy = Quantity
+                        Quantity = Quantity
                     };
                     db.orderItems.Add(orderItemObj);
                     db.SaveChanges();
@@ -100,7 +124,7 @@ namespace MyShop.Controllers
                 }
                 else
                 {
-                    OrderItem.Quantiy += Quantity;
+                    OrderItem.Quantity += Quantity;
                     db.Entry(OrderItem).State = EntityState.Modified;
                     db.SaveChanges();
 
@@ -114,7 +138,7 @@ namespace MyShop.Controllers
                 //return RedirectToAction("Index");
             }
 
-            return Json(new {status = status });
+            return Json(new { status = status });
         }
 
         // GET: Order/Edit/5
@@ -137,15 +161,26 @@ namespace MyShop.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "OrderID,CustomerID,OrderStatus,OrderDate")] Order order)
+        public ActionResult Edit(int ItemID, int Quantity)
         {
-            if (ModelState.IsValid)
+            var status = "ERROR";
+
+            var OrderItem = db.orderItems.Where(i => i.ItemID == ItemID).FirstOrDefault();
+
+            if( OrderItem == null)
             {
-                db.Entry(order).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+
             }
-            return View(order);
+            else
+            {
+                OrderItem.Quantity = Quantity;
+                db.Entry(OrderItem).State = EntityState.Modified;
+                db.SaveChanges();
+
+                status = "SUCCESS";
+            }
+
+            return Json(new { status });
         }
 
         // GET: Order/Delete/5
@@ -168,10 +203,41 @@ namespace MyShop.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Order order = db.orders.Find(id);
-            db.orders.Remove(order);
+            OrderItem orderItem = db.orderItems.Find(id);
+            db.orderItems.Remove(orderItem);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return Json(new { status = "SUCCESS" });
+        }
+
+        [HttpPost, ActionName("Checkout")]
+        [ValidateAntiForgeryToken]
+        public ActionResult Checkout()
+        {
+            var status = "ERROR";
+            var userID = User.Identity.GetUserId();
+
+            Order order = db.orders.Where(o => o.CustomerID == userID).FirstOrDefault();
+
+            if( order == null)
+            {
+
+            }
+            else
+            {
+                order.OrderStatus = "checkout";
+                db.Entry(order).State = EntityState.Modified;
+                db.SaveChanges();
+
+                status = "SUCCESS";
+            }
+
+            return RedirectToAction("ThankYou");
+
+        }
+
+        public ActionResult ThankYou()
+        {
+            return View();
         }
 
         protected override void Dispose(bool disposing)

@@ -1,45 +1,140 @@
-﻿@model IEnumerable<MyShop.Models.Order>
+﻿@model MyShop.Models.Order
 
 @{
     ViewBag.Title = "Index";
+
+    Decimal TotalPrice = 0;
 }
 
-<h2>Index</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li class="active">Cart</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="custom-title">Your Cart</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="cart__wrapper">
+                <table>
+                    <tr>
+                        <th class="text-left" colspan="2">Product</th>
+                        <th class="text-left">Price</th>
+                        <th class="text-center">Quanity</th>
+                        <th class="text-right">Total</th>
+                    </tr>
+                    @if( ViewBag.IsEmpty == false )
+                    {
+                        foreach (var item in ViewBag.OrderItems)
+                        {
+                            var ProductPrice = item.Product.DiscountedPrice == 0 ? item.Product.Price : item.Product.DiscountedPrice;
+                            var SubTotal = ProductPrice * item.Quantity;
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CustomerID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderStatus)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderDate)
-        </th>
-        <th></th>
-    </tr>
+                            TotalPrice += SubTotal;
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.CustomerID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderStatus)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OrderDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.OrderID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.OrderID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.OrderID })
-        </td>
-    </tr>
+                            <tr>
+                                <td class="cart__image-wrapper"><a href="@Url.Action("Details", "Product", new { id = item.ProductID })"><img class="cart__image" src="https://placehold.it/570x570?text=IMAGE" alt="Image" title="Product Image"></a></td>
+                                <td class="text-left">
+                                    <div class="cart__product-name"> <a href="@Url.Action("Details", "Product", new { id = item.ProductID })">@item.Product.ProductName</a></div>
+                                    <p><a class="cart__remove" href="javascript:void(0)" data-OrderItemID="@item.ItemID">Remove</a></p>
+                                </td>
+                                <td class="text-left cart__unit-price">$@ProductPrice</td>
+                                <td class="text-center">
+                                    <select class="form-control" name="quantity" data-OrderItemID="@item.ItemID">
+                                        @for (var n = 1; n < 100; n++)
+                                        {
+                                            if (n == item.Quantity)
+                                            {
+                                                <option value="@n" selected>@n</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@n">@n</option>
+                                            }
+                                        }
+                                    </select>
+                                </td>
+                                <td class="text-right cart__product-total">$@SubTotal</td>
+                            </tr>
+                        }
+
+                    }
+                    <tr>
+                        <td class="text-right" colspan="5"><a class="cart__button" href="#">Empty Cart</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="cart__footer text-right">
+                <div class="cart__total-wrapper"><span class="cart__total-title">Total</span><span class="cart__total">$@TotalPrice</span></div>
+                <div class="cart__checkout-wrapper text-center"><a class="cart__button btn-checkout" href="javascript:void(0)">Proceed to Checkout</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (@Html.BeginForm("Checkout", "Order", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "CheckoutForm" }))
+{
+    @Html.AntiForgeryToken()
 }
 
-</table>
+@section Scripts {
+    <script>
+        $(function () {
+            $('select[name="quantity"]').change(function () {
+                var ItemID = $(this).attr('data-OrderItemID'),
+                    Quantity = $("option:selected", this).val();
+
+                $.ajax({
+                    url: "/Order/Edit",
+                    method: "POST",
+                    data: {
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+                        ItemID: ItemID,
+                        Quantity: Quantity
+                    },
+                    success: function (response) {
+                        if (response.status == "SUCCESS") {
+                            location.reload();
+                        }
+                    }
+                });
+
+            })
+
+            $('.cart__remove').click(function () {
+                var ItemID = $(this).attr('data-OrderItemID');
+
+                $.ajax({
+                    url: "/Order/Delete",
+                    method: "POST",
+                    data: {
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+                        id: ItemID,
+                    },
+                    success: function (response) {
+                        if (response.status == "SUCCESS") {
+                            location.reload();
+                        }
+                    }
+                });
+            })
+
+            $('.btn-checkout').click(function () {
+                $('#CheckoutForm').submit();
+            })
+        })
+    </script>
+}
