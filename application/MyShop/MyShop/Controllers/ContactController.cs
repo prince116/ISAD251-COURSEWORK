@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity;
 
 namespace MyShop.Controllers
 {
-    public class ContactController : Controller
+    public class ContactController : ControllerBase
     {
         private ShopContext db = new ShopContext();
         // GET: Contact

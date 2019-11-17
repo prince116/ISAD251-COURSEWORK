@@ -21,6 +21,10 @@
                     <li class="@IsCurrentPage("Index", "About")">@Html.ActionLink("About", "Index", "About")</li>
                     <li class="@IsCurrentPage("Index", "Product")">@Html.ActionLink("Products", "Index", "Product")</li>
                     <li class="@IsCurrentPage("Index", "Contact")">@Html.ActionLink("Contact", "Index", "Contact")</li>
+                    @if( ViewBag.IsAdmin == true )
+                    {
+                    <li>@Html.ActionLink("Admin Panel", "Index", "About")</li>
+                    }
                 </ul>
                 @if (Request.IsAuthenticated)
                 {

@@ -10,12 +10,14 @@ using MyShop.DAL;
 
 namespace MyShop.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : ControllerBase
     {
         private ShopContext db = new ShopContext();
+        private ApplicationDbContext applicationDbContext = new ApplicationDbContext();
         private object products;
         
         // GET: Product
+        //[Authorize(Users = "admin@example.com")]
         public ActionResult Index(int? categoryID)
         {
             var keyword = Request["keyword"];
