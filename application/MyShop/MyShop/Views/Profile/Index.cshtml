@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Profile";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li class="active">Account</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <div class="account__purchase-history-wrapper">
+                <div class="account__group">
+                    @if (ViewBag.IsAdmin)
+                    {
+                    <div class="account__heading">Sales Record</div>
+                    }
+                    else
+                    {
+                    <div class="account__heading">Purchase History</div>
+                    }
+                </div>
+                <div class="account__group">
+                    @foreach (var order in ViewBag.Orders)
+                    {
+                    <div class="account__record" data-id="@order.OrderID">
+                        <div class="account__sub-group left">
+                            <div class="account__text"><b>Order No. : @order.InvoiceNo</b></div>
+                            <div class="account__text">Transaction Status: @order.OrderStatus.ToUpper()</div>
+                            <div class="account__text">Order Date: @order.OrderDateTime</div>
+                            <div class="account__text">Amount: $@order.TotalAmount</div>
+                        </div>
+                        <div class="account__sub-group right">
+                            <div class="account__text text-right"><a href="./purchase_history_details.html"><span class="glyphicon glyphicon-menu-right"></span></a></div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script>
+    $(function () {
+        $('.account__record').click(function () {
+            var OrderId = $(this).attr('data-id');
+
+            if (OrderId != null && OrderId != "") {
+                window.location.href = "/Profile/PurchaseHistory/" + OrderId;
+            }
+        })
+    })
+</script>
+}

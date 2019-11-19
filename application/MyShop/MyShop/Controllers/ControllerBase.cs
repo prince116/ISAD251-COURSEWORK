@@ -48,6 +48,8 @@ namespace MyShop.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             ViewBag.IsAdmin = IsAdmin();
+            ViewBag.NumOfCartItems = GetNoCartItem();
+
             base.OnActionExecuting(filterContext);
         }
 

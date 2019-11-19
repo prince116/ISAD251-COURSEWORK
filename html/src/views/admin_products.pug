@@ -32,7 +32,7 @@ block content
                                 span.badge 100
                     
             .col-xs-12.col-sm-9
-                .admin__orders-wrapper
+                .admin__products-wrapper
                     .admin__group
                         .admin__heading Products
                     .admin__group
@@ -45,8 +45,12 @@ block content
                                     .admin__text Price: $50.00
                                 .admin__sub-group.right
                                     .admin__text.text-right
-                                        a(href="./admin_order_details.html")
-                                            span.glyphicon.glyphicon-menu-right
+                                        a.btn-action(href="./admin_order_details.html")
+                                            span.glyphicon.glyphicon-list
+                                        a.btn-action(href="./admin_order_details.html")
+                                            span.glyphicon.glyphicon-edit
+                                        a.btn-action(href="./admin_order_details.html")
+                                            span.glyphicon.glyphicon-trash
                         - }
                     .admin__group.text-center
                         nav(aria-label="...")

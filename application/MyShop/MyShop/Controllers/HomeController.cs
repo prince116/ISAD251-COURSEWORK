@@ -15,8 +15,6 @@ namespace MyShop.Controllers
         {
             var products = db.products.Where(s => s.SalesPeriodStartAt <= DateTime.Now && s.SalesPeriodEndAt >= DateTime.Now).Include(p => p.ProductCategories).ToList();
 
-            ViewBag.NumOfCartItems = GetNoCartItem();
-
             return View(products.ToList());
         }
     }

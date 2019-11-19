@@ -535,6 +535,40 @@ h1.custom-title
                     &.right
                         width: 18%
 
+    &__products-wrapper
+        margin: 50px 0
+        
+        #{$self}__group
+
+            #{$self}__heading
+                font-size: 20px
+                font-weight: bold
+                margin-bottom: 30px
+            
+            #{$self}__record
+                font-size: 12px
+                border: 1px solid #eeeeee
+                border-radius: 5px
+                margin-bottom: 10px
+                padding: 10px
+                cursor: pointer
+
+                &:nth-child(even)
+                    background: #eeeeee
+
+                #{$self}__sub-group
+                    display: inline-block
+                    vertical-align: middle
+                    
+                    &.left
+                        width: 78%
+                    &.right
+                        width: 20%
+
+        .btn-action
+            font-size: 16px
+            margin: 0 5px
+
     &__order-customer-details-wrapper
         margin: 50px 0 0 0
         font-size: 14px
