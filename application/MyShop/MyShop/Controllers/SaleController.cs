@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using MyShop.DAL;
 using MyShop.Models;
+using PagedList;
 
 namespace MyShop.Controllers
 {
@@ -16,10 +17,13 @@ namespace MyShop.Controllers
         private ShopContext db = new ShopContext();
 
         // GET: Sale
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            var products = db.products.Include(p => p.ProductCategories);
-            return View(products.ToList());
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+
+            var products = db.products.OrderByDescending(p => p.ProductID);
+            return View(products.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Sale/Details/5

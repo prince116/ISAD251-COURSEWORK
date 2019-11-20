@@ -12,37 +12,27 @@ block content
                 ol.breadcrumb
                     li
                         a(href="./") Home
-                    li.active Admin
+                    li.active Product Management
 
     .container
         .row
-            .col-xs-12.col-sm-3
-                .admin__menu-wrapper
-                    .admin__menu-item
-                        .admin__menu-item-group
-                            span.glyphicon.glyphicon-list
-                        .admin__menu-item-group 
-                            a(href="./admin_orders.html") Orders
-                                span.badge 30
-                    .admin__menu-item
-                        .admin__menu-item-group
-                            span.glyphicon.glyphicon-shopping-cart
-                        .admin__menu-item-group
-                            a(href="./admin_products.html") Products
-                                span.badge 100
-                    
-            .col-xs-12.col-sm-9
+            .col-xs-12
                 .admin__products-wrapper
                     .admin__group
-                        .admin__heading Products
+                        .admin__heading Product Management
+                    .admin__group
+                        a.btn.btn-default.btn-create(href="#") Create Product
+        .row                    
+            .col-xs-12
+                .admin__products-wrapper
                     .admin__group
                         - for( var n = 1; n <= 5; n++){
                             .admin__record
                                 .admin__sub-group.left
                                     .admin__text
-                                        b Product Name: Product #{n}
-                                    .admin__text Catgory: Food
+                                        b Product #{n}
                                     .admin__text Price: $50.00
+                                    .admin__text Stock: 100
                                 .admin__sub-group.right
                                     .admin__text.text-right
                                         a.btn-action(href="./admin_order_details.html")
@@ -52,6 +42,7 @@ block content
                                         a.btn-action(href="./admin_order_details.html")
                                             span.glyphicon.glyphicon-trash
                         - }
+                .admin__pagination-wrapper
                     .admin__group.text-center
                         nav(aria-label="...")
                             ul.pagination

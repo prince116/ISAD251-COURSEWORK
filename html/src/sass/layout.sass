@@ -536,7 +536,7 @@ h1.custom-title
                         width: 18%
 
     &__products-wrapper
-        margin: 50px 0
+        margin: 20px 0
         
         #{$self}__group
 
@@ -565,9 +565,48 @@ h1.custom-title
                     &.right
                         width: 20%
 
+            #{$self}__details
+
+                table > tbody > tr > td
+                    border: 0
+
+                    &#{$self}__label
+                        font-weight: bold
+                        width: 20%
+                    &#{$self}__value
+                        width: 80%
+
+                @media (max-width: 640px)
+                    table > tbody > tr > td
+                        display: block
+
+                        &#{$self}__label,
+                        &#{$self}__value
+                            width: 100%
+
+        .btn-create
+            @include buttonStyle(#ffffff, $black-bg)
+            margin: 0
+
         .btn-action
             font-size: 16px
             margin: 0 5px
+
+    &__pagination-wrapper
+        .pagination > li > a,
+        .pagination > li > span
+            color: $black-bg
+
+        .pagination > .active > a,
+        .pagination > .active > a:focus,
+        .pagination > .active > a:hover,
+        .pagination > .active > span,
+        .pagination > .active > span:focus,
+        .pagination > .active > span:hover
+            background-color: $black-bg
+            border-color: $black-bg
+            color: #fff
+
 
     &__order-customer-details-wrapper
         margin: 50px 0 0 0
@@ -584,8 +623,25 @@ h1.custom-title
             span
                 padding-left: 10px
 
+    &__footer-button-wrapper
+        margin-bottom: 50px
+
+        .btn-create,
+        .btn-save,
+        .btn-delete,
+        .btn-back
+            @include buttonStyle(#ffffff, $black-bg)
+
 
 
 footer
     background-color: #f2f2f2
     padding: 25px
+
+// Override
+@media (min-width: 768px)
+    .dl-horizontal dt
+        width: 200px
+
+    .dl-horizontal dd
+        margin-left: 230px

@@ -1,0 +1,70 @@
+extends layout.pug
+
+block content
+    .jumbotron
+        .container.text-center
+            h1 Cake Shop
+            p Fat and Sweet
+
+    .container
+        .row
+            .col-xs-12
+                ol.breadcrumb
+                    li
+                        a(href="./") Home
+                    li Product Management
+                    li.active Edit
+
+    .container
+        .row                    
+            .col-xs-12
+                .admin__products-wrapper
+                    .admin__group
+                        .admin__details
+                            form
+                                table.table
+                                    tr
+                                        td.admin__label Product Name
+                                        td.admin__value
+                                            input.form-control(type="text")
+                                    tr
+                                        td.admin__label Category
+                                        td.admin__value
+                                            select.form-control
+                                                option(value="food") Food
+                                                option(value="drink") Drink
+                                    tr
+                                        td.admin__label Product Description
+                                        td.admin__value
+                                            input.form-control(type="text")
+                                    tr
+                                        td.admin__label Price
+                                        td.admin__value
+                                            input.form-control(type="text")
+                                    tr
+                                        td.admin__label Discounted Price
+                                        td.admin__value
+                                            input.form-control(type="text")
+                                    tr
+                                        td.admin__label Sales Period Start At
+                                        td.admin__value
+                                            input.form-control(type="text")
+                                    tr
+                                        td.admin__label Sales Period End At
+                                        td.admin__value
+                                            input.form-control(type="text")
+                                    tr
+                                        td.admin__label Stock Quantity
+                                        td.admin__value
+                                            input.form-control(type="text")
+
+        .row
+            .col-xs-12.text-center
+                .admin__footer-button-wrapper
+                    input.btn.btn-default.btn-save(type="submit", value="Save Changes")
+                    a.btn.btn-default.btn-back(href="./admin_products.html") Back to list
+                                
+
+                
+
+

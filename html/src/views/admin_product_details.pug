@@ -1,0 +1,59 @@
+extends layout.pug
+
+block content
+    .jumbotron
+        .container.text-center
+            h1 Cake Shop
+            p Fat and Sweet
+
+    .container
+        .row
+            .col-xs-12
+                ol.breadcrumb
+                    li
+                        a(href="./") Home
+                    li Product Management
+                    li.active Details
+
+    .container
+        .row                    
+            .col-xs-12
+                .admin__products-wrapper
+                    .admin__group
+                        .admin__details
+                            table.table
+                                tr
+                                    td.admin__label Product Name
+                                    td.admin__value Product Name Here
+                                tr
+                                    td.admin__label Category
+                                    td.admin__value Food
+                                tr
+                                    td.admin__label Product Description
+                                    td.admin__value Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga iste aut a eveniet nesciunt velit quaerat, officiis, quod placeat molestiae sit veritatis. Unde in ullam deserunt, incidunt repellendus veritatis. Quia.
+                                tr
+                                    td.admin__label Price
+                                    td.admin__value $155.00
+                                tr
+                                    td.admin__label Discounted Price
+                                    td.admin__value $100.00
+                                tr
+                                    td.admin__label Sales Period Start At
+                                    td.admin__value 2019-09-03 18:00:00
+                                tr
+                                    td.admin__label Sales Period End At
+                                    td.admin__value 2020-09-03 18:00:00
+                                tr
+                                    td.admin__label Stock Quantity
+                                    td.admin__value 1000
+
+        .row
+            .col-xs-12.text-center
+                .admin__footer-button-wrapper
+                    a.btn.btn-default.btn-back(href="./admin_products.html") Edit
+                    a.btn.btn-default.btn-back(href="./admin_products.html") Back to list
+                                
+
+                
+
+

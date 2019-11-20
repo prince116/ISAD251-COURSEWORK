@@ -25,8 +25,12 @@ namespace MyShop.Models
         [DataType(DataType.Currency)]
         public decimal DiscountedPrice { get; set; }
         [DisplayName("Sales Period Start At")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime SalesPeriodStartAt { get; set; }
         [DisplayName("Sales Period End At")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime SalesPeriodEndAt { get; set; }
         [DisplayName("Stock Quantity")]
         public int StockQuantity { get; set; }
