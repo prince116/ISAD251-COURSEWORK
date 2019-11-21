@@ -7,6 +7,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using MyShop.Models;
 using MyShop.Helpers;
+using System.Web.Http;
 
 namespace MyShop
 {
@@ -16,6 +17,7 @@ namespace MyShop
         {
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            WebApiConfig.Register(GlobalConfiguration.Configuration);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ApplicationDbContext context = new ApplicationDbContext();

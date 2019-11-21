@@ -17,5 +17,13 @@ namespace MyShop.Controllers
 
             return View(products.ToList());
         }
+
+        [Route("Value")]
+        public ActionResult Value()
+        {
+            ViewBag.Title = "Value";
+
+            return View();
+        }
     }
 }

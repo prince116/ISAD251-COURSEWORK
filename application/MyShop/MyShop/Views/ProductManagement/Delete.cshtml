@@ -9,7 +9,7 @@
         <div class="col-xs-12">
             <ol class="breadcrumb">
                 <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                <li>@Html.ActionLink("Product Management", "Index", "Sale")</li>
+                <li>@Html.ActionLink("Product Management", "Index", "ProductManagement")</li>
                 <li class="active">Delete</li>
             </ol>
         </div>
@@ -72,7 +72,7 @@
                 @using (Html.BeginForm())
                 {
                     @Html.AntiForgeryToken()
-                <input class="btn btn-default btn-delete" type="submit" value="Delete"><a class="btn btn-default btn-back" href="@Url.Action("Index", "Sale")">Back to list</a>
+                <input class="btn btn-default btn-delete" type="submit" value="Delete"><a class="btn btn-default btn-back" href="@Url.Action("Index", "ProductManagement")">Back to list</a>
                 }
             </div>
         </div>

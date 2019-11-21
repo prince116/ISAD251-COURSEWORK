@@ -12,7 +12,7 @@ using PagedList;
 
 namespace MyShop.Controllers
 {
-    public class SaleController : ControllerBase
+    public class ProductManagementController : ControllerBase
     {
         private ShopContext db = new ShopContext();
 

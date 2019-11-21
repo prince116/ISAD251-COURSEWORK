@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-xs-12">
             <ol class="breadcrumb">
-                <li><a href="./">Home</a></li>
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
                 <li class="active">Product Management</li>
             </ol>
         </div>
@@ -22,7 +22,7 @@
                 <div class="admin__group">
                     <div class="admin__heading">Product Management</div>
                 </div>
-                <div class="admin__group"><a class="btn btn-default btn-create" href="@Url.Action("Create", "Sale")">Create Product</a></div>
+                <div class="admin__group"><a class="btn btn-default btn-create" href="@Url.Action("Create", "ProductManagement")">Create Product</a></div>
             </div>
         </div>
     </div>
@@ -39,7 +39,7 @@
                                 <div class="admin__text">Stock: @Html.DisplayFor(modelItem => item.StockQuantity)</div>
                             </div>
                             <div class="admin__sub-group right">
-                                <div class="admin__text text-right"><a class="btn-action" href="@Url.Action("Details", "Sale", new { id = item.ProductID })"><span class="glyphicon glyphicon-list"></span></a><a class="btn-action" href="@Url.Action("Edit", "Sale", new { id = item.ProductID })"><span class="glyphicon glyphicon-edit"></span></a><a class="btn-action" href="@Url.Action("Delete", "Sale", new { id = item.ProductID })"><span class="glyphicon glyphicon-trash"></span></a></div>
+                                <div class="admin__text text-right"><a class="btn-action" href="@Url.Action("Details", "ProductManagement", new { id = item.ProductID })"><span class="glyphicon glyphicon-list"></span></a><a class="btn-action" href="@Url.Action("Edit", "ProductManagement", new { id = item.ProductID })"><span class="glyphicon glyphicon-edit"></span></a><a class="btn-action" href="@Url.Action("Delete", "ProductManagement", new { id = item.ProductID })"><span class="glyphicon glyphicon-trash"></span></a></div>
                             </div>
                         </div>
                     }

@@ -23,7 +23,7 @@
                     <li class="@IsCurrentPage("Index", "Contact")">@Html.ActionLink("Contact", "Index", "Contact")</li>
                     @if( ViewBag.IsAdmin == true )
                     {
-                    <li>@Html.ActionLink("Admin Panel", "Index", "About")</li>
+                    <li class="@IsCurrentPage("Index", "Sale")">@Html.ActionLink("Product Management", "Index", "ProductManagement")</li>
                     }
                 </ul>
                 @if (Request.IsAuthenticated)
@@ -31,12 +31,18 @@
                     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
                     {
                         @Html.AntiForgeryToken()
-                        <ul class="nav navbar-nav navbar-right">
-                            <li>@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Profile", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
-                            <li><a href="./wishlist.html"><span class="glyphicon glyphicon-heart"></span>&nbsp;&nbsp;Wishlist</a></li>
-                            <li><a href="@Url.Action("Index", "Order")"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Cart&nbsp;<span class="badge">@ViewBag.NumOfCartItems</span></a></li>
-                            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-                        </ul>
+            <ul class="nav navbar-nav navbar-right">
+                @if (ViewBag.IsAdmin == true)
+                {
+                    <li>@Html.ActionLink("My Shop", "Index", "Profile", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
+                }
+                else
+                {
+                    <li>@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Profile", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
+                }
+                <li><a href="@Url.Action("Index", "Order")"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Cart&nbsp;<span class="badge">@ViewBag.NumOfCartItems</span></a></li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            </ul>
                     }
                 }
                 else
