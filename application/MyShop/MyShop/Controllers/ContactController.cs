@@ -1,106 +1,119 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
 using System.Web.Mvc;
-using MyShop.Models;
 using MyShop.DAL;
-using Microsoft.AspNet.Identity;
+using MyShop.Models;
 
 namespace MyShop.Controllers
 {
-    public class ContactController : ControllerBase
+    public class ContactController : ApiBaseController
     {
         private ShopContext db = new ShopContext();
-        // GET: Contact
-        public ActionResult Index()
+
+        // GET api/<controller>
+        public HttpResponseMessage Get()
         {
-            return View();
+            var Contacts = db.contacts.ToList();
+            return Request.CreateResponse(HttpStatusCode.OK, Contacts);
         }
 
-        // GET: Contact/Details/5
-        public ActionResult Details(int id)
+        // GET api/<controller>/5
+        public HttpResponseMessage Get(int id)
         {
-            return View();
+            var record = db.contacts.FirstOrDefault(e => e.ID == id);
+
+            if (record != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, record);
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Record With ID " + id.ToString() + " not found");
+            }
         }
 
-        // GET: Contact/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Contact/Create
-        [HttpPost]
+        // POST api/<controller>
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FirstName,LastName,Email,Subject,Message")] Contact contact)
+        public HttpResponseMessage Post([FromBody]Contact contact)
         {
             try
             {
-                // TODO: Add insert logic here
-                contact.UserID = User.Identity.GetUserId() != null ? User.Identity.GetUserId() : null;
-
+                contact.CreateAt = DateTime.Now;
+                contact.LastModifiedAt = DateTime.Now;
+                contact.UserID = getUserId();
                 db.contacts.Add(contact);
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                // Return record has been created status
+                return Request.CreateResponse(HttpStatusCode.Created, "Record has been created."); ;
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
+
         }
 
-        // GET: Contact/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Contact/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        // PUT api/<controller>/5
+        public HttpResponseMessage Put(int id, [FromBody]Contact contact)
         {
             try
             {
-                // TODO: Add update logic here
+                var record = db.contacts.FirstOrDefault(e => e.ID == id);
 
-                return RedirectToAction("Index");
+                if (record == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Record with ID " + id + " not found to update");
+                }
+                else
+                {
+                    record.FirstName = contact.FirstName;
+                    record.LastName = contact.LastName;
+                    record.Subject = contact.Subject;
+                    record.Message = contact.Message;
+                    record.Email = contact.Email;
+                    record.LastModifiedAt = DateTime.Now;
+
+                    db.SaveChanges();
+
+                    return Request.CreateResponse(HttpStatusCode.OK, record);
+                }
+
+
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
+
         }
 
-        // GET: Contact/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Contact/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        // DELETE api/<controller>/5
+        public HttpResponseMessage Delete(int id)
         {
             try
             {
-                // TODO: Add delete logic here
+                var record = db.contacts.FirstOrDefault(e => e.ID == id);
 
-                return RedirectToAction("Index");
+                if (record == null)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Record with ID " + id.ToString() + " not found to delete");
+                }
+                else
+                {
+                    db.contacts.Remove(record);
+                    db.SaveChanges();
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
-        }
-
-        public ActionResult Check()
-        {
-            var contacts = db.contacts.ToList();
-
-            return View(contacts);
-
         }
     }
 }

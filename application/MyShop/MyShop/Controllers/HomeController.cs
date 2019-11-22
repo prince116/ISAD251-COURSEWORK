@@ -18,6 +18,22 @@ namespace MyShop.Controllers
             return View(products.ToList());
         }
 
+        [Route("About")]
+        public ActionResult About()
+        {
+            ViewBag.Title = "About";
+
+            return View();
+        }
+
+        [Route("Contact")]
+        public ActionResult Contact()
+        {
+            ViewBag.Title = "Contact";
+
+            return View();
+        }
+
         [Route("Value")]
         public ActionResult Value()
         {

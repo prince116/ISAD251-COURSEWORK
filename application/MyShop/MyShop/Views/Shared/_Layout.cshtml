@@ -18,9 +18,9 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
                     <li class="@IsCurrentPage("Index", "Home")">@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li class="@IsCurrentPage("Index", "About")">@Html.ActionLink("About", "Index", "About")</li>
+                    <li class="@IsCurrentPage("Index", "About")">@Html.ActionLink("About", "About", "Home")</li>
                     <li class="@IsCurrentPage("Index", "Product")">@Html.ActionLink("Products", "Index", "Product")</li>
-                    <li class="@IsCurrentPage("Index", "Contact")">@Html.ActionLink("Contact", "Index", "Contact")</li>
+                    <li class="@IsCurrentPage("Index", "__Contact")">@Html.ActionLink("Contact", "Contact", "Home")</li>
                     @if( ViewBag.IsAdmin == true )
                     {
                     <li class="@IsCurrentPage("Index", "Sale")">@Html.ActionLink("Product Management", "Index", "ProductManagement")</li>
