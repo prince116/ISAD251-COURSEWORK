@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li class="active">Product Management</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="admin__products-wrapper">
+                <div class="admin__group">
+                    <div class="admin__heading">Product Management</div>
+                </div>
+                <div class="admin__group"><a class="btn btn-default btn-create" href="@Url.Action("Product", "Admin", new { act = "create" })">Create Product</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="admin__products-wrapper">
+                <div class="admin__group" id="product_list">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="template" type="x-tmpl-mustache">
+    <div class="admin__record">
+        <div class="admin__sub-group left">
+            <div class="admin__text"><b>{{ product_name }}</b></div>
+            <div class="admin__text">Price: {{ price }}</div>
+            <div class="admin__text">Stock: {{ stock }}</div>
+        </div>
+        <div class="admin__sub-group right">
+            <div class="admin__text text-right"><a class="btn-action" href="/admin/product/{{ id }}/?act=details"><span class="glyphicon glyphicon-list"></span></a><a class="btn-action" href="/admin/product/{{ id }}/?act=edit"><span class="glyphicon glyphicon-edit"></span></a><a class="btn-action" href="/admin/product/{{ id }}/?act=delete"><span class="glyphicon glyphicon-trash"></span></a></div>
+        </div>
+    </div>
+</script>
+
+@section Scripts{
+@Scripts.Render("~/bundles/mustache")
+<script>
+    $(function () {
+
+        var template = $('#template').html();
+        Mustache.parse(template);
+
+        $.ajax({
+            url: "/api/Products",
+            method: "get",
+            statusCode: {
+                200: function (response) {
+
+                    var rendered = "";;
+
+                    $.each(response.products, function (index, item) {
+                        rendered += Mustache.render(template, {
+                            id: item.product_id,
+                            product_name: item.product_name,
+                            price: item.price,
+                            stock: item.stock,
+                        });
+                        console.log(item.product_id)
+                    });
+                    $('.admin__products-wrapper #product_list').html(rendered);
+                }
+            }
+        });
+    })
+</script>
+}

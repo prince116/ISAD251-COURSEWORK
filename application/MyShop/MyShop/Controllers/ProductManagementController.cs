@@ -85,7 +85,7 @@ namespace MyShop.Controllers
         // POST: Sale/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPut]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ProductID,ProductName,CategoryID,ProductDescription,Price,DiscountedPrice,SalesPeriodStartAt,SalesPeriodEndAt,StockQuantity")] Product product)
         {

@@ -20,6 +20,12 @@ namespace MyShop
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+            
+            routes.MapRoute(
+                name: "DefaultAPI",
+                url: "api/{controller}/{action}/{id}",
+                defaults: new { controller = "API", action = "Index", id = UrlParameter.Optional }
+            );
         }
     }
 }

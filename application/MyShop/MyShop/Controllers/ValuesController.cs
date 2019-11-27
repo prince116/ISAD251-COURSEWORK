@@ -41,7 +41,7 @@ namespace MyShop.Controllers
         {
             try
             {
-                contact.CreateAt = DateTime.Now;
+                contact.CreatedAt = DateTime.Now;
                 contact.LastModifiedAt = DateTime.Now;
                 db.contacts.Add(contact);
                 db.SaveChanges();

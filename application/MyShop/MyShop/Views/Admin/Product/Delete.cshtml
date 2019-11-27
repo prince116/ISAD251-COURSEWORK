@@ -1,0 +1,126 @@
+﻿@model MyShop.Models.Product
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("Product Management", "Index", "ProductManagement")</li>
+                <li class="active">Delete</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Delete</h1><br>
+            <h2>Are you sure want to delete this?</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="admin__products-wrapper">
+                <div class="admin__group">
+                    <div class="admin__details">
+                        <table class="table">
+                            <tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.ProductName)</td>
+                                <td class="admin__value" data-label="product_name"></td>
+                            </tr>
+                            <tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.CategoryID)</td>
+                                <td class="admin__value" data-label="product_category"></td>
+                            </tr>
+                            <tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.ProductDescription)</td>
+                                <td class="admin__value" data-label="product_description"></td>
+                            </tr>
+                            <tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.Price)</td>
+                                <td class="admin__value" data-label="price"></td>
+                            </tr>
+                            <tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.DiscountedPrice)</td>
+                                <td class="admin__value" data-label="discounted_price"></td>
+                            </tr>
+                            <tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.SalesPeriodStartAt)</td>
+                                <td class="admin__value" data-label="sales_period_start"></td>
+                            </tr>
+                            <tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.SalesPeriodEndAt)</td>
+                                <td class="admin__value" data-label="sales_period_end"></td>
+                            </tr>
+                            <tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.StockQuantity)</td>
+                                <td class="admin__value" data-label="stock_quantity"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <div class="admin__footer-button-wrapper">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <input class="btn btn-default btn-delete" type="submit" value="Delete"><a class="btn btn-default btn-back" href="@Url.Action("Index", "ProductManagement")">Back to list</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script>
+    $(function () {
+
+        $("form").submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: "/api/Product/@ViewBag.Id",
+                method: "DELETE",
+                data: $(this).serialize(),
+                dataType: "json",
+                success: function () {
+                    window.location.href = "@Url.Action("Products", "Admin")";
+                }
+            })
+        });
+
+        function getProductDetails() {
+
+            $.ajax({
+                url: "/api/Product/@ViewBag.Id",
+                method: "GET",
+                dataType: "json",
+                statusCode: {
+                    200: function (response) {
+                        console.log(response)
+                        $('.admin__value[data-label="product_name"]').text(response.product.name);
+                        $('.admin__value[data-label="product_category"]').text(response.product.category);
+                        $('.admin__value[data-label="product_description"]').text(response.product.description);
+                        $('.admin__value[data-label="price"]').text(response.product.price);
+                        $('.admin__value[data-label="discounted_price"]').text(response.product.discounted_price);
+                        $('.admin__value[data-label="sales_period_start"]').text(response.product.sales_period_start);
+                        $('.admin__value[data-label="sales_period_end"]').text(response.product.sales_period_end);
+                        $('.admin__value[data-label="stock_quantity"]').text(response.product.stock);
+                    }
+                }
+            });
+
+        }
+
+        getProductDetails();
+    });
+</script>
+}

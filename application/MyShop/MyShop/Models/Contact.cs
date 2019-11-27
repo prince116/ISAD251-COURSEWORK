@@ -32,7 +32,7 @@ namespace MyShop.Models
         public string Message { get; set; }
 
         [Display(Name = "Created At")]
-        public DateTime CreateAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         [Display(Name = "Last Modified At")]
         public DateTime LastModifiedAt { get; set; }

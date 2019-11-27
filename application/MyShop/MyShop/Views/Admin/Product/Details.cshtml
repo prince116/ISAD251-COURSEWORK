@@ -1,0 +1,93 @@
+﻿@model IEnumerable<MyShop.Models.Product>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("Product Management", "Products", "Admin")</li>
+                <li class="active">Details</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="admin__products-wrapper">
+                <div class="admin__group">
+                    <div class="admin__details">
+                        <table class="table">
+                            <tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.ProductName)</td>
+                                <td class="admin__value" data-label="product_name"></td>
+                            </tr>
+                            <tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.CategoryID)</td>
+                                <td class="admin__value" data-label="product_category"></td>
+                            </tr>
+                            <tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.ProductDescription)</td>
+                                <td class="admin__value" data-label="product_description"></td>
+                            </tr>
+                            <tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.Price)</td>
+                                <td class="admin__value" data-label="price"></td>
+                            </tr>
+                            <tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.DiscountedPrice)</td>
+                                <td class="admin__value" data-label="discounted_price"></td>
+                            </tr>
+                            <tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.SalesPeriodStartAt)</td>
+                                <td class="admin__value" data-label="sales_period_start"></td>
+                            </tr>
+                            <tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.SalesPeriodEndAt)</td>
+                                <td class="admin__value" data-label="sales_period_end"></td>
+                            </tr>
+                            <tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.StockQuantity)</td>
+                                <td class="admin__value" data-label="stock_quantity"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <div class="admin__footer-button-wrapper"><a class="btn btn-default btn-back" href="@Url.Action("Product", "Admin", new { id = ViewBag.Id, act = "edit" })">Edit</a><a class="btn btn-default btn-back" href="@Url.Action("Products", "Admin")">Back to list</a></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(function () {
+            $.ajax({
+                url: "/api/Product/@ViewBag.Id",
+                method: "GET",
+                dataType: "json",
+                statusCode: {
+                    200: function (response) {
+                        console.log(response)
+                        $('.admin__value[data-label="product_name"]').text(response.product.name);
+                        $('.admin__value[data-label="product_category"]').text(response.product.category);
+                        $('.admin__value[data-label="product_description"]').text(response.product.description);
+                        $('.admin__value[data-label="price"]').text(response.product.price);
+                        $('.admin__value[data-label="discounted_price"]').text(response.product.discounted_price);
+                        $('.admin__value[data-label="sales_period_start"]').text(response.product.sales_period_start);
+                        $('.admin__value[data-label="sales_period_end"]').text(response.product.sales_period_end);
+                        $('.admin__value[data-label="stock_quantity"]').text(response.product.stock);
+                    }
+                }
+            });
+        });
+    </script>
+}

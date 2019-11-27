@@ -15,14 +15,14 @@ namespace MyShop.Controllers
         private ShopContext db = new ShopContext();
 
         // GET api/<controller>
-        public HttpResponseMessage Get()
+        /*public HttpResponseMessage GetContacts()
         {
             var Contacts = db.contacts.ToList();
             return Request.CreateResponse(HttpStatusCode.OK, Contacts);
-        }
+        }*/
 
         // GET api/<controller>/5
-        public HttpResponseMessage Get(int id)
+        public HttpResponseMessage GetContact(int id)
         {
             var record = db.contacts.FirstOrDefault(e => e.ID == id);
 
@@ -42,7 +42,7 @@ namespace MyShop.Controllers
         {
             try
             {
-                contact.CreateAt = DateTime.Now;
+                contact.CreatedAt = DateTime.Now;
                 contact.LastModifiedAt = DateTime.Now;
                 contact.UserID = getUserId();
                 db.contacts.Add(contact);

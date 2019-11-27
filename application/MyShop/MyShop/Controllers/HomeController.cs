@@ -34,7 +34,22 @@ namespace MyShop.Controllers
             return View();
         }
 
-        [Route("Value")]
+        //[Route("")]
+        //public ActionResult AdminProductList()
+        //{
+        //    ViewBag.Title = "Admin Product";
+        //    return View();
+        //}
+
+        //[Route("Admin/Product/{id}/{action}")]
+        //public ActionResult AdminProduct(int id, string action)
+        //{
+        //    ViewBag.id = id;
+        //    ViewBag.action = action;
+        //    return View();
+        //}
+
+        [Route("Admin/Value")]
         public ActionResult Value()
         {
             ViewBag.Title = "Value";

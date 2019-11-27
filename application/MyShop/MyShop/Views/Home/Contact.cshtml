@@ -85,7 +85,7 @@
             var formData = $("#ContactForm").serialize();
 
             $.ajax({
-                url: "/api/Contact",
+                url: "@Url.Action("Contact", "API")",
                 contentType: 'application/x-www-form-urlencoded; charset=utf-8',
                 dataType: "json",
                 data: formData,

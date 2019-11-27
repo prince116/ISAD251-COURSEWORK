@@ -45,6 +45,11 @@ namespace MyShop.Controllers
             return true;
         }
 
+        public string GetUserId()
+        {
+            return User.Identity.GetUserId();
+        }
+
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             ViewBag.IsAdmin = IsAdmin();

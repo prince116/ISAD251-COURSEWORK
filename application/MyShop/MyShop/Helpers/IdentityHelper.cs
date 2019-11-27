@@ -31,7 +31,7 @@ namespace MyShop.Helpers
             }
 
             string userName = "admin@example.com";
-            string password = "Yung~72785464";
+            string password = "Aa~11111111";
 
             ApplicationUser user = userManager.FindByName(userName);
             if (user == null)
