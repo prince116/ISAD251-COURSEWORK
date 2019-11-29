@@ -8,8 +8,8 @@ using System.Data.Entity.Validation;
 
 namespace MyShop.DAL
 {
-    public class ShopInitializer : System.Data.Entity.DropCreateDatabaseAlways<ShopContext>
-//    public class ShopInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<ShopContext>
+    //public class ShopInitializer : System.Data.Entity.DropCreateDatabaseAlways<ShopContext>
+    public class ShopInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<ShopContext>
     {
         protected override void Seed(ShopContext context)
         {

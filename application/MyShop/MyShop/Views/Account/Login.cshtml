@@ -46,21 +46,4 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-<script>
-    $(function () {
-        $.ajax({
-            url: "/Product/Save",
-            method: "POST",
-            dataType: "JSON",
-            data: {
-                __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
-                FirstName: "Prince",
-                LastName: "Wong"
-            },
-            success: function (response) {
-                console.log(response);
-            }
-        })
-    })
-</script>
 }

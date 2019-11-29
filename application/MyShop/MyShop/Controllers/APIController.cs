@@ -420,5 +420,195 @@ namespace MyShop.Controllers
                 return Json(new { Mesasge = "Bad Request." });
             }
         }
+
+        [HttpGet]
+        [ActionName("Orders")]
+        public JsonResult GetAllOrders()
+        {
+            if( IsAdmin())
+            {
+                var entity = db.orders.Where(o => o.OrderStatus == "checkout").ToList();
+
+                if(entity.Count > 0)
+                {
+                    var Orders = new ArrayList();
+
+                    foreach(var item in entity)
+                    {
+                        var details = new
+                        {
+                            orderID = item.OrderID,
+                        };
+                    }
+                }
+            }
+            return Json(new { }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        [ActionName("Order")]
+        public JsonResult GetOrder(int? id)
+        {
+            if( id == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+
+                var userId = GetUserId();
+                var currentOrder = getCurrentOrder(userId);
+                var orderedItems = new ArrayList();
+
+                var entity = db.orderItems.Where(o => o.OrderID == currentOrder).ToList();
+
+                if( entity.Count > 0)
+                {
+                    foreach(var item in entity)
+                    {
+                        orderedItems.Add(new
+                        {
+                            product_id = item.ProductID,
+                            product_name = item.Product.ProductName,
+                            price = item.Product.Price.ToString("C"),
+                            discounted_price = item.Product.DiscountedPrice.ToString("C"),
+                            sub_total = ( item.Product.DiscountedPrice > 0 ) ? (item.Product.DiscountedPrice * item.Quantity).ToString("C") : (item.Product.Price * item.Quantity).ToString("C"),
+                            thumbnail = item.Product.FilePath,
+                            quantity = item.Quantity
+                        });
+                    }
+                }
+
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                return Json(new { orderedItems }, JsonRequestBehavior.AllowGet);
+
+            }
+            else
+            {
+
+            }
+
+            Order order = db.orders.Find(id);
+            if( order == null)
+            {
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+                return Json(new { Message = "Order ID with " + id + " not found." });
+            }
+
+            return Json(new { order }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ActionName("Order")]
+        public JsonResult CreateOrder(int ProductID, int Quantity)
+        {
+            if(ProductID > 0 && Quantity > 0)
+            {
+                var userID = GetUserId();
+                var currentOrder = db.orders.Where(o => o.OrderStatus == "pending")
+                                            .Where(o => o.CustomerID == userID)
+                                            .FirstOrDefault();
+
+                int orderID;
+
+                if(currentOrder == null)
+                {
+                    var orderObj = new Order()
+                    {
+                        CustomerID = userID,
+                        OrderStatus = "pending",
+                        OrderDate = DateTime.Now
+                    };
+
+                    db.orders.Add(orderObj);
+                    db.SaveChanges();
+
+                    orderID = orderObj.OrderID;
+                }
+                else
+                {
+                    orderID = currentOrder.OrderID;
+                }
+
+                var OrderItem = db.orderItems.Where(i => i.OrderID == orderID)
+                                            .Where(i => i.ProductID == ProductID).FirstOrDefault();
+
+                if(OrderItem == null)
+                {
+                    var orderItemObj = new OrderItem()
+                    {
+                        OrderID = orderID,
+                        ProductID = ProductID,
+                        Quantity = Quantity
+                    };
+
+                    db.orderItems.Add(orderItemObj);
+                    db.SaveChanges();
+
+                    if( orderItemObj.ItemID > 0)
+                    {
+                        Response.StatusCode = (int)HttpStatusCode.OK;
+                    }
+                }
+                else
+                {
+                    OrderItem.Quantity += Quantity;
+                    db.Entry(OrderItem).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    if( OrderItem.ItemID > 0)
+                    {
+                        Response.StatusCode = (int)HttpStatusCode.OK;
+                    }
+                }
+                
+            }
+
+            return Json(new { Message = "The product has been added to the shopping cart." });
+        }
+
+        [HttpPut]
+        [ActionName("Order")]
+        [ValidateAntiForgeryToken]
+        public JsonResult EditOrder(FormCollection formCollection)
+        {
+            var ItemID = Int16.Parse(formCollection["ItemID"]);
+            var Quantity = Int16.Parse(formCollection["Quantity"]);
+
+            if (ItemID > 0)
+            {
+                var userID = GetUserId();
+                var currentOrder = getCurrentOrder(userID);
+
+                var OrderItem = db.orderItems.Where(o => o.OrderID == currentOrder)
+                                            .Where(o => o.ItemID == ItemID).FirstOrDefault();
+
+                if(OrderItem != null)
+                {
+                    OrderItem.Quantity = Quantity;
+                    db.Entry(OrderItem).State = EntityState.Modified;
+                    db.SaveChanges();
+
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+                    return Json(new { Message = "Record has been updated." });
+                }
+            }
+
+            Response.StatusCode = (int)HttpStatusCode.NotFound;
+            return Json(new { Message = "Record not found." });
+        }
+
+        [HttpDelete]
+        [ActionName("Order")]
+        public JsonResult DeleteOrder(int? id)
+        {
+            return Json(new { });
+        }
+
+        public int getCurrentOrder(string userID)
+        {
+            var currentOrder = db.orders.Where(o => o.OrderStatus == "pending")
+                                        .Where(o => o.CustomerID == userID)
+                                        .FirstOrDefault();
+
+            return ( currentOrder != null ) ? currentOrder.OrderID : 0;
+        }
     }
 }

@@ -127,7 +127,7 @@
                     _Quantity = ($(this).attr('data-QuantityDefault') == "true") ? 1 : $('select[name="product_quantity"] option:selected').val();
 
                 $.ajax({
-                    url: "/Order/Create",
+                    url: "/api/Order",
                     method: "POST",
                     data: {
                         __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
@@ -135,9 +135,8 @@
                         Quantity: _Quantity
                     },
                     dataType: "JSON",
-                    success: function (response) {
-                        console.log(response);
-                        if (response.status == "SUCCESS") {
+                    statusCode: {
+                        200: function () {
                             $('#messageModal').modal('show');
                         }
                     }

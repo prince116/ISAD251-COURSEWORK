@@ -98,8 +98,9 @@
                     Quantity = $("option:selected", this).val();
 
                 $.ajax({
-                    url: "/Order/Edit",
-                    method: "POST",
+                    //url: "/Order/Edit",
+                    url: "/api/Order",
+                    method: "PUT",
                     data: {
                         __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
                         ItemID: ItemID,
@@ -135,6 +136,22 @@
             $('.btn-checkout').click(function () {
                 $('#CheckoutForm').submit();
             })
+
+            function getOrderedItems() {
+
+                $.ajax({
+                    url: "/api/Order",
+                    method: "GET",
+                    dataType: "JSON",
+                    statusCode: {
+                        200: function (response) {
+                            console.log(response)
+                        }
+                    }
+                });
+            }
+
+            getOrderedItems();
         })
     </script>
 }
