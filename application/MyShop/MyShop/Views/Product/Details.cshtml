@@ -23,24 +23,31 @@
         <div class="col-sm-6 col-xs-12">
             <div class="product__details-wrapper">
                 <div class="product__name">
-                    <h4>@ViewBag.Details.ProductName</h4>
+                    <h4><!-- Product Name --></h4>
                 </div>
-                <div class="product__description">@ViewBag.Details.ProductDescription</div>
-                <div class="product__price discounted"><span class="value">$@ViewBag.Details.Price</span></div>
-                <div class="product__discounted-price"> <span class="value">$@ViewBag.Details.DiscountedPrice</span></div>
+                <div class="product__description"><!-- Product Description--></div>
+                <div class="product__price discounted"><span class="value"><!-- Price --></span></div>
+                <div class="product__discounted-price"> <span class="value"><!-- Discounted Price --></span></div>
                 <div class="product__available-status"> <span class="value">Available: In Stock</span></div>
+                @*<div class="product__name">
+                        <h4>@ViewBag.Details.ProductName</h4>
+                    </div>
+                    <div class="product__description">@ViewBag.Details.ProductDescription</div>
+                    <div class="product__price discounted"><span class="value">$@ViewBag.Details.Price</span></div>
+                    <div class="product__discounted-price"> <span class="value">$@ViewBag.Details.DiscountedPrice</span></div>
+                    <div class="product__available-status"> <span class="value">Available: In Stock</span></div>*@
                 @if (Request.IsAuthenticated)
                 {
                     <div class="product__qty">
                         <label for="product_quantity">Quantity: </label>
                         <select class="form-control" name="product_quantity" id="product_quantity" style="width:auto">
-                            @for(var qty = 1; qty < 100; qty++)
+                            @for (var qty = 1; qty < 100; qty++)
                             {
                                 <option value="@qty">@qty</option>
                             }
                         </select>
                     </div>
-                    <div class="product__actions"><a class="product__button btn-addToCart" data-ProductID="@ViewBag.Details.ProductID" data-QuantityDefault="false" href="javascript:void(0)"><span class="glyphicon glyphicon-shopping-cart"></span><span class="text">Add to cart</span></a><a class="product__button" href="javascript:void(0)"><span class="glyphicon glyphicon-heart-empty"></span><span class="text">Add to wishlist</span></a></div>
+                    <div class="product__actions"><a class="product__button btn-addToCart" data-ProductID="@ViewBag.Id" data-QuantityDefault="false" href="javascript:void(0)"><span class="glyphicon glyphicon-shopping-cart"></span><span class="text">Add to cart</span></a><a class="product__button" href="javascript:void(0)"><span class="glyphicon glyphicon-heart-empty"></span><span class="text">Add to wishlist</span></a></div>
 
                 }
             </div>
@@ -53,8 +60,8 @@
             <h2>Related Products</h2>
         </div>
     </div>
-    <div class="row">
-        @foreach (var item in ViewBag.RelatedProducts)
+    <div class="row" id="related_products_list">
+        @*@foreach (var item in ViewBag.RelatedProducts)
         {
             <div class="col-md-3 col-sm-6 col-xs-12">
                 <div class="panel">
@@ -76,16 +83,44 @@
                     </div>
                 </div>
             </div>
-        }
+        }*@
 
     </div>
 </div>
 
+<script id="template" type="x-tmpl-mustache">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="product__wrapper">
+                    <div class="product__img">
+                        <a href="{{ product_url }}"><img class="img-responsive" src="https://placehold.it/570x570?text=IMAGE" style="width:100%;" alt="Image"></a>
+                        <div class="product__action">
+                            <div class="product__action-left"><a href="javascript:void(0)" class="btn-addToCart" data-ProductID="{{ product_id }}" data-QuantityDefault="true" title="Add to cart"> <span class="glyphicon glyphicon-shopping-cart"> </span><span class="text">Add to cart</span></a></div>
+                            <div class="product__action-right"><a href="javascript:void(0)"> <span class="glyphicon glyphicon-heart-empty"></span></a><a href="{{ product_url }}"> <span class="glyphicon glyphicon-new-window"></span></a></div>
+                        </div>
+                    </div>
+                    <div class="product__details">
+                        <p><a href="{{ product_url }}">{{ product_name }}</a></p>
+                        <p>{{ price }}</p>
+                        <p>{{ stock }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
 @Html.AntiForgeryToken()
 
 @section Scripts {
+    @Scripts.Render("~/bundles/mustache")
     <script>
         $(function () {
+
+            var template = $('#template').html();
+            Mustache.parse(template);
+
             $('.btn-addToCart').click(function () {
 
                 var _ProductID = $(this).attr('data-ProductID'),
@@ -104,10 +139,43 @@
                         console.log(response);
                         if (response.status == "SUCCESS") {
                             $('#messageModal').modal('show');
-                        } 
+                        }
                     }
                 });
             });
+
+            function getProductById() {
+                $.ajax({
+                    url: "/api/Product/@ViewBag.Id",
+                    method: "GET",
+                    data: {
+                        related: true
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        $(".product__name h4").text(response.product.name);
+                        $(".product__description").text(response.product.description);
+                        $(".product__price .value").text(response.product.price);
+                        $(".product__discounted-price .value").text(response.product.discounted_price);
+
+                        var relatedHtml = "";
+
+                        $.each(response.related_product, function (index, value) {
+                            relatedHtml += Mustache.render(template, {
+                                product_url: "/Product/Details/" + value.id,
+                                product_name: value.name,
+                                price: value.price,
+                                discounted_price: value.discounted_price,
+                                stock: value.stock
+                            });
+                        });
+                        console.log(relatedHtml)
+                        $("#related_products_list").html(relatedHtml);
+                    }
+                })
+            }
+
+            getProductById();
         })
     </script>
 }

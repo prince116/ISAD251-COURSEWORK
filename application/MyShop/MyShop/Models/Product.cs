@@ -62,6 +62,9 @@ namespace MyShop.Models
         [DisplayName("Last Modified At")]
         public DateTime LastModifiedAt { get; set; }
 
+        [DisplayName("Thumbnail")]
+        public string FilePath { get; set; }
+
         public virtual ICollection<OrderItem> OrderItems { get; set; }
         public virtual ProductCategory ProductCategories { get; set; }
 

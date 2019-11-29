@@ -34,7 +34,8 @@ namespace MyShop.DAL
                     SalesPeriodStartAt = DateTime.Parse("2019-06-06"), SalesPeriodEndAt = DateTime.Parse("2020-06-06"), 
                     StockQuantity = 30, 
                     CreatedAt = DateTime.Now, 
-                    LastModifiedAt = DateTime.Now 
+                    LastModifiedAt = DateTime.Now,
+                    FilePath = "sample.png"
                 },
                 new Product{
                     ProductID = 2,
@@ -47,7 +48,8 @@ namespace MyShop.DAL
                     SalesPeriodEndAt = DateTime.Parse("2020-06-06"), 
                     StockQuantity = 40, 
                     CreatedAt = DateTime.Now, 
-                    LastModifiedAt = DateTime.Now 
+                    LastModifiedAt = DateTime.Now,
+                    FilePath = "sample.png"
                 },
                 new Product{
                     ProductID = 3,
@@ -60,7 +62,8 @@ namespace MyShop.DAL
                     SalesPeriodEndAt = DateTime.Parse("2019-06-06"), 
                     StockQuantity = 30, 
                     CreatedAt = DateTime.Now, 
-                    LastModifiedAt = DateTime.Now 
+                    LastModifiedAt = DateTime.Now,
+                    FilePath = "sample.png"
                 },
                 new Product{
                     ProductID = 4,
@@ -73,7 +76,8 @@ namespace MyShop.DAL
                     SalesPeriodEndAt = DateTime.Parse("2020-06-06"), 
                     StockQuantity = 30, 
                     CreatedAt = DateTime.Now, 
-                    LastModifiedAt = DateTime.Now 
+                    LastModifiedAt = DateTime.Now,
+                    FilePath = "sample.png"
                 },
                 new Product{
                     ProductID = 5,
@@ -86,7 +90,8 @@ namespace MyShop.DAL
                     SalesPeriodEndAt = DateTime.Parse("2020-06-06"), 
                     StockQuantity = 30, 
                     CreatedAt = DateTime.Now, 
-                    LastModifiedAt = DateTime.Now 
+                    LastModifiedAt = DateTime.Now,
+                    FilePath = "sample.png"
                 },
                 new Product{
                     ProductID = 6,
@@ -99,7 +104,8 @@ namespace MyShop.DAL
                     SalesPeriodEndAt = DateTime.Parse("2020-06-06"), 
                     StockQuantity = 30, 
                     CreatedAt = DateTime.Now, 
-                    LastModifiedAt = DateTime.Now 
+                    LastModifiedAt = DateTime.Now,
+                    FilePath = "sample.png"
                 },
                 new Product{
                     ProductID = 7,
@@ -112,7 +118,8 @@ namespace MyShop.DAL
                     SalesPeriodEndAt = DateTime.Parse("2017-06-15"), 
                     StockQuantity = 30, 
                     CreatedAt = DateTime.Now, 
-                    LastModifiedAt = DateTime.Now 
+                    LastModifiedAt = DateTime.Now,
+                    FilePath = "sample.png"
                 }
             };
 

@@ -53,6 +53,9 @@
                             <tr>
                                 <td class="admin__label">@Html.DisplayNameFor(model => model.StockQuantity)</td>
                                 <td class="admin__value" data-label="stock_quantity"></td>
+                            </tr><tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.FilePath)</td>
+                                <td class="admin__value"><img src="#" class="thumbnail" /></td>
                             </tr>
                         </table>
                     </div>
@@ -85,6 +88,7 @@
                         $('.admin__value[data-label="sales_period_start"]').text(response.product.sales_period_start);
                         $('.admin__value[data-label="sales_period_end"]').text(response.product.sales_period_end);
                         $('.admin__value[data-label="stock_quantity"]').text(response.product.stock);
+                        $('.thumbnail').attr('src', response.product.file_path);
                     }
                 }
             });

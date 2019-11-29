@@ -16,7 +16,7 @@
     </div>
 </div>
 <div class="container">
-    @using (Html.BeginForm())
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @enctype = "multipart/form-data" }))
     {
 
         <div class="row">
@@ -83,6 +83,13 @@
                                         @Html.ValidationMessageFor(model => model.StockQuantity, "", new { @class = "text-danger" })
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td class="admin__label">@Html.DisplayNameFor(model => model.FilePath)</td>
+                                    <td class="admin__value">
+                                        @Html.EditorFor(model => model.FilePath, new { htmlAttributes = new { @class = "form-control", @type = "file", @id = "fileUpload" } })
+                                        @Html.ValidationMessageFor(model => model.StockQuantity, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -105,8 +112,23 @@
         $(function () {
             $("form").submit(function (e) {
                 e.preventDefault();
-        
+
                 $.ajax({
+                    url: "/api/product",
+                    type: "POST",
+                    data: new FormData(this),
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        console.log(data.UploadedFileCount + ' file(s) uploaded successfully');
+                    },
+                    error: function(xhr, error, status) {
+                        console.log(error, status);
+                    }
+                });
+        
+                @*$.ajax({
                     url: "/api/product",
                     method: "POST",
                     data: $(this).serialize(),
@@ -116,7 +138,7 @@
                     error: function () {
 
                     }
-                });
+                });*@
             });
         });
     </script>

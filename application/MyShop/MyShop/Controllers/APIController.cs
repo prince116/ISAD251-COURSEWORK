@@ -11,6 +11,7 @@ using System.Collections;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 
 namespace MyShop.Controllers
 {
@@ -148,25 +149,57 @@ namespace MyShop.Controllers
         [ActionName("Products")]
         public JsonResult GetAllProducts()
         {
-            var entity = db.products.Include(c => c.ProductCategories).OrderByDescending(c => c.ProductID).ToList();
+            var keyword = Request["keyword"];
+            string category_id = Request["categoryId"];
+            var entity = (dynamic)null;
+
+            if( keyword != null)
+            {
+                entity = db.products.Where(s => s.SalesPeriodStartAt <= DateTime.Now && s.SalesPeriodEndAt >= DateTime.Now)
+                                    .Where(p => p.ProductName.Contains(keyword) || p.ProductDescription.Contains(keyword))
+                                    .Include(p => p.ProductCategories)
+                                    .ToList();
+            }
+            else if ( category_id != null )
+            {
+                bool isParsable = Int16.TryParse(category_id, out var cid);
+
+                if(isParsable)
+                {
+                    entity = db.products.Where(s => s.SalesPeriodStartAt <= DateTime.Now && s.SalesPeriodEndAt >= DateTime.Now)
+                                        .Where(p => p.CategoryID == cid)
+                                        .Include(p => p.ProductCategories)
+                                        .ToList();
+                }
+
+            }
+            else
+            {
+
+                entity = db.products.Where(s => s.SalesPeriodStartAt <= DateTime.Now && s.SalesPeriodEndAt >= DateTime.Now)
+                                        .Include(c => c.ProductCategories).OrderByDescending(c => c.ProductID).ToList();
+            }
 
             var products = new ArrayList();
 
-            foreach(var item in entity)
+            if( entity != null)
             {
-                var product = new
+                foreach(var item in entity)
                 {
-                    product_id = item.ProductID,
-                    product_name = item.ProductName,
-                    product_description = item.ProductDescription,
-                    category_id = item.CategoryID,
-                    category_name = item.ProductCategories.CategoryName,
-                    price = item.Price,
-                    discounted_price = item.DiscountedPrice,
-                    stock = item.StockQuantity
-                };
+                    var product = new
+                    {
+                        product_id = item.ProductID,
+                        product_name = item.ProductName,
+                        product_description = item.ProductDescription,
+                        category_id = item.CategoryID,
+                        category_name = item.ProductCategories.CategoryName,
+                        price = item.Price.ToString("C"),
+                        discounted_price = item.DiscountedPrice.ToString("C"),
+                        stock = item.StockQuantity
+                    };
 
-                products.Add(product);
+                    products.Add(product);
+                }
             }
 
             Response.StatusCode = (int)HttpStatusCode.OK;
@@ -187,21 +220,62 @@ namespace MyShop.Controllers
                     name = product.ProductName,
                     description = product.ProductDescription,
                     category = product.ProductCategories.CategoryName,
-                    price = product.Price,
-                    discounted_price = product.DiscountedPrice,
+                    price = product.Price.ToString("C"),
+                    discounted_price = product.DiscountedPrice.ToString("C"),
                     sales_period_start = product.SalesPeriodStartAt.ToString(string.Format("yyyy-MM-dd")),
                     sales_period_end = product.SalesPeriodEndAt.ToString(string.Format("yyyy-MM-dd")),
-                    stock = product.StockQuantity
+                    stock = product.StockQuantity,
+                    file_path = "/Uploads/" + product.FilePath
                 };
 
-                Response.StatusCode = (int)HttpStatusCode.OK;
-                return Json(new { product = details }, JsonRequestBehavior.AllowGet);
+                var responseObj = new
+                {
+                    product = details
+                };
+
+                var getRelatedProduct = Request["related"];
+
+                if (getRelatedProduct == "true")
+                {
+                    var relatedProducts = db.products.Where(p => p.CategoryID == product.CategoryID)
+                                                    .Where(p => p.ProductID != id)
+                                                    .Where(p => p.SalesPeriodStartAt <= DateTime.Now && p.SalesPeriodEndAt >= DateTime.Now)
+                                                    .Take(4)
+                                                    .ToList();
+
+                    if( relatedProducts != null)
+                    {
+                        var related = new ArrayList();
+
+                        foreach(var item in relatedProducts)
+                        {
+                            var relatedProductDetails = new
+                            {
+                                id = item.ProductID,
+                                name = item.ProductName,
+                                price = item.Price.ToString("C"),
+                                discounted_price = item.DiscountedPrice.ToString("C"),
+                                stock = (item.StockQuantity > 0) ? "In stock" : "Out of stock"
+                            };
+
+                            related.Add(relatedProductDetails);
+                        }
+
+                        Response.StatusCode = (int)HttpStatusCode.OK;
+                        return Json(new { product = details, related_product = related }, JsonRequestBehavior.AllowGet);
+
+                    }
+                } 
+                else
+                {
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+                    return Json(new { product = details }, JsonRequestBehavior.AllowGet);
+                }
             }
-            else
-            {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return Json(new { Message = "Record With ID " + id.ToString() + " not found" }, JsonRequestBehavior.AllowGet);
-            }
+
+            Response.StatusCode = (int)HttpStatusCode.NotFound;
+            return Json(new { Message = "Record With ID " + id.ToString() + " not found" }, JsonRequestBehavior.AllowGet);
+            
         }
 
         [HttpPost]
@@ -223,6 +297,19 @@ namespace MyShop.Controllers
                         }
                     }
                     return Json(new { errors });
+                }
+
+                if( Request.Files.Count > 0 )
+                {
+                    var file = Request.Files[0];
+                    var fileName = "file_" + DateTime.Now.ToString("yyyyMMddhhmmss") + Path.GetExtension(file.FileName);
+                    var path = Server.MapPath("~/Uploads/");
+                    if( !Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    product.FilePath = fileName;
+                    file.SaveAs(path + fileName);
                 }
 
                 product.CreatedAt = DateTime.Now;
@@ -269,6 +356,19 @@ namespace MyShop.Controllers
                         record.SalesPeriodEndAt = product.SalesPeriodEndAt;
                         record.StockQuantity = product.StockQuantity;
                         record.LastModifiedAt = DateTime.Now;
+
+                        if (Request.Files.Count > 0)
+                        {
+                            var file = Request.Files[0];
+                            var fileName = "file_" + DateTime.Now.ToString("yyyyMMddhhmmss") + Path.GetExtension(file.FileName);
+                            var path = Server.MapPath("~/Uploads/");
+                            if (!Directory.Exists(path))
+                            {
+                                Directory.CreateDirectory(path);
+                            }
+                            record.FilePath = fileName;
+                            file.SaveAs(path + fileName);
+                        }
 
                         db.SaveChanges();
 

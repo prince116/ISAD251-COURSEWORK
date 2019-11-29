@@ -20,9 +20,12 @@
         <div class="col-xs-12">
             <div class="category__wrapper">
                 <ol class="category__options">
-                    <li><a href="@Url.Action("Index", "Product")">All</a></li>
-                    <li><a href="@Url.Action("Index", "Product", new { categoryID = 1 })">Food</a></li>
-                    <li><a href="@Url.Action("Index", "Product", new { categoryID = 2 })">Drink</a></li>
+                    <li><a href="javascript:void(0)" class="btn-category" data-categoryId="0">All</a></li>
+                    <li><a href="javascript:void(0)" class="btn-category" data-categoryId="1">Food</a></li>
+                    <li><a href="javascript:void(0)" class="btn-category" data-categoryId="2">Drink</a></li>
+                    @*<li><a href="@Url.Action("Index", "Product")">All</a></li>
+                        <li><a href="@Url.Action("Index", "Product", new { categoryID = 1 })">Food</a></li>
+                        <li><a href="@Url.Action("Index", "Product", new { categoryID = 2 })">Drink</a></li>*@
                 </ol>
             </div>
         </div>
@@ -39,43 +42,108 @@
 </div>
 
 <div class="container">
-    <div class="row">
-        @foreach (var item in Model)
-        {
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="panel">
-                    <div class="panel-body">
-                        <div class="product__wrapper">
-                            <div class="product__img">
-                                <a href="@Url.Action("Details", "Product", new { id = item.ProductID })"><img class="img-responsive" src="https://placehold.it/570x570?text=IMAGE" alt="Image" title="@Html.DisplayFor(modelItem => item.ProductName)"></a>
-                                <div class="product__action">
-                                    <div class="product__action-left"><a href="#" title="Add to cart"> <span class="glyphicon glyphicon-shopping-cart"> </span><span class="text">Add to cart</span></a></div>
-                                    <div class="product__action-right"><a href="#"> <span class="glyphicon glyphicon-heart-empty"></span></a><a href="@Url.Action("Details", "Product", new { id = item.ProductID })"> <span class="glyphicon glyphicon-new-window"></span></a></div>
+    <div class="row" id="product_list">
+        @*@foreach (var item in Model)
+            {
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="panel">
+                        <div class="panel-body">
+                            <div class="product__wrapper">
+                                <div class="product__img">
+                                    <a href="@Url.Action("Details", "Product", new { id = item.ProductID })"><img class="img-responsive" src="https://placehold.it/570x570?text=IMAGE" alt="Image" title="@Html.DisplayFor(modelItem => item.ProductName)"></a>
+                                    <div class="product__action">
+                                        <div class="product__action-left"><a href="#" title="Add to cart"> <span class="glyphicon glyphicon-shopping-cart"> </span><span class="text">Add to cart</span></a></div>
+                                        <div class="product__action-right"><a href="#"> <span class="glyphicon glyphicon-heart-empty"></span></a><a href="@Url.Action("Details", "Product", new { id = item.ProductID })"> <span class="glyphicon glyphicon-new-window"></span></a></div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="product__details">
-                                <p>@Html.DisplayFor(modelItem => item.ProductName)</p>
-                                <p>@Html.DisplayFor(modelItem => item.Price)</p>
+                                <div class="product__details">
+                                    <p>@Html.DisplayFor(modelItem => item.ProductName)</p>
+                                    <p>@Html.DisplayFor(modelItem => item.Price)</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
+            }*@
     </div>
 </div>
 
+<script id="template" type="x-tmpl-mustache">
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="product__wrapper">
+                    <div class="product__img">
+                        <a href="{{ product_url }}"><img class="img-responsive" src="https://placehold.it/570x570?text=IMAGE" alt="Image" title="{{ product_name }}"></a>
+                        <div class="product__action">
+                            <div class="product__action-left"><a href="#" title="Add to cart"> <span class="glyphicon glyphicon-shopping-cart"> </span><span class="text">Add to cart</span></a></div>
+                            <div class="product__action-right"><a href="#"> <span class="glyphicon glyphicon-heart-empty"></span></a><a href="{{ product_url }}"> <span class="glyphicon glyphicon-new-window"></span></a></div>
+                        </div>
+                    </div>
+                    <div class="product__details">
+                        <p>{{ product_name }}</p>
+                        <p>{{ price }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
 @section Scripts{
+    @Scripts.Render("~/bundles/mustache")
     <script>
         $(function () {
+
+            var template = $('#template').html();
+            Mustache.parse(template);
+
             $('.btn-search').click(function () {
                 var keyword = $('input[name="keyword"]').val();
 
                 if (keyword != "" && keyword != null) {
-                    window.location.href = "/Product?keyword=" + keyword;
+                    getProducts({ keyword: keyword });
                 }
-                console.log(keyword);
             });
+
+            $('.btn-category').click(function () {
+                var cid = $(this).attr('data-categoryId');
+
+                if (cid > 0) {
+                    getProducts({ categoryId: cid });
+                } else {
+                    getProducts({});
+                }
+
+            });
+
+            function getProducts(data) {
+
+                $.ajax({
+                    url: "/api/Products",
+                    method: "GET",
+                    data: data,
+                    statusCode: {
+                        200: function (response) {
+
+                            var html = "";
+
+                            $.each(response.products, function (index, value) {
+                                html += Mustache.render(template, {
+                                    product_url: "/Product/Details/" + value.product_id,
+                                    product_name: value.product_name,
+                                    price: value.price
+                                });
+                            });
+
+                            $('#product_list').html(html);
+                        }
+                    }
+                })
+            }
+
+            getProducts([]);
+
         })
     </script>
 }

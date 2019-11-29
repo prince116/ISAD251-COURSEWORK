@@ -83,6 +83,15 @@
                                         @Html.ValidationMessageFor(model => model.StockQuantity, "", new { @class = "text-danger" })
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td class="admin__label">@Html.DisplayNameFor(model => model.FilePath)</td>
+                                    <td class="admin__value">
+                                        @Html.EditorFor(model => model.FilePath, new { htmlAttributes = new { @class = "form-control", @id = "fileUpload", type="file" } })
+                                        <br />
+                                        <img src="/Uploads/@Model.FilePath" />
+                                        @Html.ValidationMessageFor(model => model.FilePath, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                     </div>
@@ -107,12 +116,15 @@
         $("form").submit(function (e) {
             e.preventDefault();
 
-            var data = $(this).serialize();
+            //var data = $(this).serialize();
 
             $.ajax({
                 url: "/api/product/@(Model.ProductID)",
                 method: "PUT",
-                data: data,
+                data: new FormData(this),
+                cache: false,
+                contentType: false,
+                processData: false,
                 statusCode: {
                     200: function(){
                         window.location.href = "/admin/products";
