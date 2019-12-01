@@ -20,7 +20,7 @@
                     <li class="@IsCurrentPage("Index", "Home")">@Html.ActionLink("Home", "Index", "Home")</li>
                     <li class="@IsCurrentPage("Index", "About")">@Html.ActionLink("About", "About", "Home")</li>
                     <li class="@IsCurrentPage("Index", "Product")">@Html.ActionLink("Products", "Index", "Product")</li>
-                    <li class="@IsCurrentPage("Index", "__Contact")">@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li class="@IsCurrentPage("Index", "Contact")">@Html.ActionLink("Contact", "Contact", "Home")</li>
                     @if( ViewBag.IsAdmin == true )
                     {
                     <li class="@IsCurrentPage("Index", "Sale")">@Html.ActionLink("Product Management", "Products", "Admin")</li>
@@ -40,7 +40,7 @@
                 {
                     <li>@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Profile", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
                 }
-                <li><a href="@Url.Action("Index", "Order")"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Cart&nbsp;<span class="badge">@ViewBag.NumOfCartItems</span></a></li>
+                <li><a href="@Url.Action("Cart", "Home")"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Cart&nbsp;<span class="badge">@ViewBag.NumOfCartItems</span></a></li>
                 <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
             </ul>
                     }

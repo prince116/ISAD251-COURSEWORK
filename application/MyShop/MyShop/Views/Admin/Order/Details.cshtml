@@ -1,15 +1,25 @@
-﻿<div class="container">
+﻿@{
+    ViewBag.Title = "Purchase History";
+}
+
+
+<div class="container">
     <div class="row">
         <div class="col-xs-12">
             <ol class="breadcrumb">
                 <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                <li>@Html.ActionLink("Profile", "Index", "Profile")</li>
-                <li class="active">Purchase History</li>
+                <li>@Html.ActionLink("Order", "Order", "Admin")</li>
+                <li class="active">Order Details</li>
             </ol>
         </div>
     </div>
 </div>
 <div class="container">
+    @*<div class="row">
+            <div class="col-xs-12">
+                <h1 class="custom-title">Order No. : @ViewBag.OrderID</h1>
+            </div>
+        </div>*@
     <div class="row">
         <div class="col-xs-12">
             <div class="cart__wrapper">
@@ -29,7 +39,7 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <div class="cart__button-wrapper"><a class="cart__button" href="@Url.Action("Index", "Profile")">Back</a></div>
+            <div class="cart__button-wrapper"><a class="cart__button" href="@Url.Action("Order", "Admin")">Back</a></div>
         </div>
     </div>
 </div>
@@ -60,6 +70,7 @@
                 dataType: "json",
                 statusCode: {
                     200: function (response) {
+                        console.log(response)
 
                         var html = "";
 

@@ -72,7 +72,7 @@
                 @using (Html.BeginForm())
                 {
                     @Html.AntiForgeryToken()
-                    <input class="btn btn-default btn-delete" type="submit" value="Delete"><a class="btn btn-default btn-back" href="@Url.Action("Index", "ProductManagement")">Back to list</a>
+                    <input class="btn btn-default btn-delete" type="submit" value="Delete"><a class="btn btn-default btn-back" href="@Url.Action("Products", "Admin")">Back to list</a>
                 }
             </div>
         </div>

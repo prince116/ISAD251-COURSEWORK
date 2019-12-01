@@ -13,7 +13,7 @@ namespace MyShop.Controllers
         private ShopContext db = new ShopContext();
         public ActionResult Index()
         {
-            //var products = db.products.Where(s => s.SalesPeriodStartAt <= DateTime.Now && s.SalesPeriodEndAt >= DateTime.Now).Include(p => p.ProductCategories).ToList();
+            ViewBag.Title = "Home";
 
             return View();
         }
@@ -30,6 +30,23 @@ namespace MyShop.Controllers
         public ActionResult Contact()
         {
             ViewBag.Title = "Contact";
+
+            return View();
+        }
+
+        [Route("Cart")]
+        public ActionResult Cart()
+        {
+            ViewBag.Title = "Cart";
+
+            return View();
+        }
+        
+
+        [Route("ThankYou")]
+        public ActionResult ThankYou()
+        {
+            ViewBag.Title = "Thank You";
 
             return View();
         }

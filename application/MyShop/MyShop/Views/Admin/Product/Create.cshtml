@@ -99,7 +99,7 @@
         <div class="row">
             <div class="col-xs-12 text-center">
                 <div class="admin__footer-button-wrapper">
-                    <input class="btn btn-default btn-create" type="submit" value="Create"><a class="btn btn-default btn-back" href="@Url.Action("Index", "ProductManagement")">Back to list</a>
+                    <input class="btn btn-default btn-create" type="submit" value="Create"><a class="btn btn-default btn-back" href="@Url.Action("Products", "Admin")">Back to list</a>
                 </div>
             </div>
         </div>
@@ -127,18 +127,6 @@
                         console.log(error, status);
                     }
                 });
-        
-                @*$.ajax({
-                    url: "/api/product",
-                    method: "POST",
-                    data: $(this).serialize(),
-                    success: function () {
-                        window.location.href = "@Url.Action("Products", "Admin")";
-                    },
-                    error: function () {
-
-                    }
-                });*@
             });
         });
     </script>

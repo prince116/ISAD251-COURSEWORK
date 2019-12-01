@@ -7,7 +7,7 @@
         <div class="col-xs-12">
             <ol class="breadcrumb">
                 <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                <li class="active">Account</li>
+                <li class="active">Order</li>
             </ol>
         </div>
     </div>
@@ -17,7 +17,7 @@
         <div class="col-xs-12 col-sm-12">
             <div class="account__purchase-history-wrapper">
                 <div class="account__group">
-                    <div class="account__heading">Purchase History</div>
+                    <div class="account__heading">Order</div>
                 </div>
                 <div class="account__group" id="record_list"></div>
             </div>
@@ -43,48 +43,41 @@
     @Scripts.Render("~/bundles/mustache")
     <script>
         $(function () {
-
             $('body').on('click', '.account__record', function () {
                 var OrderId = $(this).attr('data-id');
 
                 if (OrderId != null && OrderId != "") {
-                    window.location.href = "/Profile/PurchaseHistory/" + OrderId;
+                    window.location.href = "/Admin/Order/" + OrderId + "?page=details";
                 }
             })
 
-            function getOrders() {
+            var template = $('#template').html();
+                Mustache.parse(template);
 
-                var template = $('#template').html();
-                    Mustache.parse(template);
+            $.ajax({
+                url: "/api/Orders",
+                method: "GET",
+                dataType: "json",
+                statusCode: {
+                    200: function (response) {
+                        console.log(response)
+                        var html = "";
 
-                $.ajax({
-                    url: "/api/Orders",
-                    method: "GET",
-                    dataType: "json",
-                    statusCode: {
-                        200: function (response) {
-                            
-                            var html = "";
+                        $.each(response.orders, function (index, value) {
 
-                            $.each(response.orders, function (index, value) {
-
-                                html += Mustache.render(template, {
-                                    invoice_no: value.invoice_no,
-                                    order_datetime: value.order_datetime,
-                                    order_id: value.order_no,
-                                    order_status: value.order_status,
-                                    total_amount: value.total_amount
-                                });
+                            html += Mustache.render(template, {
+                                invoice_no: value.invoice_no,
+                                order_datetime: value.order_datetime,
+                                order_id: value.order_no,
+                                order_status: value.order_status,
+                                total_amount: value.total_amount
                             });
+                        });
 
-                            $('#record_list').html(html);
-                        }
+                        $('#record_list').html(html);
                     }
-                });
-            }
-
-            getOrders();
-
+                }
+            });
         })
     </script>
 }

@@ -73,5 +73,21 @@ namespace MyShop.Controllers
             
             return Json(new { ProductName });
         }
+
+        [HttpGet]
+        public ActionResult Order(int? id)
+        {
+            var page = Request["page"];
+
+            if( page == "details")
+            {
+                ViewBag.Id = id;
+                return View("~/Views/Admin/Order/Details.cshtml");
+            }
+            else
+            {
+                return View("~/Views/Admin/Order/Index.cshtml");
+            }
+        }
     }
 }

@@ -186,17 +186,12 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\ApiBaseController.cs" />
     <Compile Include="Controllers\APIController.cs" />
-    <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
-    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
-    <Compile Include="Controllers\ProductManagementController.cs" />
     <Compile Include="DAL\ShopContext.cs" />
     <Compile Include="DAL\ShopInitializer.cs" />
     <Compile Include="Global.asax.cs">
@@ -274,34 +269,24 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\Product\Details.cshtml" />
-    <Content Include="Views\Order\Create.cshtml" />
-    <Content Include="Views\Order\Delete.cshtml" />
-    <Content Include="Views\Order\Details.cshtml" />
-    <Content Include="Views\Order\Edit.cshtml" />
-    <Content Include="Views\Order\Index.cshtml" />
-    <Content Include="Views\Order\ThankYou.cshtml" />
+    <Content Include="Views\Home\Cart.cshtml" />
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Profile\PurchaseHistory.cshtml" />
-    <Content Include="Views\ProductManagement\Create.cshtml" />
-    <Content Include="Views\ProductManagement\Delete.cshtml" />
-    <Content Include="Views\ProductManagement\Details.cshtml" />
-    <Content Include="Views\ProductManagement\Edit.cshtml" />
-    <Content Include="Views\ProductManagement\Index.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\AdminProduct.cshtml" />
-    <Content Include="Views\Admin\Products.cshtml" />
-    <Content Include="Views\Admin\Product.cshtml" />
     <Content Include="Views\Admin\Product\Index.cshtml" />
     <Content Include="Views\Admin\Product\Details.cshtml" />
     <Content Include="Views\Admin\Product\Edit.cshtml" />
     <Content Include="Views\Admin\Product\Create.cshtml" />
     <Content Include="Views\Admin\Product\Delete.cshtml" />
+    <Content Include="Views\Home\ThankYou.cshtml" />
+    <Content Include="Views\Admin\Order\index.cshtml" />
+    <Content Include="Views\Admin\Order\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\" />
-    <Folder Include="Views\API\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
