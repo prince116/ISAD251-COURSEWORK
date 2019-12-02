@@ -1,0 +1,10 @@
+﻿@model IEnumerable<MyShop.ViewModels.RolesViewModel>
+@foreach (var user in Model.ToList())
+{
+    <div> @user.UserName --</div>
+    foreach (var role in user.RoleNames)
+    {
+        <div> @role </div>
+    }
+    <br />
+}

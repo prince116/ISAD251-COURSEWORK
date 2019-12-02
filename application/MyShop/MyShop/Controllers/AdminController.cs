@@ -5,14 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.Net;
 using MyShop.Models;
-using MyShop.DAL;
 
 namespace MyShop.Controllers
 {
     public class AdminController : ControllerBase
     {
-        private ShopContext db = new ShopContext();
-
         // GET: Admin
         public ActionResult Index()
         {

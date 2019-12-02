@@ -9,9 +9,9 @@ using System.Data.Entity.Validation;
 namespace MyShop.DAL
 {
     //public class ShopInitializer : System.Data.Entity.DropCreateDatabaseAlways<ShopContext>
-    public class ShopInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<ShopContext>
+    public class ShopInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
-        protected override void Seed(ShopContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
             var productcategories = new List<ProductCategory>
             {

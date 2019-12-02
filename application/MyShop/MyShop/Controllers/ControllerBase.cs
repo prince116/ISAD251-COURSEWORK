@@ -4,15 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MyShop.Models;
-using MyShop.DAL;
 using Microsoft.AspNet.Identity;
 
 namespace MyShop.Controllers
 {
     public class ControllerBase : Controller
     {
-        private ShopContext db = new ShopContext();
-        private ApplicationDbContext applicationDbContext = new ApplicationDbContext();
+        public ApplicationDbContext db = new ApplicationDbContext();
 
         public int GetNoCartItem()
         {
@@ -34,8 +32,8 @@ namespace MyShop.Controllers
         {
             var userId = User.Identity.GetUserId();
             
-            var role = applicationDbContext.Roles.Where(r => r.Name.Contains("administrator")).FirstOrDefault();
-            var users = applicationDbContext.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role.Id)).ToList();
+            var role = db.Roles.Where(r => r.Name.Contains("administrator")).FirstOrDefault();
+            var users = db.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(role.Id)).ToList();
             var IsAdmin = users.Find(x => x.Id == userId);
 
             if( IsAdmin == null )

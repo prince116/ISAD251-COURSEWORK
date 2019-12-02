@@ -5,20 +5,14 @@ using System.Web;
 using System.Net;
 using System.Web.Mvc;
 using MyShop.Models;
-using MyShop.ViewModels;
-using MyShop.DAL;
 using System.Collections;
 using System.Data.Entity;
-using System.Data.Entity.Validation;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 
 namespace MyShop.Controllers
 {
     public class APIController : ControllerBase
     {
-        private ShopContext db = new ShopContext();
-
         // GET: API
         public ActionResult Index()
         {

@@ -25,6 +25,13 @@ namespace MyShop.Models
         {
         }
 
+        // My Application Model
+        public DbSet<Product> products { get; set; }
+        public DbSet<ProductCategory> productCategories { get; set; }
+        public DbSet<OrderItem> orderItems { get; set; }
+        public DbSet<Order> orders { get; set; }
+        public DbSet<Contact> contacts { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
