@@ -5,7 +5,6 @@ using System.Web;
 using MyShop.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using MyShop.DAL;
 using System.Data.Entity;
 
 namespace MyShop.Helpers

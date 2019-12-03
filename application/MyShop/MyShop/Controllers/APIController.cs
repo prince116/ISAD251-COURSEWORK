@@ -149,10 +149,19 @@ namespace MyShop.Controllers
 
             if( keyword != null)
             {
-                entity = db.products.Where(s => s.SalesPeriodStartAt <= DateTime.Now && s.SalesPeriodEndAt >= DateTime.Now)
-                                    .Where(p => p.ProductName.Contains(keyword) || p.ProductDescription.Contains(keyword))
-                                    .Include(p => p.ProductCategories)
-                                    .ToList();
+                if( IsAdmin())
+                {
+                    entity = db.products.Where(p => p.ProductName.Contains(keyword) || p.ProductDescription.Contains(keyword))
+                                        .Include(p => p.ProductCategories)
+                                        .ToList();
+                }
+                else
+                {
+                    entity = db.products.Where(s => s.SalesPeriodStartAt <= DateTime.Now && s.SalesPeriodEndAt >= DateTime.Now)
+                                        .Where(p => p.ProductName.Contains(keyword) || p.ProductDescription.Contains(keyword))
+                                        .Include(p => p.ProductCategories)
+                                        .ToList();
+                }
             }
             else if ( category_id != null )
             {
@@ -169,9 +178,15 @@ namespace MyShop.Controllers
             }
             else
             {
-
-                entity = db.products.Where(s => s.SalesPeriodStartAt <= DateTime.Now && s.SalesPeriodEndAt >= DateTime.Now)
-                                        .Include(c => c.ProductCategories).OrderByDescending(c => c.ProductID).ToList();
+                if( IsAdmin())
+                {
+                    entity = db.products.Include(c => c.ProductCategories).OrderByDescending(c => c.ProductID).ToList();
+                }
+                else
+                {
+                    entity = db.products.Where(s => s.SalesPeriodStartAt <= DateTime.Now && s.SalesPeriodEndAt >= DateTime.Now)
+                                            .Include(c => c.ProductCategories).OrderByDescending(c => c.ProductID).ToList();
+                }
             }
 
             var products = new ArrayList();
