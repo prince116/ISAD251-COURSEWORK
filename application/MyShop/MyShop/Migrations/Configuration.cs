@@ -27,7 +27,7 @@ namespace MyShop.Migrations
                 new ProductCategory{CategoryName="Drink"}
             };
 
-            productcategories.ForEach(s => context.productCategories.Add(s));
+            productcategories.ForEach(s => context.productCategories.AddOrUpdate(s));
             context.SaveChanges();
 
             var products = new List<Product>
@@ -132,7 +132,7 @@ namespace MyShop.Migrations
             };
 
             {
-                products.ForEach(s => context.products.Add(s));
+                products.ForEach(s => context.products.AddOrUpdate(s));
                 context.SaveChanges();
             }
         }

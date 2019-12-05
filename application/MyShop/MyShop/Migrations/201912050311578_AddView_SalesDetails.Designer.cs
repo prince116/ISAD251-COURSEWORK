@@ -7,13 +7,13 @@ namespace MyShop.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class InitialCreate : IMigrationMetadata
+    public sealed partial class AddView_SalesDetails : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddView_SalesDetails));
         
         string IMigrationMetadata.Id
         {
-            get { return "201911290834365_InitialCreate"; }
+            get { return "201912050311578_AddView_SalesDetails"; }
         }
         
         string IMigrationMetadata.Source

@@ -15,8 +15,6 @@ namespace MyShop.Models
         public int OrderID { get; set; }
         [DisplayName("Product ID")]
         public int ProductID { get; set; }
-        [DisplayName("Unit Price")]
-        public int UnitPrice { get; set; }
         [DisplayName("Quantity")]
         public int Quantity { get; set; }
 

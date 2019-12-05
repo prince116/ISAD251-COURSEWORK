@@ -31,6 +31,7 @@ namespace MyShop.Models
         public DbSet<OrderItem> orderItems { get; set; }
         public DbSet<Order> orders { get; set; }
         public DbSet<Contact> contacts { get; set; }
+        public DbSet<ViewSales> viewSales { get; set; }
 
         public static ApplicationDbContext Create()
         {

@@ -8,6 +8,7 @@ using MyShop.Models;
 using System.Collections;
 using System.Data.Entity;
 using System.IO;
+using System.Data.SqlClient;
 
 namespace MyShop.Controllers
 {
@@ -145,51 +146,43 @@ namespace MyShop.Controllers
         {
             var keyword = Request["keyword"];
             string category_id = Request["categoryId"];
-            var entity = (dynamic)null;
+            var products = new ArrayList();
+            
+            QuerySetting querySetting = new QuerySetting{ 
+                is_admin = IsAdmin(),
+                admin_as_user = false,
+                query_by_category = false,
+                query_by_keyword = false,
+                keywords = "",
+                category_id = 0
+            };
 
-            if( keyword != null)
+            if ( keyword != null)
             {
-                if( IsAdmin())
-                {
-                    entity = db.products.Where(p => p.ProductName.Contains(keyword) || p.ProductDescription.Contains(keyword))
-                                        .Include(p => p.ProductCategories)
-                                        .ToList();
-                }
-                else
-                {
-                    entity = db.products.Where(s => s.SalesPeriodStartAt <= DateTime.Now && s.SalesPeriodEndAt >= DateTime.Now)
-                                        .Where(p => p.ProductName.Contains(keyword) || p.ProductDescription.Contains(keyword))
-                                        .Include(p => p.ProductCategories)
-                                        .ToList();
-                }
+                querySetting.query_by_keyword = true;
+                querySetting.keywords = keyword;
             }
             else if ( category_id != null )
             {
                 bool isParsable = Int16.TryParse(category_id, out var cid);
 
-                if(isParsable)
+                if (isParsable)
                 {
-                    entity = db.products.Where(s => s.SalesPeriodStartAt <= DateTime.Now && s.SalesPeriodEndAt >= DateTime.Now)
-                                        .Where(p => p.CategoryID == cid)
-                                        .Include(p => p.ProductCategories)
-                                        .ToList();
-                }
-
-            }
-            else
-            {
-                if( IsAdmin())
-                {
-                    entity = db.products.Include(c => c.ProductCategories).OrderByDescending(c => c.ProductID).ToList();
-                }
-                else
-                {
-                    entity = db.products.Where(s => s.SalesPeriodStartAt <= DateTime.Now && s.SalesPeriodEndAt >= DateTime.Now)
-                                            .Include(c => c.ProductCategories).OrderByDescending(c => c.ProductID).ToList();
+                    querySetting.query_by_category = true;
+                    querySetting.category_id = cid;
                 }
             }
 
-            var products = new ArrayList();
+            SqlParameter[] productParams = {
+                new SqlParameter("@IS_ADMIN", querySetting.is_admin),
+                new SqlParameter("@ADMIN_AS_USER", querySetting.admin_as_user),
+                new SqlParameter("@QUERY_BY_KEYWORD", querySetting.query_by_keyword),
+                new SqlParameter("@QUERY_BY_CATEGORY", querySetting.query_by_category),
+                new SqlParameter("@KEYWORDS", querySetting.keywords),
+                new SqlParameter("@CATEGORY_ID", querySetting.category_id)
+            };
+
+            var entity = db.Database.SqlQuery<SPGetProducts>("GetProducts @IS_ADMIN, @ADMIN_AS_USER, @QUERY_BY_KEYWORD, @QUERY_BY_CATEGORY, @KEYWORDS, @CATEGORY_ID", productParams).ToList();
 
             if( entity != null)
             {
@@ -201,7 +194,7 @@ namespace MyShop.Controllers
                         product_name = item.ProductName,
                         product_description = item.ProductDescription,
                         category_id = item.CategoryID,
-                        category_name = item.ProductCategories.CategoryName,
+                        category_name = item.CategoryName,
                         price = item.Price.ToString("C"),
                         discounted_price = item.DiscountedPrice.ToString("C"),
                         stock = item.StockQuantity
@@ -438,27 +431,20 @@ namespace MyShop.Controllers
 
             if( userID != null)
             {
-                var orders = (IsAdmin()) ? db.orders.Where(o => o.OrderStatus != "pending").OrderByDescending(o => o.OrderID).ToList() : db.orders.Where(o => o.CustomerID == userID).Where(o => o.OrderStatus != "pending").OrderByDescending(o => o.OrderID).ToList();
+                var orders = (IsAdmin()) ? db.viewSales.Where(s => s.OrderStatus != "pending").OrderByDescending(s => s.OrderID).ToList() : db.viewSales.Where(s => s.CustomerID == userID).Where(s => s.OrderStatus == "pending").OrderByDescending(s => s.OrderID).ToList();
+                
                 var records = new ArrayList();
 
                 if(orders.Count > 0)
                 {
                     foreach(var record in orders)
                     {
-                        // Calculate the total amount of the order
-                        var total = 0;
-
-                        foreach(var item in record.OrderItems)
-                        {
-                            total += (int)item.Product.DiscountedPrice > 0 ? (int)item.Product.DiscountedPrice * item.Quantity : (int)item.Product.Price * item.Quantity;
-                        }
-
                         records.Add(new {
-                            invoice_no = String.Concat("INV", record.OrderID.ToString("D8")),
+                            invoice_no = record.OrderID.ToString("D8"),
                             order_no = record.OrderID,
                             order_datetime = record.OrderDate.ToString("yyyy-MM-dd"),
                             order_status = record.OrderStatus.ToUpper(),
-                            total_amount = total.ToString("C")
+                            total_amount = record.TotalAmount.ToString("C")
                         });
                     }
 
@@ -483,26 +469,28 @@ namespace MyShop.Controllers
                 var currentOrder = ( id == null ) ? getCurrentOrder(userId) : id;
                 var orderedItems = new ArrayList();
 
-                var entity = db.orderItems.Where(o => o.OrderID == currentOrder).ToList();
+                var orderParameter = new SqlParameter("@OrderID", currentOrder);
+                var orderDetails = db.Database.SqlQuery<SPSalesDetails>("GetOrderDetailsById @OrderID", orderParameter).ToList();
                 decimal totalAmount = 0;
 
-                if(entity.Count > 0)
+                if (orderDetails.Count > 0)
                 {
-                    foreach(var item in entity)
+                    foreach (var item in orderDetails)
                     {
-                        var subTotal = (item.Product.DiscountedPrice > 0) ? (item.Product.DiscountedPrice * item.Quantity) : (item.Product.Price * item.Quantity);
                         orderedItems.Add(new
                         {
+                            category = item.CategoryName,
                             item_id = item.ItemID,
                             product_id = item.ProductID,
-                            product_name = item.Product.ProductName,
-                            price = (item.Product.DiscountedPrice > 0) ? item.Product.DiscountedPrice.ToString("C") : item.Product.Price.ToString("C"),
-                            sub_total = subTotal.ToString("C"),
-                            file_path = "/Uploads/" + item.Product.FilePath,
+                            product_name = item.ProductName,
+                            product_description = item.ProductDescription,
+                            price = item.Price.ToString("C"),
+                            sub_total = item.SubTotal.ToString("C"),
+                            file_path = "/Uploads/" + item.FilePath,
                             quantity = item.Quantity
                         });
 
-                        totalAmount += subTotal;
+                        totalAmount += item.SubTotal;
                     }
                 }
 
@@ -651,7 +639,7 @@ namespace MyShop.Controllers
             }
 
             Response.StatusCode = (int)HttpStatusCode.NotFound;
-            return Json(new { Message = "Record ID + " + ItemID + " not found." });
+            return Json(new { Message = "Record ID " + ItemID + " not found." });
         }
 
         [HttpPost]

@@ -29,7 +29,7 @@ namespace MyShop.Helpers
                 var roleresult = roleManager.Create(new IdentityRole(RoleNames.ROLE_READER));
             }
 
-            string userName = "admin@example.com";
+            string userName = "admin@myshop.com";
             string password = "Aa~11111111";
 
             ApplicationUser user = userManager.FindByName(userName);
