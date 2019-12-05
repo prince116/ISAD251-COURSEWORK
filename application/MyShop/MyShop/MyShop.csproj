@@ -64,6 +64,8 @@
     <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -213,17 +215,74 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AspNetRoles.cs">
+      <DependentUpon>MyShop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserClaims.cs">
+      <DependentUpon>MyShop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogins.cs">
+      <DependentUpon>MyShop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUsers.cs">
+      <DependentUpon>MyShop.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Contact.cs" />
+    <Compile Include="Models\Contacts.cs">
+      <DependentUpon>MyShop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C__MigrationHistory.cs">
+      <DependentUpon>MyShop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetOrderDetailsById_Result.cs">
+      <DependentUpon>MyShop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetProducts_Result.cs">
+      <DependentUpon>MyShop.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MyShop.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyShop.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyShop.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyShop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyShop.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MyShop.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderItem.cs" />
+    <Compile Include="Models\OrderItems.cs">
+      <DependentUpon>MyShop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Orders.cs">
+      <DependentUpon>MyShop.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductCategories.cs">
+      <DependentUpon>MyShop.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ProductCategory.cs" />
+    <Compile Include="Models\Products.cs">
+      <DependentUpon>MyShop.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RoleNames.cs" />
     <Compile Include="Models\SPGetProducts.cs" />
     <Compile Include="Models\ViewSales.cs" />
     <Compile Include="Models\SPSalesDetails.cs" />
+    <Compile Include="Models\View_Sales.cs">
+      <DependentUpon>MyShop.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\View_SalesDetails.cs">
+      <DependentUpon>MyShop.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\OrderHistory.cs" />
@@ -240,8 +299,25 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Models\MyShop.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MyShop.edmx</DependentUpon>
+      <LastGenOutput>MyShop.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\MyShop.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MyShop.edmx</DependentUpon>
+      <LastGenOutput>MyShop.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="Models\MyShop.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MyShop.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\MyShop.edmx.diagram">
+      <DependentUpon>MyShop.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -333,6 +409,9 @@
     <EmbeddedResource Include="Migrations\201912050408216_Update_SP_ViewSalesDetails.resx">
       <DependentUpon>201912050408216_Update_SP_ViewSalesDetails.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
