@@ -451,7 +451,9 @@ namespace MyShop.Controllers
                             order_no = record.OrderID,
                             order_datetime = record.OrderDate.ToString("yyyy-MM-dd"),
                             order_status = record.OrderStatus.ToUpper(),
-                            total_amount = record.TotalAmount.ToString("C")
+                            total_amount = record.TotalAmount.ToString("C"),
+                            delivery_type = record.DeliveryType,
+                            table_no = record.TableNo
                         });
                     }
 
@@ -689,11 +691,11 @@ namespace MyShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public JsonResult Checkout()
+        public JsonResult Checkout(string DeliveryType, int TableNo)
         {
             var userID = GetUserId();
-            
-            if( userID != null)
+
+            if ( userID != null)
             {
                 var currentOrderID = getCurrentOrder(userID);
 
@@ -702,6 +704,8 @@ namespace MyShop.Controllers
                 if( order != null)
                 {
                     order.OrderStatus = "checkout";
+                    order.DeliveryType = DeliveryType;
+                    order.TableNo = TableNo;
                     db.Entry(order).State = EntityState.Modified;
                     db.SaveChanges();
 

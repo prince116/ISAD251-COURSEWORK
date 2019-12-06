@@ -217,6 +217,10 @@
     <Compile Include="Migrations\201912051543352_UpdateViews.Designer.cs">
       <DependentUpon>201912051543352_UpdateViews.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912061514107_AddDeliveryType.cs" />
+    <Compile Include="Migrations\201912061514107_AddDeliveryType.Designer.cs">
+      <DependentUpon>201912061514107_AddDeliveryType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AspNetRoles.cs">
@@ -416,6 +420,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201912051543352_UpdateViews.resx">
       <DependentUpon>201912051543352_UpdateViews.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912061514107_AddDeliveryType.resx">
+      <DependentUpon>201912061514107_AddDeliveryType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

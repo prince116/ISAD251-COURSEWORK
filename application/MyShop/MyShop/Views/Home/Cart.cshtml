@@ -26,21 +26,83 @@
                             <th class="text-right">Total</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
-                    <tfoot>
+                    <tbody>
+                    @if (@ViewBag.NumOfCartItems == 0)
+                    {
                         <tr>
-                            <td class="text-right" colspan="5"><a class="btn-cancel_order cart__button" href="javascript:void(0)">Cancel Order</a></td>
+                            <td class="text-center" colspan="5">
+                                <h2>Your cart is empty</h2>
+                            </td>
                         </tr>
-                    </tfoot>
+                    }
+                    </tbody>
+                    @if (@ViewBag.NumOfCartItems > 0)
+                    {
+                        <tfoot>
+                            <tr>
+                                <td class="text-right" colspan="5"><a class="btn-cancel_order cart__button" href="javascript:void(0)">Cancel Order</a></td>
+                            </tr>
+                        </tfoot>
+                    }
                 </table>
             </div>
         </div>
     </div>
+    @if (@ViewBag.NumOfCartItems > 0)
+    {
     <div class="row">
         <div class="col-xs-12">
             <div class="cart__footer text-right">
                 <div class="cart__total-wrapper"><span class="cart__total-title">Total</span><span class="cart__total"></span></div>
-                <div class="cart__checkout-wrapper text-center"><a class="cart__button btn-checkout" href="javascript:void(0)">Proceed to Checkout</a></div>
+                <div class="cart__checkout-wrapper text-center"><a class="cart__button btn-checkout" href="javascript:void(0)" data-toggle="modal" data-target="#checkoutModal">Proceed to Check out</a></div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+<div class="modal fade" id="checkoutModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-6 text-center">
+                        <a class="btn-option" href="javascript:void(0)" data-value="dinn_in"><span class="glyphicon glyphicon-cutlery"></span></a>
+                        <p>Dinn In</p>
+                    </div>
+                    <div class="col-xs-6 text-center">
+                        <a class="btn-option" href="javascript:void(0)" data-value="take_away"><span class="glyphicon glyphicon-glass"></span></a>
+                        <p>Take Away</p>
+                    </div>
+                </div>
+                <div class="row table-selection">
+                    <div class="col-xs-12 text-center">
+                        <p>Select your table number:</p>
+                    </div>
+                    <div class="col-xs-12 text-center">
+                        <select class="form-control" name="table_no">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                        <button class="btn btn-default btn-submit" type="button" disabled="disabled">Check Out</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -78,6 +140,22 @@
     <script>
         $(function () {
 
+            var DeliveryType = null;
+
+            $('.btn-option').click(function(){
+                var Val = $(this).attr('data-value');
+
+                if( Val == "eat_here" ){
+                    $('.table-selection').show();
+                } else {
+                    $('.table-selection').hide();
+                }
+
+                DeliveryType = Val;
+
+                $('.btn-submit').removeAttr('disabled');
+            });
+
             $('#CancelOrderForm').submit(function (e) {
                 e.preventDefault();
 
@@ -100,10 +178,12 @@
                 e.preventDefault();
 
                 $.ajax({
-                    url: "/api/Checkout",
-                    method: "POST",
+                    url: "/api/checkout",
+                    method: "post",
                     data: {
-                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                        __requestverificationtoken: $('#CheckoutForm input[name="__RequestVerificationToken"]').val(),
+                        DeliveryType: DeliveryType,
+                        TableNo: ( DeliveryType == "eat_here" ) ? $('select[name="table_no"] option:selected').val() : 0
                     },
                     statusCode: {
                         200: function () {
@@ -145,7 +225,7 @@
                 deleteOrderedItem(ItemID);
             })
 
-            $('.btn-checkout').click(function () {
+            $('.btn-submit').click(function () {
                 $('#CheckoutForm').submit();
             })
 
@@ -168,34 +248,37 @@
                     statusCode: {
                         200: function (response) {
 
-                            var html = "";
+                            if (response.orderedItems.length > 0) {
 
-                            $.each(response.orderedItems, function (index, value) {
+                                var html = "";
 
-                                var options = [];
+                                $.each(response.orderedItems, function (index, value) {
 
-                                for (var i = 1; i <= value.stock; i++) {
-                                    options.push({
-                                        value: i,
-                                        text: i,
-                                        selected: ( i == value.quantity ) ? true : false
+                                    var options = [];
+
+                                    for (var i = 1; i <= value.stock; i++) {
+                                        options.push({
+                                            value: i,
+                                            text: i,
+                                            selected: ( i == value.quantity ) ? true : false
+                                        });
+                                    }
+
+                                    html += Mustache.render(template, {
+                                        item_id: value.item_id,
+                                        product_id: value.product_id,
+                                        product_url: "/Product/Details/" + value.product_id,
+                                        product_name: value.product_name,
+                                        price: value.price,
+                                        file_path: value.file_path,
+                                        quantity: value.quantity,
+                                        sub_total: value.sub_total,
+                                        options: options
                                     });
-                                }
-
-                                html += Mustache.render(template, {
-                                    item_id: value.item_id,
-                                    product_id: value.product_id,
-                                    product_url: "/Product/Details/" + value.product_id,
-                                    product_name: value.product_name,
-                                    price: value.price,
-                                    file_path: value.file_path,
-                                    quantity: value.quantity,
-                                    sub_total: value.sub_total,
-                                    options: options
                                 });
-                            });
 
-                            $('.cart__wrapper tbody').html(html);
+                                $('.cart__wrapper tbody').html(html);
+                            }
                             $('.cart__total').text(response.totalAmount);
                         }
                     }

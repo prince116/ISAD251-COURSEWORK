@@ -16,5 +16,7 @@ namespace MyShop.Models
         public DateTime OrderDate { get; set; }
         public string OrderStatus { get; set; }
         public decimal TotalAmount { get; set; }
+        public string DeliveryType { get; set; }
+        public int TableNo { get; set; }
     }
 }
