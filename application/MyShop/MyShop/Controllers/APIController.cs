@@ -182,7 +182,7 @@ namespace MyShop.Controllers
                 new SqlParameter("@CATEGORY_ID", querySetting.category_id)
             };
 
-            var entity = db.Database.SqlQuery<SPGetProducts>("GetProducts @IS_ADMIN, @ADMIN_AS_USER, @QUERY_BY_KEYWORD, @QUERY_BY_CATEGORY, @KEYWORDS, @CATEGORY_ID", productParams).ToList();
+            var entity = db.Database.SqlQuery<SPGetProducts>("SPGetProducts @IS_ADMIN, @ADMIN_AS_USER, @QUERY_BY_KEYWORD, @QUERY_BY_CATEGORY, @KEYWORDS, @CATEGORY_ID", productParams).ToList();
 
             if( entity != null)
             {
@@ -197,7 +197,8 @@ namespace MyShop.Controllers
                         category_name = item.CategoryName,
                         price = item.Price.ToString("C"),
                         discounted_price = item.DiscountedPrice.ToString("C"),
-                        stock = item.StockQuantity
+                        stock = item.StockQuantity,
+                        file_path = "/Uploads/" + item.FilePath
                     };
 
                     products.Add(product);
@@ -216,6 +217,11 @@ namespace MyShop.Controllers
 
             if (product != null)
             {
+                SqlParameter sqlParameter = new SqlParameter("@ProductID", id);
+                var stockStatus = db.Database.SqlQuery<SPGetProductStockStatus>("SPGetProductStockStatus @ProductID", sqlParameter).FirstOrDefault();
+
+                var totalStock = stockStatus == null ? product.StockQuantity : stockStatus.RemainStock;
+
                 var details = new
                 {
                     id = product.ProductID,
@@ -226,7 +232,7 @@ namespace MyShop.Controllers
                     discounted_price = product.DiscountedPrice.ToString("C"),
                     sales_period_start = product.SalesPeriodStartAt.ToString(string.Format("yyyy-MM-dd")),
                     sales_period_end = product.SalesPeriodEndAt.ToString(string.Format("yyyy-MM-dd")),
-                    stock = product.StockQuantity,
+                    stock = ( totalStock >= max_quantity_value ) ? max_quantity_value : totalStock,
                     file_path = "/Uploads/" + product.FilePath
                 };
 
@@ -257,7 +263,8 @@ namespace MyShop.Controllers
                                 name = item.ProductName,
                                 price = item.Price.ToString("C"),
                                 discounted_price = item.DiscountedPrice.ToString("C"),
-                                stock = (item.StockQuantity > 0) ? "In stock" : "Out of stock"
+                                stock = (item.StockQuantity > 0) ? "In stock" : "Out of stock",
+                                file_path = "/Uploads/" + item.FilePath
                             };
 
                             related.Add(relatedProductDetails);
@@ -470,13 +477,17 @@ namespace MyShop.Controllers
                 var orderedItems = new ArrayList();
 
                 var orderParameter = new SqlParameter("@OrderID", currentOrder);
-                var orderDetails = db.Database.SqlQuery<SPSalesDetails>("GetOrderDetailsById @OrderID", orderParameter).ToList();
+                var orderDetails = db.Database.SqlQuery<SPSalesDetails>("SPGetOrderDetailsById @OrderID", orderParameter).ToList();
                 decimal totalAmount = 0;
 
                 if (orderDetails.Count > 0)
                 {
                     foreach (var item in orderDetails)
                     {
+                        SqlParameter sqlParameter = new SqlParameter("@ProductID", item.ProductID);
+                        var stockStatus = db.Database.SqlQuery<SPGetProductStockStatus>("SPGetProductStockStatus @ProductID", sqlParameter).FirstOrDefault();
+                        var totalStock = stockStatus == null ? stockStatus.Stock : stockStatus.RemainStock;
+
                         orderedItems.Add(new
                         {
                             category = item.CategoryName,
@@ -487,7 +498,8 @@ namespace MyShop.Controllers
                             price = item.Price.ToString("C"),
                             sub_total = item.SubTotal.ToString("C"),
                             file_path = "/Uploads/" + item.FilePath,
-                            quantity = item.Quantity
+                            quantity = item.Quantity,
+                            stock = item.Quantity >= totalStock ? item.Quantity : totalStock
                         });
 
                         totalAmount += item.SubTotal;
@@ -504,10 +516,30 @@ namespace MyShop.Controllers
 
         [HttpPost]
         [ActionName("Order")]
+        [ValidateAntiForgeryToken]
         public JsonResult CreateOrder(int ProductID, int Quantity)
         {
             if(ProductID > 0 && Quantity > 0)
             {
+                // Check product status
+                var productInventory = db.products.Where(p => p.ProductID == ProductID).FirstOrDefault();
+
+                // Check if the product is exist
+                if( productInventory != null)
+                {
+                    // Check if the product is out of stock
+                    if( (productInventory.StockQuantity - Quantity) < 0 )
+                    {
+                        Response.StatusCode = (int)HttpStatusCode.OK;
+                        return Json(new { Message = "Sorry, the product is out of stock." });
+                    }
+                }
+                else
+                {
+                    Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    return Json(new { Message = "The product does not exist." });
+                }
+
                 var userID = GetUserId();
                 var currentOrder = db.orders.Where(o => o.OrderStatus == "pending")
                                             .Where(o => o.CustomerID == userID)
@@ -589,12 +621,25 @@ namespace MyShop.Controllers
 
                 if(OrderItem != null)
                 {
-                    OrderItem.Quantity = Quantity;
-                    db.Entry(OrderItem).State = EntityState.Modified;
-                    db.SaveChanges();
+                    SqlParameter sqlParameter = new SqlParameter("@ProductID", OrderItem.ProductID);
+                    var stockStatus = db.Database.SqlQuery<SPGetProductStockStatus>("SPGetProductStockStatus @ProductID", sqlParameter).FirstOrDefault();
+                    var totalStock = stockStatus == null ? stockStatus.Stock : stockStatus.RemainStock;
 
-                    Response.StatusCode = (int)HttpStatusCode.OK;
-                    return Json(new { Message = "Record has been updated." });
+                    if( (totalStock + OrderItem.Quantity - Quantity) >= 0)
+                    {
+                        OrderItem.Quantity = Quantity;
+                        db.Entry(OrderItem).State = EntityState.Modified;
+                        db.SaveChanges();
+
+                        Response.StatusCode = (int)HttpStatusCode.OK;
+                        return Json(new { Status = "SUCCESS", Message = "Record has been updated." });
+                    }
+                    else
+                    {
+                        Response.StatusCode = (int)HttpStatusCode.OK;
+                        return Json(new { Status = "OUT_OF_STOCK", Message = "Sorry, the product is out of stock." });
+                    }
+
                 }
             }
 

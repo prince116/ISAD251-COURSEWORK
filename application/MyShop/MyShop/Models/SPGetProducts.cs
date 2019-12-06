@@ -21,6 +21,13 @@ namespace MyShop.Models
         public string FilePath { get; set; }
     }
 
+    public class SPGetProductStockStatus
+    {
+        public int ProductID { get; set; }
+        public int Stock { get; set; }
+        public int RemainStock { get; set; }
+    }
+
     public class QuerySetting
     {
         public Boolean is_admin { get; set; }

@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyShop.Models
 {
-    [Table("View_Sales")]
+    [Table("ViewSales")]
     public class ViewSales
     {
         [Key]

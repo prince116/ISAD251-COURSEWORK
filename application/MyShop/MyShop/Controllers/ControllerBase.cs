@@ -12,6 +12,8 @@ namespace MyShop.Controllers
     {
         public ApplicationDbContext db = new ApplicationDbContext();
 
+        public int max_quantity_value = 30;
+
         public int GetNoCartItem()
         {
             var userID = User.Identity.GetUserId();

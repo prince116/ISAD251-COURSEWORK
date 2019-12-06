@@ -51,7 +51,7 @@
         <td class="cart__image-wrapper"><a href="{{ product_url }}"><img class="cart__image" src="{{ file_path }}" alt="Image" title="Product Image"></a></td>
         <td class="text-left">
             <div class="cart__product-name"> <a href="{{ product_url }}">{{ product_name }}</a></div>
-            <p><a class="cart__remove" href="javascript:void(0)" data-OrderItemID="{{ product_id }}">Remove</a></p>
+            <p><a class="cart__remove" href="javascript:void(0)" data-OrderItemID="{{ item_id }}">Remove</a></p>
         </td>
         <td class="text-left cart__unit-price">{{ price }}</td>
         <td class="text-center">
@@ -103,15 +103,20 @@
                         Quantity: Quantity
                     },
                     statusCode: {
-                        200: function () {
-                            location.reload();
+                        200: function (response) {
+                            if (response.Status == "SUCCESS") {
+                                location.reload();
+                            } else {
+                                $('#messageModal .modal-body p').text(response.Message)
+                                $('#messageModal').modal('show');
+                            }
                         }
                     }
                 });
 
             })
 
-            $('.cart__remove').click(function () {
+            $('body').on('click', '.cart__remove', function () {
                 var ItemID = $(this).attr('data-OrderItemID');
 
                 deleteOrderedItem(ItemID);
@@ -139,7 +144,7 @@
 
                                 var options = [];
 
-                                for (var i = 1; i < 100; i++) {
+                                for (var i = 1; i <= value.stock; i++) {
                                     options.push({
                                         value: i,
                                         text: i,

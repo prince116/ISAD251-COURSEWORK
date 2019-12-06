@@ -18,9 +18,9 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
                     <li class="@IsCurrentPage("Index", "Home")">@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li class="@IsCurrentPage("Index", "About")">@Html.ActionLink("About", "About", "Home")</li>
+                    <li class="@IsCurrentPage("About", "Home")">@Html.ActionLink("About", "About", "Home")</li>
                     <li class="@IsCurrentPage("Index", "Product")">@Html.ActionLink("Products", "Index", "Product")</li>
-                    <li class="@IsCurrentPage("Index", "Contact")">@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li class="@IsCurrentPage("Contact", "Home")">@Html.ActionLink("Contact", "Contact", "Home")</li>
                     @if( ViewBag.IsAdmin == true )
                     {
                     <li class="@IsCurrentPage("Index", "Sale")">@Html.ActionLink("Product Management", "Products", "Admin")</li>
@@ -72,10 +72,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modal Header</h4>
                 </div>
                 <div class="modal-body">
-                    <p>The item has been added to your shopping cart.</p>
+                    <p><!-- Custom Message--></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

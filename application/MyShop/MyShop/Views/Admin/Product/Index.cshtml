@@ -55,26 +55,30 @@
         var template = $('#template').html();
         Mustache.parse(template);
 
-        $.ajax({
-            url: "/api/Products",
-            method: "get",
-            statusCode: {
-                200: function (response) {
+        function getProducts() {
+            $.ajax({
+                url: "/api/Products",
+                method: "get",
+                statusCode: {
+                    200: function (response) {
 
-                    var rendered = "";;
+                        var rendered = "";;
 
-                    $.each(response.products, function (index, item) {
-                        rendered += Mustache.render(template, {
-                            id: item.product_id,
-                            product_name: item.product_name,
-                            price: item.price,
-                            stock: item.stock,
+                        $.each(response.products, function (index, item) {
+                            rendered += Mustache.render(template, {
+                                id: item.product_id,
+                                product_name: item.product_name,
+                                price: item.price,
+                                stock: item.stock,
+                            });
                         });
-                    });
-                    $('.admin__products-wrapper #product_list').html(rendered);
+                        $('.admin__products-wrapper #product_list').html(rendered);
+                    }
                 }
-            }
-        });
+            });
+        }
+
+        getProducts();
     })
 </script>
 }

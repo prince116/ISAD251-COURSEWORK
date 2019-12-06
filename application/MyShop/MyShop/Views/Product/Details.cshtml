@@ -9,7 +9,7 @@
         <div class="col-xs-12">
             <ol class="breadcrumb">
                 <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                <li>@Html.ActionLink("Product", "Index", "Product")</li>
+                <li>@Html.ActionLink("Products", "Index", "Product")</li>
                 <li class="active">Product Details</li>
             </ol>
         </div>
@@ -18,7 +18,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-6 col-xs-12">
-            <div class="product__thumbnail-wrapper"><img class="img-responsive" src="https://placehold.it/570x570?text=IMAGE" style="width:100%;" alt="Image"></div>
+            <div class="product__thumbnail-wrapper"><img class="img-responsive" src="#" style="width:100%;" alt="Image"></div>
         </div>
         <div class="col-sm-6 col-xs-12">
             <div class="product__details-wrapper">
@@ -28,14 +28,7 @@
                 <div class="product__description"><!-- Product Description--></div>
                 <div class="product__price discounted"><span class="value"><!-- Price --></span></div>
                 <div class="product__discounted-price"> <span class="value"><!-- Discounted Price --></span></div>
-                <div class="product__available-status"> <span class="value">Available: In Stock</span></div>
-                @*<div class="product__name">
-                        <h4>@ViewBag.Details.ProductName</h4>
-                    </div>
-                    <div class="product__description">@ViewBag.Details.ProductDescription</div>
-                    <div class="product__price discounted"><span class="value">$@ViewBag.Details.Price</span></div>
-                    <div class="product__discounted-price"> <span class="value">$@ViewBag.Details.DiscountedPrice</span></div>
-                    <div class="product__available-status"> <span class="value">Available: In Stock</span></div>*@
+                <div class="product__available-status"> <span class="value"><!-- Stock Status --></span></div>
                 @if (Request.IsAuthenticated)
                 {
                     <div class="product__qty">
@@ -47,7 +40,7 @@
                             }
                         </select>
                     </div>
-                    <div class="product__actions"><a class="product__button btn-addToCart" data-ProductID="@ViewBag.Id" data-QuantityDefault="false" href="javascript:void(0)"><span class="glyphicon glyphicon-shopping-cart"></span><span class="text">Add to cart</span></a><a class="product__button" href="javascript:void(0)"><span class="glyphicon glyphicon-heart-empty"></span><span class="text">Add to wishlist</span></a></div>
+                    <div class="product__actions"><a class="product__button btn-addToCart" data-ProductID="@ViewBag.Id" data-QuantityDefault="false" href="javascript:void(0)"><span class="glyphicon glyphicon-shopping-cart"></span><span class="text">Add to cart</span></a>@*<a class="product__button" href="javascript:void(0)"><span class="glyphicon glyphicon-heart-empty"></span><span class="text">Add to wishlist</span></a>*@</div>
 
                 }
             </div>
@@ -61,30 +54,7 @@
         </div>
     </div>
     <div class="row" id="related_products_list">
-        @*@foreach (var item in ViewBag.RelatedProducts)
-        {
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="panel">
-                    <div class="panel-body">
-                        <div class="product__wrapper">
-                            <div class="product__img">
-                                <a href="@Url.Action("Details", "Product", new { id = item.ProductID })"><img class="img-responsive" src="https://placehold.it/570x570?text=IMAGE" style="width:100%;" alt="Image"></a>
-                                <div class="product__action">
-                                    <div class="product__action-left"><a href="javascript:void(0)" class="btn-addToCart" data-ProductID="@item.ProductID" data-QuantityDefault="true" title="Add to cart"> <span class="glyphicon glyphicon-shopping-cart"> </span><span class="text">Add to cart</span></a></div>
-                                    <div class="product__action-right"><a href="javascript:void(0)"> <span class="glyphicon glyphicon-heart-empty"></span></a><a href="@Url.Action("Details", "Product", new { id = item.ProductID })"> <span class="glyphicon glyphicon-new-window"></span></a></div>
-                                </div>
-                            </div>
-                            <div class="product__details">
-                                <p><a href="@Url.Action("Details", "Product", new { id = item.ProductID })">@item.ProductName</a></p>
-                                <p>@item.Price</p>
-                                <p>In stock</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }*@
-
+        <!-- Load related products by JS -->
     </div>
 </div>
 
@@ -94,10 +64,10 @@
             <div class="panel-body">
                 <div class="product__wrapper">
                     <div class="product__img">
-                        <a href="{{ product_url }}"><img class="img-responsive" src="https://placehold.it/570x570?text=IMAGE" style="width:100%;" alt="Image"></a>
+                        <a href="{{ product_url }}"><img class="img-responsive" src="{{ file_path }}" style="width:100%;" alt="{{ product_name }}", title="{{ product_name }}"></a>
                         <div class="product__action">
                             <div class="product__action-left"><a href="javascript:void(0)" class="btn-addToCart" data-ProductID="{{ product_id }}" data-QuantityDefault="true" title="Add to cart"> <span class="glyphicon glyphicon-shopping-cart"> </span><span class="text">Add to cart</span></a></div>
-                            <div class="product__action-right"><a href="javascript:void(0)"> <span class="glyphicon glyphicon-heart-empty"></span></a><a href="{{ product_url }}"> <span class="glyphicon glyphicon-new-window"></span></a></div>
+                            <div class="product__action-right">@*<a href="javascript:void(0)"> <span class="glyphicon glyphicon-heart-empty"></span></a>*@<a href="{{ product_url }}"> <span class="glyphicon glyphicon-new-window"></span></a></div>
                         </div>
                     </div>
                     <div class="product__details">
@@ -111,6 +81,12 @@
     </div>
 </script>
 
+<script id="dropdown" type="x-tmpl-mustache">
+    {{#options}}
+    <option value="{{ value }}">{{ text }}</option>
+    {{/options}}
+</script>
+
 @Html.AntiForgeryToken()
 
 @section Scripts {
@@ -121,7 +97,7 @@
             var template = $('#template').html();
             Mustache.parse(template);
 
-            $('.btn-addToCart').click(function () {
+            $('body').on('click', '.btn-addToCart', function () {
 
                 var _ProductID = $(this).attr('data-ProductID'),
                     _Quantity = ($(this).attr('data-QuantityDefault') == "true") ? 1 : $('select[name="product_quantity"] option:selected').val();
@@ -136,7 +112,8 @@
                     },
                     dataType: "JSON",
                     statusCode: {
-                        200: function () {
+                        200: function (response) {
+                            $('#messageModal .modal-body p').text(response.Message)
                             $('#messageModal').modal('show');
                         }
                     }
@@ -152,23 +129,58 @@
                     },
                     dataType: "json",
                     success: function (response) {
+
+                        var outOfStock = response.product.stock == 0 ? true : false;
+
+                        // Render main products
+                        $(".product__thumbnail-wrapper img").attr('src', response.product.file_path);
                         $(".product__name h4").text(response.product.name);
                         $(".product__description").text(response.product.description);
                         $(".product__price .value").text(response.product.price);
                         $(".product__discounted-price .value").text(response.product.discounted_price);
+                        $(".product__available-status .value").text(outOfStock ? "Status: Out of stock" : "Status: In Stock");
+
+                        if (outOfStock) {
+                            $('.product__qty, .product__actions').hide();
+                        }
+
+                        var dropdown_template = $("#dropdown").html();
+                        Mustache.parse(dropdown_template);
+
+                        var dropdownHtml = "",
+                            options = [];
+
+                        for (var i = 1; i <= response.product.stock; i++) {
+                            options.push({
+                                value: i,
+                                text: i
+                            });
+                        }
+
+                        dropdownHtml = Mustache.render(dropdown_template, {
+                            options: options
+                        });
+
+                        $("#product_quantity").html(dropdownHtml);
+
+                        // Render related products
+                        var template = $('#template').html();
+                        Mustache.parse(template);
 
                         var relatedHtml = "";
 
                         $.each(response.related_product, function (index, value) {
                             relatedHtml += Mustache.render(template, {
+                                product_id: value.id,
                                 product_url: "/Product/Details/" + value.id,
                                 product_name: value.name,
                                 price: value.price,
                                 discounted_price: value.discounted_price,
-                                stock: value.stock
+                                stock: value.stock,
+                                file_path: value.file_path
                             });
                         });
-                        console.log(relatedHtml)
+                        
                         $("#related_products_list").html(relatedHtml);
                     }
                 })

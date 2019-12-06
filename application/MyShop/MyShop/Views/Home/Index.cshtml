@@ -1,33 +1,6 @@
-﻿@model IEnumerable<MyShop.Models.Product>
-
-@{
-    ViewBag.Title = "Home Page";
-}
-
-<div class="container">
+﻿<div class="container">
     <div class="row" id="product_list">
-        @*@foreach (var item in Model)
-        {
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <div class="panel">
-                    <div class="panel-body">
-                        <div class="product__wrapper">
-                            <div class="product__img">
-                                <a href="@Url.Action("Details", "Product", new { id = item.ProductID })"><img class="img-responsive" src="https://placehold.it/570x570?text=IMAGE" alt="Image" title="@Html.DisplayFor(modelItem => item.ProductName)"></a>
-                                <div class="product__action">
-                                    <div class="product__action-left"><a href="#" title="Add to cart"> <span class="glyphicon glyphicon-shopping-cart"> </span><span class="text">Add to cart</span></a></div>
-                                    <div class="product__action-right"><a href="#"> <span class="glyphicon glyphicon-heart-empty"></span></a><a href="@Url.Action("Details", "Product", new { id = item.ProductID })"> <span class="glyphicon glyphicon-new-window"></span></a></div>
-                                </div>
-                            </div>
-                            <div class="product__details">
-                                <p>@Html.DisplayFor(modelItem => item.ProductName)</p>
-                                <p>@Html.DisplayFor(modelItem => item.Price)</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }*@
+        <!-- Load Products by JS -->
     </div>
 </div>
 
@@ -37,10 +10,10 @@
             <div class="panel-body">
                 <div class="product__wrapper">
                     <div class="product__img">
-                        <a href="{{ product_url }}"><img class="img-responsive" src="https://placehold.it/570x570?text=IMAGE" alt="Image" title="{{ product_name }}"></a>
+                        <a href="{{ product_url }}"><img class="img-responsive" src="{{ file_path }}" alt="{{ product_name }}" title="{{ product_name }}"></a>
                         <div class="product__action">
-                            <div class="product__action-left"><a href="#" title="Add to cart"> <span class="glyphicon glyphicon-shopping-cart"> </span><span class="text">Add to cart</span></a></div>
-                            <div class="product__action-right"><a href="#"> <span class="glyphicon glyphicon-heart-empty"></span></a><a href="{{ product_url }}"> <span class="glyphicon glyphicon-new-window"></span></a></div>
+                            <div class="product__action-left"><a href="javascript:void(0)" title="Add to cart" class="btn-addToCart" data-productid="{{ product_id }}" data-quantitydefault="true"> <span class="glyphicon glyphicon-shopping-cart"> </span><span class="text">Add to cart</span></a></div>
+                            <div class="product__action-right">@*<a href="javascript:void(0)"> <span class="glyphicon glyphicon-heart-empty"></span></a>*@<a href="{{ product_url }}"> <span class="glyphicon glyphicon-new-window"></span></a></div>
                         </div>
                     </div>
                     <div class="product__details">
@@ -53,6 +26,8 @@
     </div>
 </script>
 
+@Html.AntiForgeryToken()
+
 @section Scripts{
     @Scripts.Render("~/bundles/mustache")
     <script>
@@ -60,6 +35,28 @@
 
             var template = $('#template').html();
             Mustache.parse(template);
+
+            $('body').on('click', '.btn-addToCart', function () {
+                var _ProductID = $(this).attr('data-ProductID'),
+                    _Quantity = ($(this).attr('data-QuantityDefault') == "true") ? 1 : $('select[name="product_quantity"] option:selected').val();
+
+                $.ajax({
+                    url: "/api/Order",
+                    method: "POST",
+                    data: {
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+                        ProductID: _ProductID,
+                        Quantity: _Quantity
+                    },
+                    dataType: "JSON",
+                    statusCode: {
+                        200: function (response) {
+                            $('#messageModal .modal-body p').text(response.Message)
+                            $('#messageModal').modal('show');
+                        }
+                    }
+                });
+            });
 
             $.ajax({
                 url: "/api/Products",
@@ -71,12 +68,14 @@
 
                         $.each(response.products, function (index, value) {
                             html += Mustache.render(template, {
+                                product_id: value.product_id,
                                 product_url: "/Product/Details/" + value.product_id,
                                 product_name: value.product_name,
-                                price: value.price
+                                price: value.price,
+                                file_path: value.file_path
                             });
                         });
-                        
+
                         $('#product_list').html(html);
                     }
                 }
