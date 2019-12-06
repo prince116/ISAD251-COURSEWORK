@@ -29,7 +29,7 @@
                     <tbody></tbody>
                     <tfoot>
                         <tr>
-                            <td class="text-right" colspan="5"><a class="cart__button" href="#">Empty Cart</a></td>
+                            <td class="text-right" colspan="5"><a class="btn-cancel_order cart__button" href="javascript:void(0)">Cancel Order</a></td>
                         </tr>
                     </tfoot>
                 </table>
@@ -68,10 +68,33 @@
     @Html.AntiForgeryToken()
 }
 
+@using (@Html.BeginForm("CancelOrder", "Order", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "CancelOrderForm" }))
+{
+    @Html.AntiForgeryToken()
+}
+
 @section Scripts {
     @Scripts.Render("~/bundles/mustache")
     <script>
         $(function () {
+
+            $('#CancelOrderForm').submit(function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: "/api/CancelOrder",
+                    method: "DELETE",
+                    data: $(this).serialize(),
+                    statusCode: {
+                        200: function () {
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                        window.location.href = "/";
+                    }
+                });
+            });
 
             $("#CheckoutForm").submit(function (e) {
                 e.preventDefault();
@@ -125,6 +148,13 @@
             $('.btn-checkout').click(function () {
                 $('#CheckoutForm').submit();
             })
+
+            $('.btn-cancel_order').click(function () {
+                var result = confirm("Confirm to cancel the order?");
+                if(result) {
+                    $('#CancelOrderForm').submit();
+                }
+            });
 
             function getOrderedItems() {
 

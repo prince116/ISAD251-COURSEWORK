@@ -714,6 +714,35 @@ namespace MyShop.Controllers
             return Json(new { Message = "Unauthorized." });
         }
 
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        public JsonResult CancelOrder()
+        {
+            var userID = GetUserId();
+
+            if( userID != null)
+            {
+                var currentOrderID = getCurrentOrder(userID);
+
+                var orderItems = db.orderItems.Where(o => o.OrderID == currentOrderID).ToList();
+
+                if (orderItems.Count > 0 )
+                {
+                    foreach(var orderItem in orderItems)
+                    {
+                        db.orderItems.Remove(orderItem);
+                        db.SaveChanges();
+                    }
+
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+                    return Json(new { Status = "SUCCESS", Message = "Your order has been cancelled." });
+                }
+            }
+
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return Json(new { Status = "ERROR" });
+        }
+
         public int getCurrentOrder(string userID)
         {
             var currentOrder = db.orders.Where(o => o.OrderStatus == "pending")
