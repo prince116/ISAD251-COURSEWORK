@@ -75,22 +75,35 @@
     visibility: hidden;
     transition: all .3s ease 0s;
     text-transform: uppercase; }
-    .product__wrapper .product__img .product__action a span.glyphicon {
-      font-size: 20px;
-      font-weight: bold;
-      text-decoration: none; }
-    .product__wrapper .product__img .product__action a span.text {
-      font-size: 13px;
-      font-weight: 500;
-      text-decoration: none;
-      margin-left: 5px; }
-    .product__wrapper .product__img .product__action a:hover {
-      text-decoration: none;
-      color: #e02c2b;
-      transition: all 0.3s ease-out 0s; }
+    .product__wrapper .product__img .product__action button {
+      background: none;
+      color: inherit;
+      border: none;
+      padding: 0;
+      font: inherit;
+      cursor: pointer;
+      outline: inherit; }
+      .product__wrapper .product__img .product__action button:focus {
+        color: #666666; }
+      .product__wrapper .product__img .product__action button span.glyphicon {
+        font-size: 20px;
+        font-weight: bold;
+        text-decoration: none; }
+      .product__wrapper .product__img .product__action button span.text {
+        font-size: 13px;
+        font-weight: 500;
+        text-decoration: none;
+        margin-left: 5px;
+        text-transform: uppercase; }
+      .product__wrapper .product__img .product__action button:hover {
+        text-decoration: none;
+        color: #e02c2b;
+        transition: all 0.3s ease-out 0s; }
 
 .product__wrapper .product__details {
   margin-top: 20px; }
+  .product__wrapper .product__details p:first-child {
+    font-weight: bold; }
 
 .product__thumbnail-wrapper {
   margin: 50px 0; }
@@ -149,6 +162,8 @@
       text-decoration: none;
       background: #2f333a;
       color: #ffffff; }
+    .product__details-wrapper .product__button:focus {
+      outline: none; }
 
 .register__wrapper {
   margin: 50px 0;
@@ -175,6 +190,8 @@
         text-decoration: none;
         background: #ffffff;
         color: #2f333a; }
+      .register__wrapper .register__part .register__button:focus {
+        outline: none; }
 
 .login__wrapper {
   margin: 50px 0;
@@ -216,6 +233,8 @@
         text-decoration: none;
         background: #2f333a;
         color: #ffffff; }
+      .login__wrapper .login__part .login__button:focus {
+        outline: none; }
 
 .registration__wrapper {
   margin: 50px auto;
@@ -239,6 +258,8 @@
       text-decoration: none;
       background: #2f333a;
       color: #ffffff; }
+    .registration__wrapper .registration__button:focus {
+      outline: none; }
   .registration__wrapper .registration__input-field {
     width: 100%;
     outline: none;
@@ -315,6 +336,8 @@
       text-decoration: none;
       background: #2f333a;
       color: #ffffff; }
+    .contact__wrapper .contact__button:focus {
+      outline: none; }
 
 h1.custom-title {
   text-align: center;
@@ -405,6 +428,8 @@ h1.custom-title {
     text-decoration: none;
     background: #2f333a;
     color: #ffffff; }
+  .cart__button:focus {
+    outline: none; }
 
 .cart__footer {
   margin: 25px 0; }
@@ -542,9 +567,20 @@ h1.custom-title {
       text-decoration: none;
       background: #2f333a;
       color: #ffffff; }
+    .admin__products-wrapper .btn-create:focus {
+      outline: none; }
   .admin__products-wrapper .btn-action {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
     font-size: 16px;
     margin: 0 5px; }
+    .admin__products-wrapper .btn-action:focus {
+      color: #666666; }
 
 .admin__pagination-wrapper .pagination > li > a,
 .admin__pagination-wrapper .pagination > li > span {
@@ -593,13 +629,27 @@ h1.custom-title {
       text-decoration: none;
       background: #2f333a;
       color: #ffffff; }
+    .admin__footer-button-wrapper .btn-create:focus,
+    .admin__footer-button-wrapper .btn-save:focus,
+    .admin__footer-button-wrapper .btn-delete:focus,
+    .admin__footer-button-wrapper .btn-back:focus {
+      outline: none; }
 
 footer {
   background-color: #f2f2f2;
   padding: 25px; }
 
-#checkoutModal .modal-body a {
+#checkoutModal .modal-body button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
   font-size: 72px; }
+  #checkoutModal .modal-body button:focus {
+    color: #666666; }
 
 #checkoutModal .modal-body .table-selection {
   display: none; }

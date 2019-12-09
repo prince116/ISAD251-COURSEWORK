@@ -12,6 +12,8 @@ namespace MyShop.Controllers
         // GET: Product
         public ActionResult Index()
         {
+            ViewBag.Title = "Product";
+
             return View();
         }
 
@@ -23,6 +25,7 @@ namespace MyShop.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.Title = "Product";
             ViewBag.Id = id;
             return View();
         }

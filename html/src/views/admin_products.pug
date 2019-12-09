@@ -21,7 +21,7 @@ block content
                     .admin__group
                         .admin__heading Product Management
                     .admin__group
-                        a.btn.btn-default.btn-create(href="./admin_product_create.html", title="Create Product") Create Product
+                        button.btn-create(onclick="window.location.href = './admin_product_create.html'", title="Create Product") Create Product
         .row                    
             .col-xs-12
                 .admin__products-wrapper
@@ -35,11 +35,11 @@ block content
                                     .admin__text Stock: 100
                                 .admin__sub-group.right
                                     .admin__text.text-right
-                                        a.btn-action(href="./admin_order_details.html", title="Product Details")
+                                        button.btn-action(type="button", onclick="window.location.href = './admin_product_details.html'", title="Product Details")
                                             span.glyphicon.glyphicon-list
-                                        a.btn-action(href="./admin_order_edit.html", title="Edit Product")
+                                        button.btn-action(type="button", onclick="window.location.href = './admin_product_edit.html'", title="Edit Product")
                                             span.glyphicon.glyphicon-edit
-                                        a.btn-action(href="./admin_order_delete.html", title="Delete Product")
+                                        button.btn-action(type="button", onclick="window.location.href = './admin_product_delete.html'", title="Delete Product")
                                             span.glyphicon.glyphicon-trash
                         - }
                 .admin__pagination-wrapper

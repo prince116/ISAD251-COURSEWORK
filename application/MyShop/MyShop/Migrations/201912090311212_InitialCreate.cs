@@ -3,7 +3,7 @@ namespace MyShop.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class InitialCreate : DbMigration
     {
         public override void Up()
         {
@@ -46,6 +46,8 @@ namespace MyShop.Migrations
                         CustomerID = c.String(),
                         OrderStatus = c.String(),
                         OrderDate = c.DateTime(nullable: false),
+                        DeliveryType = c.String(),
+                        TableNo = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.OrderID);
             
@@ -176,11 +178,11 @@ namespace MyShop.Migrations
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
-            DropTable("dbo.Contacts");
-            DropTable("dbo.OrderItems");
-            DropTable("dbo.Orders");
             DropTable("dbo.ProductCategories");
             DropTable("dbo.Products");
+            DropTable("dbo.Orders");
+            DropTable("dbo.OrderItems");
+            DropTable("dbo.Contacts");
         }
     }
 }

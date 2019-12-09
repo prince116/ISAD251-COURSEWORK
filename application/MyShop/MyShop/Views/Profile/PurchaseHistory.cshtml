@@ -2,8 +2,8 @@
     <div class="row">
         <div class="col-xs-12">
             <ol class="breadcrumb">
-                <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                <li>@Html.ActionLink("Profile", "Index", "Profile")</li>
+                <li>@Html.ActionLink("Home", "Index", "Home", new { title = "Home" })</li>
+                <li>@Html.ActionLink("Account", "Index", "Profile", new { title = "Account" })</li>
                 <li class="active">Purchase History</li>
             </ol>
         </div>
@@ -22,23 +22,23 @@
                             <th class="text-right">Total</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody><!-- Load Records By JS --></tbody>
                 </table>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <div class="cart__button-wrapper"><a class="cart__button" href="@Url.Action("Index", "Profile")">Back</a></div>
+            <div class="cart__button-wrapper"><a class="cart__button" href="@Url.Action("Index", "Profile")" title="Go Back">Back</a></div>
         </div>
     </div>
 </div>
 
 <script id="template" type="x-tmpl-mustache">
     <tr>
-        <td class="cart__image-wrapper"><a href="{{ product_url }}"><img class="cart__image" src="{{ file_path }}" alt="Image" title="{{ product_name }}"></a></td>
+        <td class="cart__image-wrapper"><a href="{{ product_url }}" title="Visit Product Details"><img class="cart__image" src="{{ file_path }}" alt="{{ product_name }}" title="{{ product_name }}"></a></td>
         <td class="text-left">
-            <div class="cart__product-name"> <a href="{{ product_url }}">{{ product_name }}</a></div>
+            <div class="cart__product-name"> <a href="{{ product_url }}" title="Visit Product Details">{{ product_name }}</a></div>
         </td>
         <td class="text-left cart__unit-price">{{ price }}</td>
         <td class="text-center">{{ quantity }}</td>

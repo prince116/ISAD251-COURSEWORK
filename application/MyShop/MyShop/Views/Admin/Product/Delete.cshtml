@@ -105,7 +105,7 @@
                 dataType: "json",
                 statusCode: {
                     200: function (response) {
-                        console.log(response)
+                        
                         $('.admin__value[data-label="product_name"]').text(response.product.name);
                         $('.admin__value[data-label="product_category"]').text(response.product.category);
                         $('.admin__value[data-label="product_description"]').text(response.product.description);

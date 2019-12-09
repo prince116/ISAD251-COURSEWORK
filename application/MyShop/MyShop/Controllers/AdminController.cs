@@ -59,18 +59,6 @@ namespace MyShop.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public JsonResult CreateProduct(FormCollection formCollection)
-        {
-
-            string ProductName = Convert.ToString(formCollection["ProductName"]);
-
-            Response.StatusCode = (int)HttpStatusCode.OK;
-            
-            return Json(new { ProductName });
-        }
-
         [HttpGet]
         public ActionResult Order(int? id)
         {

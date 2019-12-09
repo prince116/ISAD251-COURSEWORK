@@ -55,8 +55,8 @@ block content
                         tfoot
                             tr
                                 td.text-right(colspan="5")
-                                    a.cart__button(href="#") Empty Cart
-                                    a.cart__button(href="#") Update Cart
+                                    button.cart__button Empty Cart
+                                    button.cart__button Update Cart
 
         
         .row
@@ -66,7 +66,7 @@ block content
                         span.cart__total-title Total
                         span.cart__total $800.00
                     .cart__checkout-wrapper.text-center
-                        a.cart__button(href="javascript:void(0)", data-toggle="modal", data-target="#checkoutModal") Proceed to Checkout
+                        button.cart__button(data-toggle="modal", data-target="#checkoutModal") Proceed to Checkout
 
     #checkoutModal.modal.fade(role="dialog")
         .modal-dialog
@@ -76,11 +76,11 @@ block content
                 .modal-body
                     .row
                         .col-xs-6.text-center
-                            a.btn-option(href="javascript:void(0)", data-value="eathere")
+                            button.btn-option(data-value="eathere")
                                 span.glyphicon.glyphicon-cutlery
                             p Eat Here
                         .col-xs-6.text-center
-                            a.btn-option(href="javascript:void(0)", data-value="takeaway")
+                            button.btn-option(data-value="takeaway")
                                 span.glyphicon.glyphicon-glass
                             p Take Away
                     .row.table-selection

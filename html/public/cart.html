@@ -75,7 +75,10 @@
               </tbody>
               <tfoot>
                 <tr>
-                  <td class="text-right" colspan="5"><a class="cart__button" href="#">Empty Cart</a><a class="cart__button" href="#">Update Cart</a></td>
+                  <td class="text-right" colspan="5">
+                    <button class="cart__button">Empty Cart</button>
+                    <button class="cart__button">Update Cart</button>
+                  </td>
                 </tr>
               </tfoot>
             </table>
@@ -86,7 +89,9 @@
         <div class="col-xs-12">
           <div class="cart__footer text-right">
             <div class="cart__total-wrapper"><span class="cart__total-title">Total</span><span class="cart__total">$800.00</span></div>
-            <div class="cart__checkout-wrapper text-center"><a class="cart__button" href="javascript:void(0)" data-toggle="modal" data-target="#checkoutModal">Proceed to Checkout</a></div>
+            <div class="cart__checkout-wrapper text-center">
+              <button class="cart__button" data-toggle="modal" data-target="#checkoutModal">Proceed to Checkout</button>
+            </div>
           </div>
         </div>
       </div>
@@ -99,10 +104,12 @@
           </div>
           <div class="modal-body">
             <div class="row">
-              <div class="col-xs-6 text-center"><a class="btn-option" href="javascript:void(0)" data-value="eathere"><span class="glyphicon glyphicon-cutlery"></span></a>
+              <div class="col-xs-6 text-center">
+                <button class="btn-option" data-value="eathere"><span class="glyphicon glyphicon-cutlery"></span></button>
                 <p>Eat Here</p>
               </div>
-              <div class="col-xs-6 text-center"><a class="btn-option" href="javascript:void(0)" data-value="takeaway"><span class="glyphicon glyphicon-glass"></span></a>
+              <div class="col-xs-6 text-center">
+                <button class="btn-option" data-value="takeaway"><span class="glyphicon glyphicon-glass"></span></button>
                 <p>Take Away</p>
               </div>
             </div>

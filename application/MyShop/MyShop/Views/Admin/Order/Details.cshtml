@@ -15,11 +15,6 @@
     </div>
 </div>
 <div class="container">
-    @*<div class="row">
-            <div class="col-xs-12">
-                <h1 class="custom-title">Order No. : @ViewBag.OrderID</h1>
-            </div>
-        </div>*@
     <div class="row">
         <div class="col-xs-12">
             <div class="cart__wrapper">
@@ -46,7 +41,7 @@
 
 <script id="template" type="x-tmpl-mustache">
     <tr>
-        <td class="cart__image-wrapper"><a href="{{ product_url }}"><img class="cart__image" src="{{ file_path }}" alt="Image" title="{{ product_name }}"></a></td>
+        <td class="cart__image-wrapper"><a href="{{ product_url }}"><img class="cart__image" src="{{ file_path }}" alt="{{ product_name }}" title="{{ product_name }}"></a></td>
         <td class="text-left">
             <div class="cart__product-name"> <a href="{{ product_url }}">{{ product_name }}</a></div>
         </td>

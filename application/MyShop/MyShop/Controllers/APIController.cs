@@ -438,7 +438,7 @@ namespace MyShop.Controllers
 
             if( userID != null)
             {
-                var orders = (IsAdmin()) ? db.viewSales.Where(s => s.OrderStatus != "pending").OrderByDescending(s => s.OrderID).ToList() : db.viewSales.Where(s => s.CustomerID == userID).Where(s => s.OrderStatus == "pending").OrderByDescending(s => s.OrderID).ToList();
+                var orders = (IsAdmin()) ? db.viewSales.Where(s => s.OrderStatus != "checkout").OrderByDescending(s => s.OrderID).ToList() : db.viewSales.Where(s => s.CustomerID == userID).Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList();
                 
                 var records = new ArrayList();
 

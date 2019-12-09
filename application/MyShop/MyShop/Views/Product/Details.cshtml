@@ -1,10 +1,4 @@
-﻿@model MyShop.Models.Product
-
-@{
-    ViewBag.Title = "Product";
-}
-
-<div class="container">
+﻿<div class="container">
     <div class="row">
         <div class="col-xs-12">
             <ol class="breadcrumb">
@@ -34,13 +28,10 @@
                     <div class="product__qty">
                         <label for="product_quantity">Quantity: </label>
                         <select class="form-control" name="product_quantity" id="product_quantity" style="width:auto">
-                            @for (var qty = 1; qty < 100; qty++)
-                            {
-                                <option value="@qty">@qty</option>
-                            }
+                            <!-- Option render by JS -->
                         </select>
                     </div>
-                    <div class="product__actions"><a class="product__button btn-addToCart" data-ProductID="@ViewBag.Id" data-QuantityDefault="false" href="javascript:void(0)"><span class="glyphicon glyphicon-shopping-cart"></span><span class="text">Add to cart</span></a>@*<a class="product__button" href="javascript:void(0)"><span class="glyphicon glyphicon-heart-empty"></span><span class="text">Add to wishlist</span></a>*@</div>
+                    <div class="product__actions"><button type="button" class="product__button btn-addToCart" data-ProductID="@ViewBag.Id" data-QuantityDefault="false" aria-label="Add to cart"><span class="glyphicon glyphicon-shopping-cart"></span><span class="text">Add to cart</span></button></div>
 
                 }
             </div>
@@ -66,8 +57,8 @@
                     <div class="product__img">
                         <a href="{{ product_url }}"><img class="img-responsive" src="{{ file_path }}" style="width:100%;" alt="{{ product_name }}", title="{{ product_name }}"></a>
                         <div class="product__action">
-                            <div class="product__action-left"><a href="javascript:void(0)" class="btn-addToCart" data-ProductID="{{ product_id }}" data-QuantityDefault="true" title="Add to cart"> <span class="glyphicon glyphicon-shopping-cart"> </span><span class="text">Add to cart</span></a></div>
-                            <div class="product__action-right">@*<a href="javascript:void(0)"> <span class="glyphicon glyphicon-heart-empty"></span></a>*@<a href="{{ product_url }}"> <span class="glyphicon glyphicon-new-window"></span></a></div>
+                            <div class="product__action-left"><button type="button" class="btn-addToCart" data-ProductID="{{ product_id }}" data-QuantityDefault="true" title="Add to cart"> <span class="glyphicon glyphicon-shopping-cart"> </span><span class="text">Add to cart</span></button></div>
+                            <div class="product__action-right"><button type="button" class="btn-details" data-url="{{ product_url }}"> <span class="glyphicon glyphicon-new-window"></span></button></div>
                         </div>
                     </div>
                     <div class="product__details">
@@ -96,6 +87,10 @@
 
             var template = $('#template').html();
             Mustache.parse(template);
+
+            $('body').on('click', '.btn-details', function () {
+                window.location.href = $(this).attr('data-url');
+            });
 
             $('body').on('click', '.btn-addToCart', function () {
 

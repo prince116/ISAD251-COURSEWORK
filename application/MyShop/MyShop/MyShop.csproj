@@ -184,7 +184,6 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\APIController.cs" />
@@ -197,29 +196,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\IdentityHelper.cs" />
-    <Compile Include="Migrations\201912040817155_Initial.cs" />
-    <Compile Include="Migrations\201912040817155_Initial.Designer.cs">
-      <DependentUpon>201912040817155_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201912050311578_AddView_SalesDetails.cs" />
-    <Compile Include="Migrations\201912050311578_AddView_SalesDetails.Designer.cs">
-      <DependentUpon>201912050311578_AddView_SalesDetails.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201912050331342_Add_SP_ViewSalesDetails.cs" />
-    <Compile Include="Migrations\201912050331342_Add_SP_ViewSalesDetails.Designer.cs">
-      <DependentUpon>201912050331342_Add_SP_ViewSalesDetails.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201912050408216_Update_SP_ViewSalesDetails.cs" />
-    <Compile Include="Migrations\201912050408216_Update_SP_ViewSalesDetails.Designer.cs">
-      <DependentUpon>201912050408216_Update_SP_ViewSalesDetails.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201912051543352_UpdateViews.cs" />
-    <Compile Include="Migrations\201912051543352_UpdateViews.Designer.cs">
-      <DependentUpon>201912051543352_UpdateViews.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201912061514107_AddDeliveryType.cs" />
-    <Compile Include="Migrations\201912061514107_AddDeliveryType.Designer.cs">
-      <DependentUpon>201912061514107_AddDeliveryType.cs</DependentUpon>
+    <Compile Include="Migrations\201912090311212_InitialCreate.cs" />
+    <Compile Include="Migrations\201912090311212_InitialCreate.Designer.cs">
+      <DependentUpon>201912090311212_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -376,7 +355,6 @@
     <Content Include="Views\Profile\PurchaseHistory.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\AdminProduct.cshtml" />
     <Content Include="Views\Admin\Product\Index.cshtml" />
     <Content Include="Views\Admin\Product\Details.cshtml" />
     <Content Include="Views\Admin\Product\Edit.cshtml" />
@@ -385,7 +363,6 @@
     <Content Include="Views\Home\ThankYou.cshtml" />
     <Content Include="Views\Admin\Order\index.cshtml" />
     <Content Include="Views\Admin\Order\Details.cshtml" />
-    <Content Include="Views\Home\Users.cshtml" />
     <Content Include="Views\Shared\404NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -406,27 +383,12 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201912040817155_Initial.resx">
-      <DependentUpon>201912040817155_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201912050311578_AddView_SalesDetails.resx">
-      <DependentUpon>201912050311578_AddView_SalesDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201912050331342_Add_SP_ViewSalesDetails.resx">
-      <DependentUpon>201912050331342_Add_SP_ViewSalesDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201912050408216_Update_SP_ViewSalesDetails.resx">
-      <DependentUpon>201912050408216_Update_SP_ViewSalesDetails.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201912051543352_UpdateViews.resx">
-      <DependentUpon>201912051543352_UpdateViews.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201912061514107_AddDeliveryType.resx">
-      <DependentUpon>201912061514107_AddDeliveryType.cs</DependentUpon>
-    </EmbeddedResource>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <EmbeddedResource Include="Migrations\201912090311212_InitialCreate.resx">
+      <DependentUpon>201912090311212_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

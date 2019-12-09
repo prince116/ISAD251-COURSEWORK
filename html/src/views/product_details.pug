@@ -34,23 +34,16 @@ block content
                     .product__available-status 
                         span.value Available: In Stock
                     .product__qty
-                        //- a.btn-qty-plus(href="javascript:void(0)")
-                        //-     span.glyphicon.glyphicon-minus-sign
-                        //- input.form-control(type="tel", name="quantiy", value="0")
-                        //- a.btn-qty-minus(href="javascript:void(0)")
-                        //-     span.glyphicon.glyphicon-plus-sign
                         label(for="product_quantity") Quantity: 
                         select.form-control(name="product_quantity", id="product_quantity", style="width:auto")
                             - for(var n = 1; n < 100; n++){
                                 option(value=n) #{n}
-                            - }
-                        //- input(type="number", name="product_quantity", value="1", min="1")
-                        
+                            - }                        
                     .product__actions
-                        a.product__button(href="javascript:void(0)")
+                        button.product__button
                             span.glyphicon.glyphicon-shopping-cart
                             span.text Add to cart
-                        a.product__button(href="javascript:void(0)")
+                        button.product__button
                             span.glyphicon.glyphicon-heart-empty
                             span.text Add to wishlist
 
@@ -70,13 +63,13 @@ block content
                                     img.img-responsive(src="https://placehold.it/570x570?text=IMAGE", style="width:100%;", alt="Image")
                                 .product__action
                                     .product__action-left
-                                        a(href="#", title="Add to cart") 
+                                        button(href="#", title="Add to cart", aria-label="Add to cart") 
                                             span.glyphicon.glyphicon-shopping-cart 
                                             span.text Add to cart
                                     .product__action-right
-                                        a(href="#") 
+                                        button(href="#", title="Add to wishlist", aria-label="Add to wishlist") 
                                             span.glyphicon.glyphicon-heart-empty
-                                        a(href="./product_details.html") 
+                                        button(href="./product_details.html", title="Product Details", aria-label="Product Details") 
                                             span.glyphicon.glyphicon-new-window
                             .product__details
                                 p Product Name

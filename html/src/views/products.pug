@@ -44,13 +44,13 @@ block content
                                     img.img-responsive(src="https://placehold.it/150x150?text=IMAGE", style="width:100%;", alt="Image")
                                 .product__action
                                     .product__action-left
-                                        a(href="#", title="Add to cart") 
+                                        button(href="#", title="Add to cart", aria-label="Add to cart") 
                                             span.glyphicon.glyphicon-shopping-cart 
                                             span.text Add to cart
                                     .product__action-right
-                                        a(href="#") 
+                                        button(href="#", title="Add to wishlist", aria-label="Add to wishlist") 
                                             span.glyphicon.glyphicon-heart-empty
-                                        a(href="./product_details.html") 
+                                        button(href="./product_details.html", title="Product Details", aria-label="Product Details") 
                                             span.glyphicon.glyphicon-new-window
                             .product__details
                                 p Product Name
