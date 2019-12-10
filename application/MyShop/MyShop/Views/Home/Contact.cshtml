@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="contact__wrapper">
-                @using (Html.BeginForm("", "api/Contact", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "ContactForm", name="ContactForm" }))
+                @using (Html.BeginForm("", "api/Contact", FormMethod.Post, new { @class = "form-horizontal", @id = "ContactForm", name="ContactForm" }))
                 {
                     @Html.AntiForgeryToken();
                     @Html.ValidationSummary("", new { @class = "text-danger" })

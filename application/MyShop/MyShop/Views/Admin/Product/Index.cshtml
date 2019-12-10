@@ -35,7 +35,7 @@
 </div>
 
 <script id="template" type="x-tmpl-mustache">
-    <div class="admin__record">
+    <div class="admin__record" data-product_id="{{ id }}">
         <div class="admin__sub-group left">
             <div class="admin__text"><b>{{ product_name }}</b></div>
             <div class="admin__text">Price: {{ price }}</div>
@@ -54,6 +54,14 @@
 
         var template = $('#template').html();
         Mustache.parse(template);
+
+        $('body').on('click', '.admin__record', function (e) {
+            e.isPropagationStopped();
+
+            var _Id = $(this).attr('data-product_id');
+
+            window.location.href = "/Admin/Product/" + _Id + "/?act=details";
+        })
 
         function getProducts() {
             $.ajax({

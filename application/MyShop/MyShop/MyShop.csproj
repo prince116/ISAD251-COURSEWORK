@@ -367,6 +367,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="img\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>

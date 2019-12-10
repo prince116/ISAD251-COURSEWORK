@@ -128,6 +128,20 @@ namespace MyShop.Migrations
                     CreatedAt = DateTime.Now,
                     LastModifiedAt = DateTime.Now,
                     FilePath = "sample.png"
+                },
+                new Product{
+                    ProductID = 8,
+                    ProductName = "Columbia Coffee",
+                    CategoryID = 2,
+                    Price = 122,
+                    DiscountedPrice = 100,
+                    ProductDescription = "Colombian coffee is renowned the world over for its quality and delicious taste; in fact, along with a couple of other countries, Colombia¡¦s coffee is generally seen as some of the best in the world.",
+                    SalesPeriodStartAt = DateTime.Parse("2017-06-06"),
+                    SalesPeriodEndAt = DateTime.Parse("2021-06-15"),
+                    StockQuantity = 20,
+                    CreatedAt = DateTime.Now,
+                    LastModifiedAt = DateTime.Now,
+                    FilePath = "colombia-coffee.png"
                 }
             };
 

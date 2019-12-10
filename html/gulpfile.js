@@ -64,7 +64,7 @@ gulp.task('js', function() {
 gulp.task('img', function() {
     return gulp.src(['./src/img/**/*', '*!README.md'])
         .pipe(changed('./public/img')) // Ignore unchanged files
-        // .pipe(imagemin()) // Optimize
+        .pipe(imagemin()) // Optimize
         .pipe(gulp.dest('./public/img'))
 });
 

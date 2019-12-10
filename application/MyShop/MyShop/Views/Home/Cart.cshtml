@@ -125,12 +125,12 @@
     </tr>
 </script>
 
-@using (@Html.BeginForm("Checkout", "Order", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "CheckoutForm" }))
+@using (@Html.BeginForm("Checkout", "Order", FormMethod.Post, new { @class = "form-horizontal", id = "CheckoutForm" }))
 {
     @Html.AntiForgeryToken()
 }
 
-@using (@Html.BeginForm("CancelOrder", "Order", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "CancelOrderForm" }))
+@using (@Html.BeginForm("CancelOrder", "Order", FormMethod.Post, new { @class = "form-horizontal", id = "CancelOrderForm" }))
 {
     @Html.AntiForgeryToken()
 }

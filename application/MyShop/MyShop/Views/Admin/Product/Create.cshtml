@@ -120,8 +120,10 @@
                     cache: false,
                     contentType: false,
                     processData: false,
-                    success: function (data) {
-                        console.log(data.UploadedFileCount + ' file(s) uploaded successfully');
+                    statusCode: {
+                        201: function(){
+                            window.location.href = "/admin/products";
+                        }
                     },
                     error: function(xhr, error, status) {
                         console.log(error, status);
