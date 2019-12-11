@@ -36,10 +36,11 @@
 
 <script id="template" type="x-tmpl-mustache">
     <div class="admin__record" data-product_id="{{ id }}">
-        <div class="admin__sub-group left">
+        <div class="admin__sub-group left"><img src="{{ file_path }}" alt="{{ product_name }}" title="{{ product_name }}"></div>
+        <div class="admin__sub-group middle">
             <div class="admin__text"><b>{{ product_name }}</b></div>
             <div class="admin__text">Price: {{ price }}</div>
-            <div class="admin__text">Stock: {{ stock }}</div>
+            <div class="admin__text">Last modified at: {{ last_modifited_at }}</div>
         </div>
         <div class="admin__sub-group right">
             <div class="admin__text text-right"><a class="btn-action" href="/Admin/Product/{{ id }}/?act=details"><span class="glyphicon glyphicon-list"></span></a><a class="btn-action" href="/Admin/Product/{{ id }}/?act=edit"><span class="glyphicon glyphicon-edit"></span></a><a class="btn-action" href="/Admin/Product/{{ id }}/?act=delete"><span class="glyphicon glyphicon-trash"></span></a></div>
@@ -67,6 +68,9 @@
             $.ajax({
                 url: "/api/Products",
                 method: "get",
+                data: {
+                    is_admin_panel: true
+                },
                 statusCode: {
                     200: function (response) {
 
@@ -78,6 +82,8 @@
                                 product_name: item.product_name,
                                 price: item.price,
                                 stock: item.stock,
+                                file_path: item.file_path,
+                                last_modifited_at: item.last_modifited_at
                             });
                         });
                         $('.admin__products-wrapper #product_list').html(rendered);

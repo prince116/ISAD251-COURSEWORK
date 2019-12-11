@@ -52,7 +52,12 @@
                     </div>
                     <div class="product__details">
                         <p><a href="{{ product_url }}" target="_blank" title="Visit Product Details">{{ product_name }}</a></p>
-                        <p>{{ price }}</p>
+                        <p>
+                            <span {{#show_discount}} class="line_through" {{/show_discount}}>{{ price }}</span>
+                            {{#show_discount}}
+                            <span class="discounted_price">{{ discounted_price }}</span>
+                            {{/show_discount}}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -133,7 +138,9 @@
                                     product_url: "/Product/Details/" + value.product_id,
                                     product_name: value.product_name,
                                     price: value.price,
-                                    file_path: value.file_path
+                                    discounted_price: value.discounted_price,
+                                    file_path: value.file_path,
+                                    show_discount: value.discount
                                 });
                             });
 

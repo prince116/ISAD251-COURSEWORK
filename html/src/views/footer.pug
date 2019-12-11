@@ -1,2 +1,23 @@
 footer.container-fluid.text-center
-	p Cake Shop Copyright
+	//- p Cake Shop Copyright
+	.container.myfooter
+		.row
+			.col-xs-12.myfooter__top-inner
+				p
+					h2 Prince Cafe
+				p.quote "Our local baristas know that great espresso takes more than pushing a button. We work hard to deliver great taste while also providing knowledgeable service, perfect if you just want to try something new."
+
+				p
+					h3 Store
+				p.address ABC Building, Central, Hong Kong
+
+		.row
+			.col-xs-12.text-center
+				.myfooter__content
+					a.myfooter__link(href="./") Home
+					a.myfooter__link(href="./about.html") About
+					a.myfooter__link(href="./products.html") Products
+					a.myfooter__link(href="./contact.html") Contact		
+			.col-xs-12.text-center
+				.myfooter__copyright
+					p &copy; Copyright 2019 - All Rights Reserved

@@ -65,9 +65,11 @@ namespace MyShop.Models
         [DisplayName("Thumbnail")]
         public string FilePath { get; set; }
 
+        [DisplayName("Publish")]
+        [DefaultValue(true)]
+        public int IsPublish { get; set; }
+
         public virtual ICollection<OrderItem> OrderItems { get; set; }
         public virtual ProductCategory ProductCategories { get; set; }
-
-        public Product product { get; set; }
     }
 }

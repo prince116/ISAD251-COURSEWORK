@@ -19,6 +19,7 @@ namespace MyShop.Models
         public decimal DiscountedPrice { get; set; }
         public int StockQuantity { get; set; }
         public string FilePath { get; set; }
+        public DateTime LastModifiedAt { get; set; }
     }
 
     public class SPGetProductStockStatus
@@ -36,5 +37,6 @@ namespace MyShop.Models
         public Boolean query_by_category { get; set; }
         public string keywords { get; set; }
         public int category_id { get; set; }
+        public Boolean is_admin_panel { get; set; }
     }
 }

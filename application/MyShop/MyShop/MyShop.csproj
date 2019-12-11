@@ -196,9 +196,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\IdentityHelper.cs" />
-    <Compile Include="Migrations\201912090311212_InitialCreate.cs" />
-    <Compile Include="Migrations\201912090311212_InitialCreate.Designer.cs">
-      <DependentUpon>201912090311212_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201912110841327_InitialCreate.cs" />
+    <Compile Include="Migrations\201912110841327_InitialCreate.Designer.cs">
+      <DependentUpon>201912110841327_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -262,7 +262,7 @@
     </Compile>
     <Compile Include="Models\RoleNames.cs" />
     <Compile Include="Models\SPGetProducts.cs" />
-    <Compile Include="Models\ViewSales.cs" />
+    <Compile Include="ViewModels\ViewSales.cs" />
     <Compile Include="Models\SPSalesDetails.cs" />
     <Compile Include="Models\View_Sales.cs">
       <DependentUpon>MyShop.tt</DependentUpon>
@@ -272,9 +272,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="ViewModels\OrderHistory.cs" />
-    <Compile Include="ViewModels\ProductViewModels.cs" />
-    <Compile Include="ViewModels\RolesViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -387,8 +384,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201912090311212_InitialCreate.resx">
-      <DependentUpon>201912090311212_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201912110841327_InitialCreate.resx">
+      <DependentUpon>201912110841327_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

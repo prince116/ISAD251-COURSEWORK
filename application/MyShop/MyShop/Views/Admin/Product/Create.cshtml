@@ -28,6 +28,16 @@
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <table class="table">
                                 <tr>
+                                    <td class="admin__label">@Html.DisplayNameFor(model => model.IsPublish)</td>
+                                    <td class="admin__value">
+                                        @Html.RadioButtonFor(model => model.IsPublish, 1, new { id = "yes", @checked = true })
+                                        @Html.Label("yes", "Yes")
+
+                                        @Html.RadioButtonFor(model => model.IsPublish, 0, new { id = "no" })
+                                        @Html.Label("no", "No")
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td class="admin__label">@Html.DisplayNameFor(model => model.ProductName)</td>
                                     <td class="admin__value">
                                         @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })

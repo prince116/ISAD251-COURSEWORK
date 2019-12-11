@@ -35,7 +35,7 @@ block content
     .container 
         .row
             - for( var count = 0; count < 18; count++){
-            .col-md-3.col-sm-6.col-xs-12
+            .col-md-4.col-sm-6.col-xs-12
                 .panel
                     .panel-body
                         .product__wrapper
@@ -45,15 +45,17 @@ block content
                                 .product__action
                                     .product__action-left
                                         button(href="#", title="Add to cart", aria-label="Add to cart") 
-                                            span.glyphicon.glyphicon-shopping-cart 
+                                            //- span.glyphicon.glyphicon-shopping-cart 
                                             span.text Add to cart
                                     .product__action-right
-                                        button(href="#", title="Add to wishlist", aria-label="Add to wishlist") 
-                                            span.glyphicon.glyphicon-heart-empty
+                                        //- button(href="#", title="Add to wishlist", aria-label="Add to wishlist") 
+                                        //-     span.glyphicon.glyphicon-heart-empty
                                         button(href="./product_details.html", title="Product Details", aria-label="Product Details") 
                                             span.glyphicon.glyphicon-new-window
                             .product__details
                                 p Product Name
-                                p $100.00
+                                p
+                                    span.line_through $100.00
+                                    span.discounted_price $50.00
                                 p In stock
             - }

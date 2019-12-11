@@ -67,10 +67,12 @@ namespace MyShop.Controllers
             if( page == "details")
             {
                 ViewBag.Id = id;
+                ViewBag.Title = "Order Details";
                 return View("~/Views/Admin/Order/Details.cshtml");
             }
             else
             {
+                ViewBag.Title = "Orders";
                 return View("~/Views/Admin/Order/Index.cshtml");
             }
         }

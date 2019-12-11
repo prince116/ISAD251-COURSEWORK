@@ -57,14 +57,18 @@
                     <div class="product__img">
                         <a href="{{ product_url }}"><img class="img-responsive" src="{{ file_path }}" style="width:100%;" alt="{{ product_name }}", title="{{ product_name }}"></a>
                         <div class="product__action">
-                            <div class="product__action-left"><button type="button" class="btn-addToCart" data-ProductID="{{ product_id }}" data-QuantityDefault="true" title="Add to cart"> <span class="glyphicon glyphicon-shopping-cart"> </span><span class="text">Add to cart</span></button></div>
+                            <div class="product__action-left"><button type="button" class="btn-addToCart" data-ProductID="{{ product_id }}" data-QuantityDefault="true" title="Add to cart"> @*<span class="glyphicon glyphicon-shopping-cart"> </span>*@<span class="text">Add to cart</span></button></div>
                             <div class="product__action-right"><button type="button" class="btn-details" data-url="{{ product_url }}"> <span class="glyphicon glyphicon-new-window"></span></button></div>
                         </div>
                     </div>
                     <div class="product__details">
                         <p><a href="{{ product_url }}">{{ product_name }}</a></p>
-                        <p>{{ price }}</p>
-                        <p>{{ stock }}</p>
+                        <p>
+                            <span {{#show_discount}} class="line_through" {{/show_discount}}>{{ price }}</span>
+                            {{#show_discount}}
+                            <span class="discounted_price">{{ discounted_price }}</span>
+                            {{/show_discount}}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -172,7 +176,8 @@
                                 price: value.price,
                                 discounted_price: value.discounted_price,
                                 stock: value.stock,
-                                file_path: value.file_path
+                                file_path: value.file_path,
+                                show_discount: value.discount
                             });
                         });
                         

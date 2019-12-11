@@ -5,6 +5,7 @@ using System.Web;
 using System.Net;
 using System.Web.Mvc;
 using MyShop.Models;
+using MyShop.ViewModels;
 using System.Collections;
 using System.Data.Entity;
 using System.IO;
@@ -142,19 +143,18 @@ namespace MyShop.Controllers
 
         [HttpGet]
         [ActionName("Products")]
-        public JsonResult GetAllProducts()
+        public JsonResult GetAllProducts(string keyword, int? categoryId)
         {
-            var keyword = Request["keyword"];
-            string category_id = Request["categoryId"];
             var products = new ArrayList();
-            
-            QuerySetting querySetting = new QuerySetting{ 
+
+            QuerySetting querySetting = new QuerySetting {
                 is_admin = IsAdmin(),
                 admin_as_user = false,
                 query_by_category = false,
                 query_by_keyword = false,
                 keywords = "",
-                category_id = 0
+                category_id = 0,
+                is_admin_panel = (Request["is_admin_panel"] != null && Request["is_admin_panel"] == "true") ? true : false
             };
 
             if ( keyword != null)
@@ -162,15 +162,10 @@ namespace MyShop.Controllers
                 querySetting.query_by_keyword = true;
                 querySetting.keywords = keyword;
             }
-            else if ( category_id != null )
+            else if ( categoryId != null )
             {
-                bool isParsable = Int16.TryParse(category_id, out var cid);
-
-                if (isParsable)
-                {
-                    querySetting.query_by_category = true;
-                    querySetting.category_id = cid;
-                }
+                querySetting.query_by_category = true;
+                querySetting.category_id = (int)categoryId;
             }
 
             SqlParameter[] productParams = {
@@ -179,10 +174,11 @@ namespace MyShop.Controllers
                 new SqlParameter("@QUERY_BY_KEYWORD", querySetting.query_by_keyword),
                 new SqlParameter("@QUERY_BY_CATEGORY", querySetting.query_by_category),
                 new SqlParameter("@KEYWORDS", querySetting.keywords),
-                new SqlParameter("@CATEGORY_ID", querySetting.category_id)
+                new SqlParameter("@CATEGORY_ID", querySetting.category_id),
+                new SqlParameter("@IS_ADMIN_PANEL", querySetting.is_admin_panel),
             };
 
-            var entity = db.Database.SqlQuery<SPGetProducts>("SPGetProducts @IS_ADMIN, @ADMIN_AS_USER, @QUERY_BY_KEYWORD, @QUERY_BY_CATEGORY, @KEYWORDS, @CATEGORY_ID", productParams).ToList();
+            var entity = db.Database.SqlQuery<SPGetProducts>("SPGetProducts @IS_ADMIN, @ADMIN_AS_USER, @QUERY_BY_KEYWORD, @QUERY_BY_CATEGORY, @KEYWORDS, @CATEGORY_ID, @IS_ADMIN_PANEL", productParams).ToList();
 
             if( entity != null)
             {
@@ -198,7 +194,9 @@ namespace MyShop.Controllers
                         price = item.Price.ToString("C"),
                         discounted_price = item.DiscountedPrice.ToString("C"),
                         stock = item.StockQuantity,
-                        file_path = "/Uploads/" + item.FilePath
+                        file_path = "/Uploads/" + item.FilePath,
+                        discount = item.DiscountedPrice > 0 ? true : false,
+                        last_modifited_at = item.LastModifiedAt.ToString("yyyy-MM-dd")
                     };
 
                     products.Add(product);
@@ -263,6 +261,7 @@ namespace MyShop.Controllers
                                 name = item.ProductName,
                                 price = item.Price.ToString("C"),
                                 discounted_price = item.DiscountedPrice.ToString("C"),
+                                discount = item.DiscountedPrice > 0 ? true : false,
                                 stock = (item.StockQuantity > 0) ? "In stock" : "Out of stock",
                                 file_path = "/Uploads/" + item.FilePath
                             };
@@ -341,7 +340,7 @@ namespace MyShop.Controllers
         [HttpPut]
         [ValidateAntiForgeryToken]
         [ActionName("Product")]
-        public JsonResult UpdateProduct(int id, Product product)
+        public JsonResult UpdateProduct(int id, int IsPublish, string ProductName, int CategoryID, string ProductDescription, decimal Price, decimal DiscountedPrice, DateTime SalesPeriodStartAt, DateTime SalesPeriodEndAt, int StockQuantity, HttpPostedFileBase FilePath)
         {
             if( IsAdmin())
             {
@@ -356,29 +355,29 @@ namespace MyShop.Controllers
                     }
                     else
                     {
-                        record.ProductName = product.ProductName;
-                        record.ProductCategories = product.ProductCategories;
-                        record.ProductDescription = product.ProductDescription;
-                        record.Price = product.Price;
-                        record.DiscountedPrice = product.DiscountedPrice;
-                        record.SalesPeriodStartAt = product.SalesPeriodStartAt;
-                        record.SalesPeriodEndAt = product.SalesPeriodEndAt;
-                        record.StockQuantity = product.StockQuantity;
+                        record.IsPublish = IsPublish;
+                        record.ProductName = ProductName;
+                        record.CategoryID = CategoryID;
+                        record.ProductDescription = ProductDescription;
+                        record.Price = Price;
+                        record.DiscountedPrice = DiscountedPrice;
+                        record.SalesPeriodStartAt = SalesPeriodStartAt;
+                        record.SalesPeriodEndAt = SalesPeriodEndAt;
+                        record.StockQuantity = StockQuantity;
                         record.LastModifiedAt = DateTime.Now;
 
-                        if (Request.Files.Count > 0)
+                        if (FilePath != null)
                         {
-                            var file = Request.Files[0];
-                            var fileName = "file_" + DateTime.Now.ToString("yyyyMMddhhmmss") + Path.GetExtension(file.FileName);
+                            var fileName = "file_" + DateTime.Now.ToString("yyyyMMddhhmmss") + Path.GetExtension(FilePath.FileName);
                             var path = Server.MapPath("~/Uploads/");
                             if (!Directory.Exists(path))
                             {
                                 Directory.CreateDirectory(path);
                             }
                             record.FilePath = fileName;
-                            file.SaveAs(path + fileName);
+                            FilePath.SaveAs(path + fileName);
                         }
-
+                        db.Entry(record).State = EntityState.Modified;
                         db.SaveChanges();
 
                         Response.StatusCode = (int)HttpStatusCode.OK;
@@ -438,7 +437,7 @@ namespace MyShop.Controllers
 
             if( userID != null)
             {
-                var orders = (IsAdmin()) ? db.viewSales.Where(s => s.OrderStatus != "checkout").OrderByDescending(s => s.OrderID).ToList() : db.viewSales.Where(s => s.CustomerID == userID).Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList();
+                var orders = (IsAdmin()) ? db.viewSales.Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList() : db.viewSales.Where(s => s.CustomerID == userID).Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList();
                 
                 var records = new ArrayList();
 
@@ -608,11 +607,8 @@ namespace MyShop.Controllers
         [HttpPut]
         [ActionName("Order")]
         [ValidateAntiForgeryToken]
-        public JsonResult EditOrder(FormCollection formCollection)
+        public JsonResult EditOrder(int ItemID, int Quantity)
         {
-            var ItemID = Int16.Parse(formCollection["ItemID"]);
-            var Quantity = Int16.Parse(formCollection["Quantity"]);
-
             if (ItemID > 0)
             {
                 var userID = GetUserId();
@@ -652,10 +648,8 @@ namespace MyShop.Controllers
         [HttpDelete]
         [ActionName("Order")]
         [ValidateAntiForgeryToken]
-        public JsonResult DeleteOrder(FormCollection formCollection)
+        public JsonResult DeleteOrder(int ItemID)
         {
-            var ItemID = Int16.Parse(formCollection["ItemID"]);
-
             if(ItemID > 0)
             {
                 var userID = GetUserId();

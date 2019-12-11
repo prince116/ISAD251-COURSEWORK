@@ -2,13 +2,21 @@
 @import "mixin"
 @import "components/breadcrumb"
 
+@font-face
+    font-family: Marcellus
+    src: url("../css/fonts/Marcellus-Regular.ttf")
+
+body
+    font-family: Marcellus,sans-serif
+
 // Navbar
 .navbar
     margin-bottom: 0
     border-radius: 0
 
     &-inverse
-        background-color: $black-bg
+        // background-color: $black-bg
+        background: url("../img/common/footer-top-img.jpg") no-repeat center center
 
     &-nav > li > a
         font-weight: bold
@@ -39,7 +47,7 @@
 
     h1
         color: #ffffff
-        font-family: Arial, Helvetica, sans-serif
+        font-family: Marcellus, Arial, Helvetica, sans-serif
         text-shadow: 2px 2px #000000
         font-size: 120px
         transition: all 0.5s linear 0.5s
@@ -90,7 +98,9 @@
     $self: &
 
     &__wrapper
-        transition: width 0.3s ease, margin 0.3s ease
+
+        img
+            transition: all 0.5s ease
 
         &:hover #{$self}__img #{$self}__action
             opacity: 1
@@ -99,6 +109,7 @@
 
         &:hover img
             opacity: 0.6
+            transform: scale(1.2)
 
         #{$self}__img
             overflow: hidden
@@ -148,6 +159,15 @@
             p:first-child
                 font-weight: bold
 
+            p .line_through
+                text-decoration: line-through
+
+            p .discounted_price
+                text-decoration: none
+                margin-left: 10px
+                font-weight: bold
+                color: $red
+
     &__thumbnail-wrapper
         margin: 50px 0
 
@@ -155,6 +175,7 @@
         margin: 50px 0
 
         #{$self}__name > h4
+            font-family: Marcellus,sans-serif
             font-size: 30px
             font-weight: bold
             text-transform: uppercase
@@ -595,7 +616,14 @@ h1.custom-title
                     vertical-align: middle
                     
                     &.left
-                        width: 78%
+                        width: 10%
+                        padding-right: 10px
+
+                        img
+                            width: 100%
+                            border-radius: 50px
+                    &.middle
+                        width: 68%
                     &.right
                         width: 20%
 
@@ -610,6 +638,9 @@ h1.custom-title
                     &#{$self}__value
                         width: 80%
 
+                        .thumbnail
+                            max-width: 570px
+
                 @media (max-width: 640px)
                     table > tbody > tr > td
                         display: block
@@ -617,6 +648,9 @@ h1.custom-title
                         &#{$self}__label,
                         &#{$self}__value
                             width: 100%
+
+                            .thumbnail
+                                max-width: 570px
 
         .btn-create
             @include buttonStyle(#ffffff, $black-bg)
@@ -670,8 +704,41 @@ h1.custom-title
 
 
 footer
-    background-color: #f2f2f2
+    background: url("../img/common/footer-top-img.jpg") no-repeat center center
     padding: 25px
+
+    .myfooter
+
+        &__top-inner
+            padding: 80px 0
+            color: #ffffff
+
+            h2, h3
+                font-size: 40px
+                font-family: Marcellus,sans-serif
+                text-transform: uppercase
+
+            .quote
+                width: 50%
+                margin: 0 auto
+                padding: 30px 0
+
+        &__copyright
+            margin-top: 50px
+            color: #ffffff
+            font-weight: bold
+            font-size: 14px
+
+        &__link
+            margin-top: 10px
+            margin-left: 20px
+            font-weight: bold
+            font-size: 14px
+            color: #ffffff
+
+            &:hover
+                color: #ffffff
+                text-decoration: underline
 
 #checkoutModal
     .modal-body
