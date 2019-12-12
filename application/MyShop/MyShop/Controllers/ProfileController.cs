@@ -9,6 +9,7 @@ namespace MyShop.Controllers
     public class ProfileController : ControllerBase
     {
         // GET: Profile
+        [HttpGet]
         public ActionResult Index()
         {
             if (!User.Identity.IsAuthenticated)
@@ -20,6 +21,8 @@ namespace MyShop.Controllers
             return View();
         }
 
+        // GET: Profile/PurchaseHistory/{id}
+        [HttpGet]
         public ActionResult PurchaseHistory(int? id)
         {
             if (!User.Identity.IsAuthenticated)

@@ -619,6 +619,7 @@ namespace MyShop.Controllers
 
                 if(OrderItem != null)
                 {
+                    // Update the ordered item quantity by using stored procedure
                     SqlParameter sqlParameter = new SqlParameter("@ProductID", OrderItem.ProductID);
                     var stockStatus = db.Database.SqlQuery<SPGetProductStockStatus>("SPGetProductStockStatus @ProductID", sqlParameter).FirstOrDefault();
                     var totalStock = stockStatus == null ? stockStatus.Stock : stockStatus.RemainStock;
@@ -656,6 +657,7 @@ namespace MyShop.Controllers
 
                 if( userID != null)
                 {
+                    // Delete single item from the order
                     var currentOrder = getCurrentOrder(userID);
 
                     var orderItem = db.orderItems.Where(o => o.OrderID == currentOrder)
@@ -720,6 +722,7 @@ namespace MyShop.Controllers
 
             if( userID != null)
             {
+                // Get the current Order ID and remove all items from the order one by one
                 var currentOrderID = getCurrentOrder(userID);
 
                 var orderItems = db.orderItems.Where(o => o.OrderID == currentOrderID).ToList();

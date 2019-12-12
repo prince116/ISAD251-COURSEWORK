@@ -8,6 +8,7 @@ namespace MyShop.Controllers
 {
     public class HomeController : ControllerBase
     {
+        // GET: 
         public ActionResult Index()
         {
             ViewBag.Title = "Home";
@@ -15,6 +16,7 @@ namespace MyShop.Controllers
             return View();
         }
 
+        // GET: About
         [Route("About")]
         public ActionResult About()
         {
@@ -23,6 +25,7 @@ namespace MyShop.Controllers
             return View();
         }
 
+        // GET: Contact
         [Route("Contact")]
         public ActionResult Contact()
         {
@@ -31,6 +34,7 @@ namespace MyShop.Controllers
             return View();
         }
 
+        // GET: Cart
         [Route("Cart")]
         public ActionResult Cart()
         {
@@ -39,7 +43,7 @@ namespace MyShop.Controllers
             return View();
         }
         
-
+        // GET: ThankYou
         [Route("ThankYou")]
         public ActionResult ThankYou()
         {
