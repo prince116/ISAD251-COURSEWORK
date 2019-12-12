@@ -55,7 +55,7 @@
             <div class="panel-body">
                 <div class="product__wrapper">
                     <div class="product__img">
-                        <a href="{{ product_url }}"><img class="img-responsive" src="{{ file_path }}" style="width:100%;" alt="{{ product_name }}", title="{{ product_name }}"></a>
+                        <a href="{{ product_url }}">{{#show_discount}}<span class="onsale">Sale</span>{{/show_discount}}<img class="img-responsive" src="{{ file_path }}" style="width:100%;" alt="{{ product_name }}" , title="{{ product_name }}"></a>
                         <div class="product__action">
                             <div class="product__action-left"><button type="button" class="btn-addToCart" data-ProductID="{{ product_id }}" data-QuantityDefault="true" title="Add to cart"> @*<span class="glyphicon glyphicon-shopping-cart"> </span>*@<span class="text">Add to cart</span></button></div>
                             <div class="product__action-right"><button type="button" class="btn-details" data-url="{{ product_url }}"> <span class="glyphicon glyphicon-new-window"></span></button></div>
@@ -133,6 +133,8 @@
 
                         // Render main products
                         $(".product__thumbnail-wrapper img").attr('src', response.product.file_path);
+                        $(".product__thumbnail-wrapper img").attr('alt', response.product.name);
+                        $(".product__thumbnail-wrapper img").attr('title', response.product.name);
                         $(".product__name h4").text(response.product.name);
                         $(".product__description").text(response.product.description);
                         $(".product__price .value").text(response.product.price);

@@ -9,6 +9,9 @@
 body {
   font-family: Marcellus,sans-serif; }
 
+h2 {
+  font-family: Marcellus,sans-serif; }
+
 .navbar {
   margin-bottom: 0;
   border-radius: 0; }
@@ -79,7 +82,38 @@ body {
     color: #2f333a;
     content: "/\00a0"; }
 
+.product__wrapper .onsale {
+  position: absolute;
+  display: block;
+  top: 0;
+  right: 0;
+  width: auto;
+  height: 24px;
+  color: #ffffff;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 1px;
+  text-align: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 7px 10px 0 0;
+  z-index: 100;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0); }
+  .product__wrapper .onsale:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 75px 75px 0;
+    border-color: transparent #be9c79 transparent transparent;
+    z-index: -1; }
+
 .product__wrapper img {
+  width: 100%;
   transition: all 0.5s ease; }
 
 .product__wrapper:hover .product__img .product__action {

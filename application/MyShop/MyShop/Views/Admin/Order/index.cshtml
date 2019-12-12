@@ -27,6 +27,8 @@
             <div class="account__text"><b>Order No. : {{ invoice_no }}</b></div>
             <div class="account__text">Transaction Status: {{ order_status }}</div>
             <div class="account__text">Order Date: {{ order_datetime }}</div>
+            <div class="account__text">Delivery: {{ delivery_type }}</div>
+            <div class="account__text">Table No.: {{ table_no }}</div>
             <div class="account__text">Amount: {{ total_amount }}</div>
         </div>
         <div class="account__sub-group right">
@@ -66,6 +68,8 @@
                                 order_datetime: value.order_datetime,
                                 order_id: value.order_no,
                                 order_status: value.order_status,
+                                delivery_type: value.delivery_type,
+                                table_no: (value.delivery_type == "Dinn In") ? value.table_no : "N/A",
                                 total_amount: value.total_amount
                             });
                         });

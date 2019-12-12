@@ -44,9 +44,14 @@
             <div class="panel-body">
                 <div class="product__wrapper">
                     <div class="product__img">
-                        <a href="{{ product_url }}"><img class="img-responsive" src="{{ file_path }}" alt="{{ product_name }}" title="{{ product_name }}"></a>
+                        <a href="{{ product_url }}">{{#show_discount}}<span class="onsale">Sale</span>{{/show_discount}}<img class="img-responsive" src="{{ file_path }}" alt="{{ product_name }}" title="{{ product_name }}"></a>
                         <div class="product__action">
-                            <div class="product__action-left"><button type="button" class="btn-addToCart" title="Add to cart" aria-label="Add to cart" data-productid="{{ product_id }}" data-quantitydefault="true"> @*<span class="glyphicon glyphicon-shopping-cart"> </span>*@<span class="text">Add to cart</span></button></div>
+                            <div class="product__action-left">
+                                @if (Request.IsAuthenticated)
+                                {
+                                    <button type="button" class="btn-addToCart" title="Add to cart" aria-label="Add to cart" data-productid="{{ product_id }}" data-quantitydefault="true"> <span class="text">Add to cart</span></button>
+                                }
+                            </div>
                             <div class="product__action-right"><button type="button" class="btn-details" data-url="{{ product_url }}" aria-label="Product Details" title="Product Details"> <span class="glyphicon glyphicon-new-window"></span></button></div>
                         </div>
                     </div>
@@ -78,6 +83,16 @@
             $('body').on('click', '.btn-details', function () {
                 window.location.href = $(this).attr('data-url');
             });
+
+            $('input[name="keyword"]').keyup(function (e) {
+                if (e.which == 13) {
+                    var keyword = $(this).val();
+
+                    if (keyword != "" && keyword != null) {
+                        getProducts({ keyword: keyword });
+                    }
+                }
+            })
 
             $('.btn-search').click(function () {
                 var keyword = $('input[name="keyword"]').val();
