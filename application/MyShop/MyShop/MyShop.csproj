@@ -361,6 +361,7 @@
     <Content Include="Views\Admin\Order\index.cshtml" />
     <Content Include="Views\Admin\Order\Details.cshtml" />
     <Content Include="Views\Shared\404NotFound.cshtml" />
+    <Content Include="Views\Admin\Contact\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

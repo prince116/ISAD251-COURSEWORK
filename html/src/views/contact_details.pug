@@ -1,0 +1,43 @@
+extends layout.pug
+
+block content
+    .jumbotron
+        .container.text-center
+            h1 Cake Shop
+            p Fat and Sweet
+
+    .container
+        .row
+            .col-xs-12
+                ol.breadcrumb
+                    li
+                        a(href="./") Home
+                    li.active Contact
+
+    .container
+        .row
+            .col-xs-12
+                .contact__list-wrapper
+
+                    .panel.panel-default
+                        //- .panel-heading
+                        .panel-body.text-center
+                            h2 There is no record
+                    
+                    - for(var i = 0; i < 10; i++){
+                    .panel.panel-default
+                        .panel-heading
+                            .row
+                                .col-md-6.col-xs-12
+                                    label Subject: Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                                .col-md-6.col-xs-12.text-right
+                                    span Date: Tue, Dec 10, 6:41 AM
+                        .panel-body
+                            label From: 
+                            p Prince Wong 
+                            label Email:
+                            p 
+                                a(href="mailto:#") prince@gmail.com
+                            label Message:
+                            p Lorem ipsum dolor sit amet consectetur adipisicing elit. Et velit, deserunt facilis eos nam quod beatae ratione temporibus iure, inventore autem? Reiciendis quisquam quibusdam vel ea error repellat fugiat at!
+                    - }

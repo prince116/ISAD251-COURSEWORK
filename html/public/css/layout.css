@@ -389,6 +389,9 @@ h2 {
     box-shadow: none;
     border-color: #ccc; }
 
+.contact__list-wrapper {
+  margin: 50px 0; }
+
 .contact__wrapper {
   max-width: 500px;
   margin: 50px auto; }

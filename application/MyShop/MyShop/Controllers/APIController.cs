@@ -5,7 +5,6 @@ using System.Web;
 using System.Net;
 using System.Web.Mvc;
 using MyShop.Models;
-using MyShop.ViewModels;
 using System.Collections;
 using System.Data.Entity;
 using System.IO;
@@ -16,6 +15,7 @@ namespace MyShop.Controllers
     public class APIController : ControllerBase
     {
         // GET: API
+        [HttpGet]
         public ActionResult Index()
         {
             return HttpNotFound();
@@ -26,10 +26,38 @@ namespace MyShop.Controllers
         [ActionName("Contacts")]
         public JsonResult GetAllContacts()
         {
-            var Contacts = db.contacts.OrderByDescending(c => c.ID).ToList();
+            if(IsAdmin())
+            {
+                var Contacts = db.contacts.OrderByDescending(c => c.ID).ToList();
+                var Records = new ArrayList();
+                Boolean IsEmpty = true;
+            
+                if( Contacts.Count > 0)
+                {
+                    foreach(var record in Contacts)
+                    {
+                        var details = new
+                        {
+                            subject = record.Subject,
+                            first_name = record.FirstName,
+                            last_name = record.LastName,
+                            email = record.Email,
+                            message = record.Message,
+                            date = record.CreatedAt.ToString("dddd, MMMM d, yyyy HH:mm:ss") // Format: Friday, December 13, 2019 12:24:21
+                        };
+                        Records.Add(details);
+                    }
+                    IsEmpty = false;
+                }
 
-            Response.StatusCode = (int)HttpStatusCode.OK;
-            return Json(new { Contacts }, JsonRequestBehavior.AllowGet);
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                return Json(new { IsEmpty, Records }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { Message = "Permission Denied" }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [HttpGet]
@@ -79,33 +107,42 @@ namespace MyShop.Controllers
         [ActionName("Contact")]
         public JsonResult UpdateContact(int id, Contact contact)
         {
-            try
+            if (IsAdmin())
             {
-                var record = db.contacts.FirstOrDefault(e => e.ID == id);
-
-                if (record == null)
+                try
                 {
-                    Response.StatusCode = (int)HttpStatusCode.NotFound;
-                    return Json(new { Mesasge = "Record with ID " + id.ToString() + " not found to update." });
+                    var record = db.contacts.FirstOrDefault(e => e.ID == id);
+
+                    if (record == null)
+                    {
+                        Response.StatusCode = (int)HttpStatusCode.NotFound;
+                        return Json(new { Mesasge = "Record with ID " + id.ToString() + " not found to update." });
+                    }
+                    else
+                    {
+                        record.FirstName = contact.FirstName;
+                        record.LastName = contact.LastName;
+                        record.Subject = contact.Subject;
+                        record.Message = contact.Message;
+                        record.Email = contact.Email;
+                        record.LastModifiedAt = DateTime.Now;
+
+                        db.SaveChanges();
+
+                        Response.StatusCode = (int)HttpStatusCode.OK;
+                        return Json(new { Mesasge = "Record with ID " + id.ToString() + " has been updated." });
+                    }
+
+
                 }
-                else
+                catch (Exception ex)
                 {
-                    record.FirstName = contact.FirstName;
-                    record.LastName = contact.LastName;
-                    record.Subject = contact.Subject;
-                    record.Message = contact.Message;
-                    record.Email = contact.Email;
-                    record.LastModifiedAt = DateTime.Now;
-
-                    db.SaveChanges();
-
-                    Response.StatusCode = (int)HttpStatusCode.OK;
-                    return Json(new { Mesasge = "Record with ID " + id.ToString() + " has been updated." });
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json(new { Mesasge = "Bad Request." });
                 }
 
-
-            }
-            catch (Exception ex)
+            } 
+            else
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json(new { Mesasge = "Bad Request." });
@@ -117,24 +154,33 @@ namespace MyShop.Controllers
         [ActionName("Contact")]
         public JsonResult DeleteContact(int id)
         {
-            try
+            if (IsAdmin())
             {
-                var record = db.contacts.FirstOrDefault(e => e.ID == id);
+                try
+                {
+                    var record = db.contacts.FirstOrDefault(e => e.ID == id);
 
-                if (record == null)
-                {
-                    Response.StatusCode = (int)HttpStatusCode.NotFound;
-                    return Json(new { Mesasge = "Record with ID " + id.ToString() + " not found to delete." });
+                    if (record == null)
+                    {
+                        Response.StatusCode = (int)HttpStatusCode.NotFound;
+                        return Json(new { Mesasge = "Record with ID " + id.ToString() + " not found to delete." });
+                    }
+                    else
+                    {
+                        db.contacts.Remove(record);
+                        db.SaveChanges();
+                        Response.StatusCode = (int)HttpStatusCode.OK;
+                        return Json(new { Mesasge = "Record with ID " + id.ToString() + " has been deleted." });
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    db.contacts.Remove(record);
-                    db.SaveChanges();
-                    Response.StatusCode = (int)HttpStatusCode.OK;
-                    return Json(new { Mesasge = "Record with ID " + id.ToString() + " has been deleted." });
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json(new { Mesasge = "Bad Request." });
                 }
+
             }
-            catch (Exception ex)
+            else
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json(new { Mesasge = "Bad Request." });
@@ -196,7 +242,7 @@ namespace MyShop.Controllers
                         stock = item.StockQuantity,
                         file_path = "/Uploads/" + item.FilePath,
                         discount = item.DiscountedPrice > 0 ? true : false,
-                        last_modifited_at = item.LastModifiedAt.ToString("yyyy-MM-dd")
+                        last_modifited_at = item.LastModifiedAt.ToString("dddd, MMMM d, yyyy HH:mm:ss")
                     };
 
                     products.Add(product);
@@ -448,7 +494,7 @@ namespace MyShop.Controllers
                         records.Add(new {
                             invoice_no = record.OrderID.ToString("D8"),
                             order_no = record.OrderID,
-                            order_datetime = record.OrderDate.ToString("yyyy-MM-dd"),
+                            order_datetime = record.OrderDate.ToString("dddd, MMMM d, yyyy HH:mm:ss"),
                             order_status = record.OrderStatus.ToUpper(),
                             total_amount = record.TotalAmount.ToString("C"),
                             delivery_type = record.DeliveryType,

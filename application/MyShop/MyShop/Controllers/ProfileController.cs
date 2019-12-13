@@ -10,6 +10,7 @@ namespace MyShop.Controllers
     {
         // GET: Profile
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult Index()
         {
             if (!User.Identity.IsAuthenticated)
@@ -23,6 +24,7 @@ namespace MyShop.Controllers
 
         // GET: Profile/PurchaseHistory/{id}
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult PurchaseHistory(int? id)
         {
             if (!User.Identity.IsAuthenticated)

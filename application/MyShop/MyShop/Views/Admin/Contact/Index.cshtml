@@ -1,0 +1,112 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li class="active">FeedBack</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="contact__list-wrapper">
+                <!-- Generate by JS -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="empty-template" type="x-tmpl-mustache">
+    <div class="panel panel-default">
+        <div class="panel-body text-center">
+            <h2>There is no record</h2>
+        </div>
+    </div>
+</script>
+
+<script id="records-template" type="x-tmpl-mustache">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <label>Subject: {{ subject }}</label>
+                </div>
+                <div class="col-md-6 col-xs-12 text-right"><span>Date: {{ date }}</span></div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <label>From: </label>
+            <p>{{ first_name }} {{ last_name }}</p>
+            <label>Email:</label>
+            <p> <a href="mailto:{{ email }}">{{ email }}</a></p>
+            <label>Message:</label>
+            <p>{{{ message }}}</p>
+        </div>
+    </div>
+</script>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/mustache")
+    <script>
+        $(function () {
+
+            function renderTemplate(isEmpty, records) {
+
+                var html = "";
+                
+                if (isEmpty) {
+
+                    var template = $('#empty-template').html();
+                    Mustache.parse(template);
+
+                    html += Mustache.render(template, {});
+                    
+                } else {
+
+                    var template = $('#records-template').html();
+
+                    $.each(records, function (index, value) {
+
+                        message = value.message.replace(/(?:\r\n|\r|\n)/g, '<br>');
+
+                        html += Mustache.render(template, {
+                            subject: value.subject,
+                            first_name: value.first_name,
+                            last_name: value.last_name,
+                            date: value.date,
+                            email: value.email,
+                            message: message
+                        });
+                    });
+
+                }
+
+                $('.contact__list-wrapper').html(html);
+            }
+
+            function getFeedbacks() {
+
+                $.ajax({
+                    url: "/api/Contacts",
+                    method: "GET",
+                    dataType: "json",
+                    statusCode: {
+                        200: function (response) {
+                            renderTemplate(response.IsEmpty, response.Records);
+                        }
+                    },
+                    error: function (e) {
+                        console.error(e);
+                    }
+                })
+            }
+
+            getFeedbacks();
+
+        })
+
+    </script>
+}

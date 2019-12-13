@@ -11,6 +11,7 @@ namespace MyShop.Controllers
     public class AdminController : ControllerBase
     {
         // GET: Admin
+        [HttpGet]
         public ActionResult Index()
         {
             return RedirectToRoute("Index", "Home");

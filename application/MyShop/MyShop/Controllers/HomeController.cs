@@ -9,6 +9,8 @@ namespace MyShop.Controllers
     public class HomeController : ControllerBase
     {
         // GET: 
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult Index()
         {
             ViewBag.Title = "Home";
@@ -17,7 +19,9 @@ namespace MyShop.Controllers
         }
 
         // GET: About
+        [HttpGet]
         [Route("About")]
+        [AllowAnonymous]
         public ActionResult About()
         {
             ViewBag.Title = "About";
@@ -26,25 +30,36 @@ namespace MyShop.Controllers
         }
 
         // GET: Contact
+        [HttpGet]
         [Route("Contact")]
+        [AllowAnonymous]
         public ActionResult Contact()
         {
             ViewBag.Title = "Contact";
+
+            if( IsAdmin())
+            {
+                return View("~/Views/Admin/Contact/Index.cshtml");
+            }
 
             return View();
         }
 
         // GET: Cart
+        [HttpGet]
         [Route("Cart")]
+        [AllowAnonymous]
         public ActionResult Cart()
         {
             ViewBag.Title = "Cart";
 
             return View();
         }
-        
+
         // GET: ThankYou
+        [HttpGet]
         [Route("ThankYou")]
+        [AllowAnonymous]
         public ActionResult ThankYou()
         {
             ViewBag.Title = "Thank You";

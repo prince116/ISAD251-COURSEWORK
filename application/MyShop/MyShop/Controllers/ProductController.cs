@@ -10,6 +10,8 @@ namespace MyShop.Controllers
     public class ProductController : ControllerBase
     {
         // GET: Product
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult Index()
         {
             ViewBag.Title = "Product";
@@ -18,6 +20,8 @@ namespace MyShop.Controllers
         }
 
         // GET: Product/Details/5
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)

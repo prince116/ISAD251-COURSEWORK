@@ -26,10 +26,14 @@
                     <li class="@IsCurrentPage("Index", "Home")">@Html.ActionLink("Home", "Index", "Home")</li>
                     <li class="@IsCurrentPage("About", "Home")">@Html.ActionLink("About", "About", "Home")</li>
                     <li class="@IsCurrentPage("Index", "Product")">@Html.ActionLink("Products", "Index", "Product")</li>
-                    <li class="@IsCurrentPage("Contact", "Home")">@Html.ActionLink("Contact", "Contact", "Home")</li>
                     @if (ViewBag.IsAdmin == true)
                     {
+                        <li class="@IsCurrentPage("Contact", "Home")">@Html.ActionLink("Feedback", "Contact", "Home")</li>
                         <li class="@IsCurrentPage("Index", "Sale")">@Html.ActionLink("Product Management", "Products", "Admin")</li>
+                    }
+                    else
+                    {
+                        <li class="@IsCurrentPage("Contact", "Home")">@Html.ActionLink("Contact", "Contact", "Home")</li>
                     }
                 </ul>
                 @if (Request.IsAuthenticated)
@@ -40,13 +44,13 @@
                         <ul class="nav navbar-nav navbar-right">
                             @if (ViewBag.IsAdmin == true)
                             {
-                                <li>@Html.ActionLink("My Shop", "Order", "Admin", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
+                                <li>@Html.ActionLink("Sales Record", "Order", "Admin", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
                             }
                             else
                             {
                                 <li>@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Profile", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
+                                <li><a href="@Url.Action("Cart", "Home")"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Cart&nbsp;<span class="badge">@ViewBag.NumOfCartItems</span></a></li>
                             }
-                            <li><a href="@Url.Action("Cart", "Home")"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Cart&nbsp;<span class="badge">@ViewBag.NumOfCartItems</span></a></li>
                             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                         </ul>
                     }
