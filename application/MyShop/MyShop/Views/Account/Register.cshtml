@@ -25,22 +25,28 @@
 
                     <h2 class="text-center">Registration</h2>
                     <div class="form-group">
-                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control registration__input-field", @placeholder="First Name"})
+                        <label for="FirstName" class="hide-element">FirstName</label>
+                        @Html.TextBoxFor(m => m.FirstName, new { id = "FirstName", @class = "form-control registration__input-field", @placeholder="First Name"})
                     </div>
                     <div class="form-group">
-                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control registration__input-field", @placeholder = "Last Name" })
+                        <label for="LastName" class="hide-element">LastName</label>
+                        @Html.TextBoxFor(m => m.LastName, new { @id = "LastName", @class = "form-control registration__input-field", @placeholder = "Last Name" })
                     </div>
                     <div class="form-group">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control registration__input-field", @placeholder = "Email" })
+                        <label for="Email" class="hide-element">Email</label>
+                        @Html.TextBoxFor(m => m.Email, new { @id = "Email", @class = "form-control registration__input-field", @placeholder = "Email" })
                     </div>
                     <div class="form-group">
-                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control registration__input-field", @placeholder = "Phone Number" })
+                        <label for="PhoneNumber" class="hide-element">PhoneNumber</label>
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @id = "PhoneNumber", @class = "form-control registration__input-field", @placeholder = "Phone Number" })
                     </div>
                     <div class="form-group">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control registration__input-field", @placeholder = "Password" })
+                        <label for="Password" class="hide-element">Password</label>
+                        @Html.PasswordFor(m => m.Password, new { @id = "Password", @class = "form-control registration__input-field", @placeholder = "Password" })
                     </div>
                     <div class="form-group">
-                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control registration__input-field", @placeholder = "Confirm Password" })
+                        <label for="ConfirmPassword" class="hide-element">ConfirmPassword</label>
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @id = "ConfirmPassword", @class = "form-control registration__input-field", @placeholder = "Confirm Password" })
                     </div>
                     <div class="form-group">
                         <input class="registration__button" type="submit" name="registration" value="Register">

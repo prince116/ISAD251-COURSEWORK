@@ -1,6 +1,8 @@
 .breadcrumb {
   background: none;
   padding-left: 0; }
+  .breadcrumb .active {
+    color: #333333; }
 
 @font-face {
   font-family: Marcellus;
@@ -16,7 +18,7 @@ h2 {
   margin-bottom: 0;
   border-radius: 0; }
   .navbar-inverse {
-    background: url("../img/common/footer-top-img.jpg") no-repeat center center; }
+    background-color: #2f333a; }
   .navbar-nav > li > a {
     font-weight: bold;
     color: #FFF; }
@@ -384,10 +386,12 @@ h2 {
   width: 400px;
   margin: 0 auto;
   margin-bottom: 30px; }
-  .search__wrapper input:focus {
-    outline: none;
-    box-shadow: none;
-    border-color: #ccc; }
+  .search__wrapper input {
+    border-radius: 4px 0 0 4px !important; }
+    .search__wrapper input:focus {
+      outline: none;
+      box-shadow: none;
+      border-color: #ccc; }
 
 .contact__list-wrapper {
   margin: 50px 0; }
@@ -784,3 +788,13 @@ footer {
     width: 200px; }
   .dl-horizontal dd {
     margin-left: 230px; } }
+
+.hide-element {
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }

@@ -40,7 +40,7 @@
                     {
                         <tfoot>
                             <tr>
-                                <td class="text-right" colspan="5"><a class="btn-cancel_order cart__button" href="javascript:void(0)">Cancel Order</a></td>
+                                <td class="text-right" colspan="5"><a class="btn-cancel_order cart__button" href="javascript:void(0)" title="Cancel Order">Cancel Order</a></td>
                             </tr>
                         </tfoot>
                     }
@@ -83,7 +83,8 @@
                         <p>Select your table number:</p>
                     </div>
                     <div class="col-xs-12 text-center">
-                        <select class="form-control" name="table_no">
+                        <label for="table_no" class="hide-element">table_no</label>
+                        <select class="form-control" name="table_no" id="table_no">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -117,8 +118,11 @@
         </td>
         <td class="text-left cart__unit-price">{{ price }}</td>
         <td class="text-center">
-            <select class="form-control" name="quantity" data-OrderItemID="{{ item_id }}">
-                {{#options}}<option value="{{ value }}" {{#selected}}selected{{/selected}}>{{ text }}</option>{{/options}}
+            <label for="Quantity" class="hide-element">Quantity</label>
+            <select class="form-control" name="quantity" id="Quantity" data-OrderItemID="{{ item_id }}">
+                {{#options}}
+                <option value="{{ value }}" {{#selected}} selected{{/selected}}>{{ text }}</option>
+                {{/options}}
             </select>
         </td>
         <td class="text-right cart__product-total">{{ sub_total }}</td>

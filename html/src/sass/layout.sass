@@ -18,8 +18,7 @@ h2
     border-radius: 0
 
     &-inverse
-        // background-color: $black-bg
-        background: url("../img/common/footer-top-img.jpg") no-repeat center center
+        background-color: $black-bg
 
     &-nav > li > a
         font-weight: bold
@@ -387,6 +386,7 @@ h2
         margin-bottom: 30px
 
         input
+            border-radius: 4px 0 0 4px!important
             &:focus
                 outline: none
                 box-shadow: none
@@ -799,3 +799,14 @@ footer
 
     .dl-horizontal dd
         margin-left: 230px
+
+// Hide Element
+.hide-element
+    border: 0
+    clip: rect(1px, 1px, 1px, 1px)
+    height: 1px
+    margin: -1px
+    overflow: hidden
+    padding: 0
+    position: absolute
+    width: 1px

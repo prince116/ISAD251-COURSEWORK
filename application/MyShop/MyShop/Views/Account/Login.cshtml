@@ -32,9 +32,11 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control login__username", @placeholder = "Email" })
+                        <label for="Email" class="hide-element">Email</label>
+                        @Html.TextBoxFor(m => m.Email, new { @id = "Email", @class = "form-control login__username", @placeholder = "Email" })
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control login__password", @placeholder = "Password" })
+                        <label for="Password" class="hide-element">Password</label>
+                        @Html.PasswordFor(m => m.Password, new { @id = "Password", @class = "form-control login__password", @placeholder = "Password" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                         <input class="login__button" type="submit" name="login" value="login">
                     }

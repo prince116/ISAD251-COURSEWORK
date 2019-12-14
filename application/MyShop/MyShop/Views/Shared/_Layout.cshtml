@@ -29,7 +29,7 @@
                     @if (ViewBag.IsAdmin == true)
                     {
                         <li class="@IsCurrentPage("Contact", "Home")">@Html.ActionLink("Feedback", "Contact", "Home")</li>
-                        <li class="@IsCurrentPage("Index", "Sale")">@Html.ActionLink("Product Management", "Products", "Admin")</li>
+                        <li class="@IsCurrentPage("Products", "Admin")">@Html.ActionLink("Product Management", "Products", "Admin")</li>
                     }
                     else
                     {

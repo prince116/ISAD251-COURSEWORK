@@ -13,6 +13,6 @@
 - pug ([https://pugjs.org/api/getting-started.html](https://pugjs.org/api/getting-started.html))
 
 **Images and Wordings:**
-- Freepik ([https://www.freepik.com/free-photos-vectors/coffee](https://www.freepik.com/free-photos-vectors/coffee)])
+- Freepik ([https://www.freepik.com/free-photos-vectors/coffee](https://www.freepik.com/free-photos-vectors/coffee))
 - Unsplash ([https://unsplash.com/images/food/coffee](https://unsplash.com/images/food/coffee))
 - Starbucks ([https://www.starbucks.co.uk/](https://www.starbucks.co.uk/))

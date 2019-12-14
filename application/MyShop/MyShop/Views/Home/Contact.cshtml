@@ -27,33 +27,38 @@
                     <div class="row">
                         <div class="col-xs-6">
                             <div class="form-group">
-                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control contact__input-field", @placeholder = "First Name" })
+                                <label for="FirstName" class="hide-element">First Name</label>
+                                @Html.TextBoxFor(m => m.FirstName, new { @id = "FirstName", @class = "form-control contact__input-field", @placeholder = "First Name" })
                             </div>
                         </div>
                         <div class="col-xs-6">
                             <div class="form-group">
-                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control contact__input-field", @placeholder = "Last Name" })
+                                <label for="LastName" class="hide-element">Last Name</label>
+                                @Html.TextBoxFor(m => m.LastName, new { @id = "LastName", @class = "form-control contact__input-field", @placeholder = "Last Name" })
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="form-group">
-                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control contact__input-field", @placeholder = "Email" })
+                                <label for="Email" class="hide-element">Email</label>
+                                @Html.TextBoxFor(m => m.Email, new { @id = "Email", @class = "form-control contact__input-field", @placeholder = "Email" })
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="form-group">
-                                @Html.TextBoxFor(m => m.Subject, new { @class = "form-control contact__input-field", @placeholder = "Subject" })
+                                <label for="Subject" class="hide-element">Subject</label>
+                                @Html.TextBoxFor(m => m.Subject, new { @id = "Subject", @class = "form-control contact__input-field", @placeholder = "Subject" })
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
                             <div class="form-group">
-                                @Html.TextAreaFor(m => m.Message, new { @class = "form-control contact__input-field", @placeholder = "Message" })
+                                <label for="Message" class="hide-element">Message</label>
+                                @Html.TextAreaFor(m => m.Message, new { @id = "Message", @class = "form-control contact__input-field", @placeholder = "Message" })
                             </div>
                         </div>
                     </div>

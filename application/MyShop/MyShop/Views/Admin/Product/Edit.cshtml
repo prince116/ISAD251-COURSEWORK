@@ -38,68 +38,68 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="admin__label">@Html.DisplayNameFor(model => model.ProductName)</td>
+                                    <td class="admin__label"><label for="ProductName">@Html.DisplayNameFor(model => model.ProductName)</label></td>
                                     <td class="admin__value">
-                                        @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @id = "ProductName", @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="admin__label">@Html.DisplayNameFor(model => model.CategoryID)</td>
+                                    <td class="admin__label"><label for="CategoryID">@Html.DisplayNameFor(model => model.CategoryID)</label></td>
                                     <td class="admin__value">
-                                        @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.DropDownList("CategoryID", null, htmlAttributes: new { @id = "CategoryID", @class = "form-control" })
                                         @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="admin__label">@Html.DisplayNameFor(model => model.ProductDescription)</td>
+                                    <td class="admin__label"><label for="ProductDescription">@Html.DisplayNameFor(model => model.ProductDescription)</label></td>
                                     <td class="admin__value">
-                                        @Html.EditorFor(model => model.ProductDescription, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.ProductDescription, new { htmlAttributes = new { @id = "ProductDescription", @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.ProductDescription, "", new { @class = "text-danger" })
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="admin__label">@Html.DisplayNameFor(model => model.Price)</td>
+                                    <td class="admin__label"><label for="Price">@Html.DisplayNameFor(model => model.Price)</label></td>
                                     <td class="admin__value">
-                                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @id = "Price", @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="admin__label">@Html.DisplayNameFor(model => model.DiscountedPrice)</td>
+                                    <td class="admin__label"><label for="DiscountedPrice">@Html.DisplayNameFor(model => model.DiscountedPrice)</label></td>
                                     <td class="admin__value">
-                                        @Html.EditorFor(model => model.DiscountedPrice, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.DiscountedPrice, new { htmlAttributes = new { @id = "DiscountedPrice", @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.DiscountedPrice, "", new { @class = "text-danger" })
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="admin__label">@Html.DisplayNameFor(model => model.SalesPeriodStartAt)</td>
+                                    <td class="admin__label"><label for="SalesPeriodStartAt">@Html.DisplayNameFor(model => model.SalesPeriodStartAt)</label></td>
                                     <td class="admin__value">
-                                        @Html.EditorFor(model => model.SalesPeriodStartAt, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.SalesPeriodStartAt, new { htmlAttributes = new { @id = "SalesPeriodStartAt", @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.SalesPeriodStartAt, "", new { @class = "text-danger" })
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="admin__label">@Html.DisplayNameFor(model => model.SalesPeriodEndAt)</td>
+                                    <td class="admin__label"><label for="SalesPeriodEndAt">@Html.DisplayNameFor(model => model.SalesPeriodEndAt)</label></td>
                                     <td class="admin__value">
-                                        @Html.EditorFor(model => model.SalesPeriodEndAt, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.SalesPeriodEndAt, new { htmlAttributes = new { @id ="SalesPeriodEndAt", @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.SalesPeriodEndAt, "", new { @class = "text-danger" })
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="admin__label">@Html.DisplayNameFor(model => model.StockQuantity)</td>
+                                    <td class="admin__label"><label for="StockQuantity">@Html.DisplayNameFor(model => model.StockQuantity)</label></td>
                                     <td class="admin__value">
-                                        @Html.EditorFor(model => model.StockQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.EditorFor(model => model.StockQuantity, new { htmlAttributes = new { @id = "StockQuantity", @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.StockQuantity, "", new { @class = "text-danger" })
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="admin__label">@Html.DisplayNameFor(model => model.FilePath)</td>
+                                    <td class="admin__label"><label for="fileUpload">@Html.DisplayNameFor(model => model.FilePath)</label></td>
                                     <td class="admin__value">
                                         @*@Html.EditorFor(model => model.FilePath, new { htmlAttributes = new { @class = "form-control", @id = "fileUpload", type="file" } })*@
                                         <input class="form-control text-box single-line" id="fileUpload" name="FilePath" type="file">
                                         <br />
-                                        <img src="/Uploads/@Model.FilePath" class="thumbnail" />
+                                        <img src="/Uploads/@Model.FilePath" class="thumbnail" alt="thumbnail" />
                                         @Html.ValidationMessageFor(model => model.FilePath, "", new { @class = "text-danger" })
                                     </td>
                                 </tr>
