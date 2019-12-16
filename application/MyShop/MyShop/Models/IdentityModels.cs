@@ -33,6 +33,7 @@ namespace MyShop.Models
         public DbSet<Order> orders { get; set; }
         public DbSet<Contact> contacts { get; set; }
         public DbSet<ViewSales> viewSales { get; set; }
+        public DbSet<UserInfo> userInfo { get; set; }
 
         public static ApplicationDbContext Create()
         {

@@ -13,7 +13,7 @@ using MyShop.Models;
 namespace MyShop.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : ControllerBase
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -156,6 +156,20 @@ namespace MyShop.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                    // Insert User Info
+                    UserInfo userInfo = new UserInfo()
+                    {
+                        UserId = user.Id,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Email = model.Email,
+                        PhoneNumber = model.PhoneNumber,
+                        JoinAt = DateTime.Now
+                    };
+
+                    db.userInfo.Add(userInfo);
+                    db.SaveChanges();
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link

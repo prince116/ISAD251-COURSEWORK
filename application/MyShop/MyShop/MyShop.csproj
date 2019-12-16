@@ -200,6 +200,10 @@
     <Compile Include="Migrations\201912110841327_InitialCreate.Designer.cs">
       <DependentUpon>201912110841327_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201912150354126_AddUserInfo.cs" />
+    <Compile Include="Migrations\201912150354126_AddUserInfo.Designer.cs">
+      <DependentUpon>201912150354126_AddUserInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AspNetRoles.cs">
@@ -262,6 +266,7 @@
     </Compile>
     <Compile Include="Models\RoleNames.cs" />
     <Compile Include="Models\SPGetProducts.cs" />
+    <Compile Include="Models\UserInfo.cs" />
     <Compile Include="ViewModels\ViewSales.cs" />
     <Compile Include="Models\SPSalesDetails.cs" />
     <Compile Include="Models\View_Sales.cs">
@@ -387,6 +392,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201912110841327_InitialCreate.resx">
       <DependentUpon>201912110841327_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201912150354126_AddUserInfo.resx">
+      <DependentUpon>201912150354126_AddUserInfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

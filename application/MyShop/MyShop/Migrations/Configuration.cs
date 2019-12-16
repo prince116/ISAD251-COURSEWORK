@@ -21,14 +21,14 @@ namespace MyShop.Migrations
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
-            var productcategories = new List<ProductCategory>
-            {
-                new ProductCategory{CategoryName="Food"},
-                new ProductCategory{CategoryName="Drink"}
-            };
+            //var productcategories = new List<ProductCategory>
+            //{
+            //    new ProductCategory{CategoryName="Food"},
+            //    new ProductCategory{CategoryName="Drink"}
+            //};
 
-            productcategories.ForEach(s => context.productCategories.AddOrUpdate(s));
-            context.SaveChanges();
+            //productcategories.ForEach(s => context.productCategories.AddOrUpdate(s));
+            //context.SaveChanges();
 
             //var products = new List<Product>
             //{
