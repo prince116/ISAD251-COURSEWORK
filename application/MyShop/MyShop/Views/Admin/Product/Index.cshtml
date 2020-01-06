@@ -43,7 +43,11 @@
             <div class="admin__text">Last modified at: {{ last_modifited_at }}</div>
         </div>
         <div class="admin__sub-group right">
-            <div class="admin__text text-right"><a class="btn-action" href="/Admin/Product/{{ id }}/?act=details" title="Details"><span class="glyphicon glyphicon-list"></span></a><a class="btn-action" href="/Admin/Product/{{ id }}/?act=edit" title="Edit"><span class="glyphicon glyphicon-edit"></span></a><a class="btn-action" href="/Admin/Product/{{ id }}/?act=delete" title="Delete"><span class="glyphicon glyphicon-trash"></span></a></div>
+            <div class="admin__text text-right">
+                <a class="btn-action" href="/Admin/Product/{{ id }}/?act=details" title="Details"><span class="glyphicon glyphicon-list"></span></a>
+                <a class="btn-action" href="/Admin/Product/{{ id }}/?act=edit" title="Edit"><span class="glyphicon glyphicon-edit"></span></a>
+                @*<a class="btn-action" href="/Admin/Product/{{ id }}/?act=delete" title="Delete"><span class="glyphicon glyphicon-trash"></span></a>*@
+            </div>
         </div>
     </div>
 </script>

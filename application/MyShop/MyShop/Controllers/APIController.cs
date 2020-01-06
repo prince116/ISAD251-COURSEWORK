@@ -269,6 +269,7 @@ namespace MyShop.Controllers
                 var details = new
                 {
                     id = product.ProductID,
+                    is_publish = ( product.IsPublish == 1 ) ? "Yes" : "No",
                     name = product.ProductName,
                     description = product.ProductDescription,
                     category = product.ProductCategories.CategoryName,
@@ -291,6 +292,7 @@ namespace MyShop.Controllers
                 {
                     var relatedProducts = db.products.Where(p => p.CategoryID == product.CategoryID)
                                                     .Where(p => p.ProductID != id)
+                                                    .Where(p => p.IsPublish == 1)
                                                     .Where(p => p.SalesPeriodStartAt <= DateTime.Now && p.SalesPeriodEndAt >= DateTime.Now)
                                                     .Take(4)
                                                     .ToList();

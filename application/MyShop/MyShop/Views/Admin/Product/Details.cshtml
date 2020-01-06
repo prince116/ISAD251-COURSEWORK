@@ -23,6 +23,10 @@
                     <div class="admin__details">
                         <table class="table">
                             <tr>
+                                <td class="admin__label">@Html.DisplayNameFor(model => model.IsPublish)</td>
+                                <td class="admin__value" data-label="is_publish"></td>
+                            </tr>
+                            <tr>
                                 <td class="admin__label">@Html.DisplayNameFor(model => model.ProductName)</td>
                                 <td class="admin__value" data-label="product_name"></td>
                             </tr>
@@ -80,6 +84,7 @@
                 statusCode: {
                     200: function (response) {
                         console.log(response)
+                        $('.admin__value[data-label="is_publish"]').text(response.product.is_publish);
                         $('.admin__value[data-label="product_name"]').text(response.product.name);
                         $('.admin__value[data-label="product_category"]').text(response.product.category);
                         $('.admin__value[data-label="product_description"]').text(response.product.description);
