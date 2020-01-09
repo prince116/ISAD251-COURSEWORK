@@ -9,11 +9,70 @@
     </div>
 </div>
 <div class="container">
-    <div class="row">
+
+    <div class="row hidden-xs">
+        <div class="col-xs-12">
+            <h2>Purchase History</h2>
+        </div>
+    </div>
+    <div class="row hidden-xs">
+        <div class="col-xs-12 account__purchase-history">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Order No.</th>
+                        <th>Order Date</th>
+                        <th>Transaction Status</th>
+                        <th>Total Amount</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>INV000001</td>
+                        <td>2019-01-03 13:10:10</td>
+                        <td>Checkout</td>
+                        <td>$300.00</td>
+                        <td><a href="./purchase_history_details.html">View Details</a></td>
+                    </tr>
+                    <tr>
+                        <td>INV000002</td>
+                        <td>2019-01-03 13:10:10</td>
+                        <td>Checkout</td>
+                        <td>$300.00</td>
+                        <td><a class="btn btn-primary" href="./purchase_history_details.html">Details</a></td>
+                    </tr>
+                    <tr>
+                        <td>INV000003</td>
+                        <td>2019-01-03 13:10:10</td>
+                        <td>Checkout</td>
+                        <td>$300.00</td>
+                        <td><a class="btn btn-primary" href="./purchase_history_details.html">Details</a></td>
+                    </tr>
+                    <tr>
+                        <td>INV000004</td>
+                        <td>2019-01-03 13:10:10</td>
+                        <td>Checkout</td>
+                        <td>$300.00</td>
+                        <td><a class="btn btn-primary" href="./purchase_history_details.html">Details</a></td>
+                    </tr>
+                    <tr>
+                        <td>INV000005</td>
+                        <td>2019-01-03 13:10:10</td>
+                        <td>Checkout</td>
+                        <td>$300.00</td>
+                        <td><a class="btn btn-primary" href="./purchase_history_details.html">Details</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row hidden-sm hidden-md hidden-lg">
         <div class="col-xs-12 col-sm-12">
             <div class="account__purchase-history-wrapper">
                 <div class="account__group">
-                    <div class="account__heading">Purchase History</div>
+                    <h2>Purchase History</h2>
                 </div>
                 <div class="account__group" id="record_list"><!-- Load Records By JS --></div>
             </div>
@@ -21,13 +80,23 @@
     </div>
 </div>
 
+<script id="table_template" type="x-tmpl-mustache">
+    <tr>
+        <td>{{ invoice_no }}</td>
+        <td>{{ order_datetime }}</td>
+        <td>{{ order_status }}</td>
+        <td>{{ total_amount }}</td>
+        <td><a href="/Profile/PurchaseHistory/{{ order_id }}">View Details</a></td>
+    </tr>
+</script>
+
 <script id="template" type="x-tmpl-mustache">
     <div class="account__record" data-id="{{ order_id }}">
         <div class="account__sub-group left">
             <div class="account__text"><b>Order No. : {{ invoice_no }}</b></div>
             <div class="account__text">Transaction Status: {{ order_status }}</div>
             <div class="account__text">Order Date: {{ order_datetime }}</div>
-            <div class="account__text">Amount: {{ total_amount }}</div>
+            <div class="account__text">Total Amount: {{ total_amount }}</div>
         </div>
         <div class="account__sub-group right">
             <div class="account__text text-right"><a href="javascript:void(0)" title="Order Details"><span class="glyphicon glyphicon-menu-right"></span></a></div>
@@ -50,7 +119,8 @@
 
             function getOrders() {
 
-                var template = $('#template').html();
+                var template = $('#template').html(),
+                    table_template = $("#table_template").html();
                     Mustache.parse(template);
 
                 $.ajax({
@@ -61,6 +131,9 @@
                         200: function (response) {
                             
                             var html = "";
+
+                            // Mobile View
+                            Mustache.parse(template);
 
                             $.each(response.orders, function (index, value) {
 
@@ -74,6 +147,24 @@
                             });
 
                             $('#record_list').html(html);
+
+                            // Desktop View
+                            html = "";
+                            Mustache.parse(table_template);
+
+                            $.each(response.orders, function (index, value) {
+
+                                html += Mustache.render(table_template, {
+                                    invoice_no: value.invoice_no,
+                                    order_datetime: value.order_datetime,
+                                    order_id: value.order_no,
+                                    order_status: value.order_status,
+                                    total_amount: value.total_amount
+                                });
+                            });
+
+                            $('tbody').html(html);
+
                         }
                     }
                 });

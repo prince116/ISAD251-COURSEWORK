@@ -40,7 +40,8 @@ namespace MyShop.Controllers
             ViewBag.Id = id;
             ViewBag.Title = "Purchase History";
 
-            return View();
+            return View("~/Views/Shared/_OrderDetails.cshtml");
+            //return View();
         }
     }
 }

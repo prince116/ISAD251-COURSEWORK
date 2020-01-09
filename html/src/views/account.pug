@@ -15,22 +15,45 @@ block content
                     li.active Account
 
     .container
-        .row
-            .col-xs-12.col-sm-4
-                .account__details-wrapper
-                    .account__group
-                        .account__label Username:
-                        .account__value username0123
-                    .account__group
-                        .account__label Email:
-                        .account__value example@example.com
-                    .account__group
-                        .account__label Phone:
-                        .account__value 99956789
-            .col-xs-12.col-sm-8
+        // Display all purchase record (V2)
+        .row.hidden-xs
+            .col-xs-12
+                h2 Purchase History
+        .row.hidden-xs
+            .col-xs-12.account__purchase-history
+                table.table.table-hover
+                    tr
+                        th Order ID
+                        th Order Date
+                        th Table No.
+                        th Grand Total
+                        th
+                    - for( var n = 1; n <= 5; n++){
+                    tr
+                        td INV00000#{n}
+                        td 2019-01-03 13:10:10
+                        td 3
+                        td $300.00
+                        td
+                            a(href="./purchase_history_details.html").btn.btn-primary Details
+                    - }
+
+        .row.hidden-sm.hidden-md.hidden-lg
+            //- .col-xs-12.col-sm-4
+            //-     .account__details-wrapper
+            //-         .account__group
+            //-             .account__label Username:
+            //-             .account__value username0123
+            //-         .account__group
+            //-             .account__label Email:
+            //-             .account__value example@example.com
+            //-         .account__group
+            //-             .account__label Phone:
+            //-             .account__value 99956789
+            .col-xs-12.col-sm-12
                 .account__purchase-history-wrapper
                     .account__group
-                        .account__heading Purchase History
+                        h2 Purchase History
                     .account__group
                         - for( var n = 1; n <= 5; n++){
                             .account__record

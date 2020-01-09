@@ -84,7 +84,8 @@ namespace MyShop.Controllers
                 {
                     ViewBag.Id = id;
                     ViewBag.Title = "Order Details";
-                    return View("~/Views/Admin/Order/Details.cshtml");
+                    //return View("~/Views/Admin/Order/Details.cshtml");
+                    return View("~/Views/Shared/_OrderDetails.cshtml");
                 }
                 else
                 {

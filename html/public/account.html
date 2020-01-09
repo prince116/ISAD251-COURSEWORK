@@ -50,27 +50,65 @@
       </div>
     </div>
     <div class="container">
-      <div class="row">
-        <div class="col-xs-12 col-sm-4">
-          <div class="account__details-wrapper">
-            <div class="account__group">
-              <div class="account__label">Username:</div>
-              <div class="account__value">username0123</div>
-            </div>
-            <div class="account__group">
-              <div class="account__label">Email:</div>
-              <div class="account__value">example@example.com</div>
-            </div>
-            <div class="account__group">
-              <div class="account__label">Phone:</div>
-              <div class="account__value">99956789</div>
-            </div>
-          </div>
+      <!-- Display all purchase record (V2)-->
+      <div class="row hidden-xs">
+        <div class="col-xs-12">
+          <h2>Purchase History</h2>
         </div>
-        <div class="col-xs-12 col-sm-8">
+      </div>
+      <div class="row hidden-xs">
+        <div class="col-xs-12 account__purchase-history">
+          <table class="table table-hover">
+            <tr>
+              <th>Order ID</th>
+              <th>Order Date</th>
+              <th>Table No.</th>
+              <th>Grand Total</th>
+              <th></th>
+            </tr>
+            <tr>
+              <td>INV000001</td>
+              <td>2019-01-03 13:10:10</td>
+              <td>3</td>
+              <td>$300.00</td>
+              <td><a class="btn btn-primary" href="./purchase_history_details.html">Details</a></td>
+            </tr>
+            <tr>
+              <td>INV000002</td>
+              <td>2019-01-03 13:10:10</td>
+              <td>3</td>
+              <td>$300.00</td>
+              <td><a class="btn btn-primary" href="./purchase_history_details.html">Details</a></td>
+            </tr>
+            <tr>
+              <td>INV000003</td>
+              <td>2019-01-03 13:10:10</td>
+              <td>3</td>
+              <td>$300.00</td>
+              <td><a class="btn btn-primary" href="./purchase_history_details.html">Details</a></td>
+            </tr>
+            <tr>
+              <td>INV000004</td>
+              <td>2019-01-03 13:10:10</td>
+              <td>3</td>
+              <td>$300.00</td>
+              <td><a class="btn btn-primary" href="./purchase_history_details.html">Details</a></td>
+            </tr>
+            <tr>
+              <td>INV000005</td>
+              <td>2019-01-03 13:10:10</td>
+              <td>3</td>
+              <td>$300.00</td>
+              <td><a class="btn btn-primary" href="./purchase_history_details.html">Details</a></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="row hidden-sm hidden-md hidden-lg">
+        <div class="col-xs-12 col-sm-12">
           <div class="account__purchase-history-wrapper">
             <div class="account__group">
-              <div class="account__heading">Purchase History</div>
+              <h2>Purchase History</h2>
             </div>
             <div class="account__group">
               <div class="account__record">

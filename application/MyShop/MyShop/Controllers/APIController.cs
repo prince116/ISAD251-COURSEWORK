@@ -522,12 +522,31 @@ namespace MyShop.Controllers
 
             if( userId != null)
             {
-                var currentOrder = ( id == null ) ? getCurrentOrder(userId) : id;
-                var orderedItems = new ArrayList();
+                var currentOrderId = 0;
+                Order currentOrder = null;
+                if ( id != null)
+                {
+                    currentOrderId = Convert.ToInt32(id);
+                    currentOrder = db.orders.Where(o => o.OrderID == currentOrderId).FirstOrDefault();
+                }
+                else
+                {
+                    currentOrder = getCurrentOrder(userId);
+                    currentOrderId = currentOrder.OrderID;
+                }
 
-                var orderParameter = new SqlParameter("@OrderID", currentOrder);
+                //var currentOrder = (id == null) ? getCurrentOrder(userId) : id;
+                var orderedItems = new ArrayList();
+                
+                var orderParameter = new SqlParameter("@OrderID", currentOrderId);
                 var orderDetails = db.Database.SqlQuery<SPSalesDetails>("SPGetOrderDetailsById @OrderID", orderParameter).ToList();
                 decimal totalAmount = 0;
+
+                var orderNo = Convert.ToInt32(id);
+                string orderId = orderNo.ToString("D8");
+
+                // Get Personal Information
+                var userInfo = GetUserInfo(currentOrder.CustomerID);
 
                 if (orderDetails.Count > 0)
                 {
@@ -556,7 +575,18 @@ namespace MyShop.Controllers
                 }
 
                 Response.StatusCode = (int)HttpStatusCode.OK;
-                return Json(new { orderedItems, totalAmount = totalAmount.ToString("C") }, JsonRequestBehavior.AllowGet);
+                return Json(new { 
+                    orderedItems, 
+                    totalAmount = totalAmount.ToString("C"), 
+                    orderId = orderId, 
+                    firstName = userInfo.FirstName, 
+                    lastName = userInfo.LastName,
+                    email = userInfo.Email,
+                    phoneNumber = userInfo.PhoneNumber,
+                    deliveryType = currentOrder.DeliveryType,
+                    tableNo = currentOrder.TableNo,
+                    orderDate = currentOrder.OrderDate.ToString("dddd, MMMM d, yyyy HH:mm:ss"),
+                }, JsonRequestBehavior.AllowGet);
             }
 
             Response.StatusCode = (int)HttpStatusCode.BadRequest;
@@ -662,7 +692,7 @@ namespace MyShop.Controllers
                 var userID = GetUserId();
                 var currentOrder = getCurrentOrder(userID);
 
-                var OrderItem = db.orderItems.Where(o => o.OrderID == currentOrder)
+                var OrderItem = db.orderItems.Where(o => o.OrderID == currentOrder.OrderID)
                                             .Where(o => o.ItemID == ItemID).FirstOrDefault();
 
                 if(OrderItem != null)
@@ -708,7 +738,7 @@ namespace MyShop.Controllers
                     // Delete single item from the order
                     var currentOrder = getCurrentOrder(userID);
 
-                    var orderItem = db.orderItems.Where(o => o.OrderID == currentOrder)
+                    var orderItem = db.orderItems.Where(o => o.OrderID == currentOrder.OrderID)
                                                 .Where(o => o.ItemID == ItemID)
                                                 .FirstOrDefault();
 
@@ -741,9 +771,9 @@ namespace MyShop.Controllers
 
             if ( userID != null)
             {
-                var currentOrderID = getCurrentOrder(userID);
+                var currentOrder = getCurrentOrder(userID);
 
-                var order = db.orders.Where(o => o.OrderID == currentOrderID).Where(o => o.CustomerID == userID).FirstOrDefault();
+                var order = db.orders.Where(o => o.OrderID == currentOrder.OrderID).Where(o => o.CustomerID == userID).FirstOrDefault();
 
                 if( order != null)
                 {
@@ -771,9 +801,9 @@ namespace MyShop.Controllers
             if( userID != null)
             {
                 // Get the current Order ID and remove all items from the order one by one
-                var currentOrderID = getCurrentOrder(userID);
+                var currentOrder = getCurrentOrder(userID);
 
-                var orderItems = db.orderItems.Where(o => o.OrderID == currentOrderID).ToList();
+                var orderItems = db.orderItems.Where(o => o.OrderID == currentOrder.OrderID).ToList();
 
                 if (orderItems.Count > 0 )
                 {
@@ -792,13 +822,13 @@ namespace MyShop.Controllers
             return Json(new { Status = "ERROR" });
         }
 
-        public int getCurrentOrder(string userID)
+        public Order getCurrentOrder(string userID)
         {
             var currentOrder = db.orders.Where(o => o.OrderStatus == "pending")
                                         .Where(o => o.CustomerID == userID)
                                         .FirstOrDefault();
 
-            return ( currentOrder != null ) ? currentOrder.OrderID : 0;
+            return currentOrder ?? null;
         }
     }
 }

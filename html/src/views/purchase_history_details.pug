@@ -15,31 +15,78 @@ block content
                     li.active Purchase History
 
     .container
+
         .row
             .col-xs-12
-                h1.custom-title Order No. : INV000001
+                .panel.panel-default
+                    .panel-heading Order Details
+                    .panel-body
+                        dl
+                            dt Order No: 
+                            dd INV000001
+                            dt Customer Name: 
+                            dd Peter Chan
+                            dt Email Address:
+                            dd peter@gmail.com
+                            dt Phone Number:
+                            dd 99956789
+                            dt Delivery:
+                            dd Dinn In
+                            dt Table No:
+                            dd 3
+
         .row
-            .col-xs-12
-                .cart__wrapper
-                    table
+            .col-xs-12.account__purchase-details
+                .panel.panel-default
+
+                    .panel-heading Order Items
+                    
+                    table.table.table-hover
                         tr
-                            th.text-left(colspan="2") Product
-                            th.text-left Price
-                            th.text-center Quanity
-                            th.text-right Total
+                            th Product
+                            th.hidden-xs
+                            th Price
+                            th Quantity
+                            th Total
                         - for(var n = 0; n < 4; n++){
                         tr
-                            td.cart__image-wrapper
+                            td.hidden-xs
                                 a(href="#")
                                     img.cart__image(src="https://placehold.it/570x570?text=IMAGE", alt="Image")
-                            td.text-left 
-                                .cart__product-name 
-                                    a(href="#") Product Name Here Product Name Here
-
-                            td.text-left.cart__unit-price $200.00
-                            td.text-center 1
-                            td.text-right.cart__product-total $200.00
+                            td
+                                a(href="#") Product Name Here Product Name Here
+                            td $200.00
+                            td 3
+                            td $600.00
                         - }
+                    
+                    .panel-footer.text-right
+                        strong Grand Total: 
+                        | $1000.00
+               
+
+        //- .row
+        //-     .col-xs-12
+        //-         .cart__wrapper
+        //-             table
+        //-                 tr
+        //-                     th.text-left(colspan="2") Product
+        //-                     th.text-left Price
+        //-                     th.text-center Quanity
+        //-                     th.text-right Total
+        //-                 - for(var n = 0; n < 4; n++){
+        //-                 tr
+        //-                     td.cart__image-wrapper
+        //-                         a(href="#")
+        //-                             img.cart__image(src="https://placehold.it/570x570?text=IMAGE", alt="Image")
+        //-                     td.text-left 
+        //-                         .cart__product-name 
+        //-                             a(href="#") Product Name Here Product Name Here
+
+        //-                     td.text-left.cart__unit-price $200.00
+        //-                     td.text-center 1
+        //-                     td.text-right.cart__product-total $200.00
+        //-                 - }
     
         .row
             .col-xs-12

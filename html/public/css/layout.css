@@ -552,6 +552,9 @@ h1.custom-title {
     .account__details-wrapper .account__group .account__value {
       font-size: 12px; }
 
+.account__purchase-history table > tbody > tr > td, .account__purchase-details table > tbody > tr > td {
+  vertical-align: middle; }
+
 .account__purchase-history-wrapper {
   margin: 50px 0; }
   .account__purchase-history-wrapper .account__group .account__heading {

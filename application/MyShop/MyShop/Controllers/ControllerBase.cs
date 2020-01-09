@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -48,6 +49,13 @@ namespace MyShop.Controllers
         public string GetUserId()
         {
             return User.Identity.GetUserId();
+        }
+
+        public UserInfo GetUserInfo(String userId)
+        {
+            var userInfo = db.userInfo.Where(u => u.UserId == userId).FirstOrDefault();
+
+            return userInfo;
         }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
