@@ -9,17 +9,50 @@
     </div>
 </div>
 <div class="container">
-    <div class="row">
+
+    <div class="row hidden-xs">
+        <div class="col-xs-12">
+            <h2>Sales Record</h2>
+        </div>
+    </div>
+    <div class="row hidden-xs">
+        <div class="col-xs-12 account__purchase-history">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Order No.</th>
+                        <th>Order Date</th>
+                        <th>Transaction Status</th>
+                        <th>Total Amount</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>@* Generate by JS *@</tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row hidden-sm hidden-md hidden-lg">
         <div class="col-xs-12 col-sm-12">
             <div class="account__purchase-history-wrapper">
                 <div class="account__group">
-                    <div class="account__heading">Sales Record</div>
+                    <h2>Sales Record</h2>
                 </div>
                 <div class="account__group" id="record_list"></div>
             </div>
         </div>
     </div>
 </div>
+
+<script id="table_template" type="x-tmpl-mustache">
+    <tr>
+        <td>{{ invoice_no }}</td>
+        <td>{{ order_datetime }}</td>
+        <td>{{ order_status }}</td>
+        <td>{{ total_amount }}</td>
+        <td><a href="/Admin/Order/{{ order_id }}/?page=details">View Details</a></td>
+    </tr>
+</script>
 
 <script id="template" type="x-tmpl-mustache">
     <div class="account__record" data-id="{{ order_id }}">
@@ -49,8 +82,8 @@
                 }
             })
 
-            var template = $('#template').html();
-                Mustache.parse(template);
+            var template = $('#template').html(),
+                table_template = $("#table_template").html();
 
             $.ajax({
                 url: "/api/Orders",
@@ -60,6 +93,9 @@
                     200: function (response) {
                         
                         var html = "";
+
+                        // Mobile View
+                        Mustache.parse(template);
 
                         $.each(response.orders, function (index, value) {
 
@@ -75,6 +111,23 @@
                         });
 
                         $('#record_list').html(html);
+
+                        // Desktop View
+                        html = "";
+                        Mustache.parse(table_template);
+
+                        $.each(response.orders, function (index, value) {
+
+                            html += Mustache.render(table_template, {
+                                invoice_no: value.invoice_no,
+                                order_datetime: value.order_datetime,
+                                order_id: value.order_no,
+                                order_status: value.order_status,
+                                total_amount: value.total_amount
+                            });
+                        });
+
+                        $('tbody').html(html);
                     }
                 }
             });

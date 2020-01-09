@@ -20,7 +20,7 @@ namespace MyShop
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ApplicationDbContext context = new ApplicationDbContext();
-            IdentityHelper.SeedIdentities(context);
+            //IdentityHelper.SeedIdentities(context);
         }
     }
 }

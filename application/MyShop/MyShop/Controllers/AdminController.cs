@@ -22,6 +22,7 @@ namespace MyShop.Controllers
         {
             if (IsAdmin())
             {
+                ViewBag.Title = "Product Management";
                 return View("~/Views/Admin/Product/index.cshtml");
             }
             else
@@ -38,6 +39,7 @@ namespace MyShop.Controllers
                 if( act != null)
                 {
                     ViewBag.Id = id;
+                    ViewBag.Title = "Product Management";
 
                     switch (act)
                     {
