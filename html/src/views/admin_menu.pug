@@ -1,0 +1,37 @@
+extends layout.pug
+
+block content
+    .jumbotron
+        .container.text-center
+            h1 Cake Shop
+            p Fat and Sweet
+
+    .container
+        .row
+            .col-xs-12
+                ol.breadcrumb
+                    li
+                        a(href="./") Home
+                    li.active Admin
+
+    .container
+        .row
+            .col-xs-12.col-sm-12
+                .panel
+                    .panel-body
+                        a.btn-action(href="#")
+                            h2 Create, View, Edit and Withdraw
+                                span.glyphicon.glyphicon-menu-right
+                        ul
+                            li Enter details of the drinks or snacks for sale
+                            li Read the details of the drinks or snacks for sale
+                            li Edit the details of the drinks or snacks for sale
+                            li Withdraw a drink or snack from sale
+        .row
+            .col-xs-12.col-sm-12
+                .panel
+                    .panel-body
+                        a.btn-action(href="#")
+                            h2 View Customer Orders
+                        ul
+                            li View all orders of customers

@@ -479,13 +479,35 @@ namespace MyShop.Controllers
 
         [HttpGet]
         [ActionName("Orders")]
-        public JsonResult GetAllOrders()
+        public JsonResult GetAllOrders(string type = null, string key = null)
         {
             var userID = GetUserId();
 
             if( userID != null)
             {
-                var orders = (IsAdmin()) ? db.viewSales.Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList() : db.viewSales.Where(s => s.CustomerID == userID).Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList();
+                List<ViewModels.ViewSales> orders = null;
+
+                if (IsAdmin())
+                {
+                    switch (type)
+                    {
+                        case "user":
+                            orders = db.viewSales.Where(s => s.OrderStatus == "checkout").Where(s => s.CustomerID == key).OrderByDescending(s => s.OrderID).ToList();
+                            break;
+                        case "order_id":
+                            var order_id = Convert.ToInt32(key);
+                            orders = db.viewSales.Where(s => s.OrderStatus == "checkout").Where(s => s.OrderID == order_id).OrderByDescending(s => s.OrderID).ToList();
+                            break;
+                        default:
+                            orders = db.viewSales.Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList();
+                            break;
+                    }
+                }
+                else
+                {
+                    orders = db.viewSales.Where(s => s.CustomerID == userID).Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList();
+                }
+                //orders = (IsAdmin()) ? db.viewSales.Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList() : db.viewSales.Where(s => s.CustomerID == userID).Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList();
                 
                 var records = new ArrayList();
 
@@ -494,7 +516,7 @@ namespace MyShop.Controllers
                     foreach(var record in orders)
                     {
                         records.Add(new {
-                            invoice_no = record.OrderID.ToString("D8"),
+                            invoice_no = record.OrderID,
                             order_no = record.OrderID,
                             order_datetime = record.OrderDate.ToString("dddd, MMMM d, yyyy HH:mm:ss"),
                             order_status = record.OrderStatus.ToUpper(),
@@ -542,9 +564,6 @@ namespace MyShop.Controllers
                 var orderDetails = db.Database.SqlQuery<SPSalesDetails>("SPGetOrderDetailsById @OrderID", orderParameter).ToList();
                 decimal totalAmount = 0;
 
-                var orderNo = Convert.ToInt32(id);
-                string orderId = orderNo.ToString("D8");
-
                 // Get Personal Information
                 var userInfo = GetUserInfo(currentOrder.CustomerID);
 
@@ -578,7 +597,7 @@ namespace MyShop.Controllers
                 return Json(new { 
                     orderedItems, 
                     totalAmount = totalAmount.ToString("C"), 
-                    orderId = orderId, 
+                    orderId = id, 
                     firstName = userInfo.FirstName, 
                     lastName = userInfo.LastName,
                     email = userInfo.Email,

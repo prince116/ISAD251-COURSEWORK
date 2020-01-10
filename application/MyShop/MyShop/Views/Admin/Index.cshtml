@@ -1,0 +1,57 @@
+﻿<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <ol class="breadcrumb">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li class="active">Admin</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <div class="panel">
+                <div class="panel-body">
+                    <a class="btn-action" href="@Url.Action("Products", "Admin")">
+                        <h2>Product Management</h2>
+                    </a>
+                    <ul>
+                        <li>Enter details of the drinks or snacks for sale</li>
+                        <li>Read the details of the drinks or snacks for sale</li>
+                        <li>Edit the details of the drinks or snacks for sale</li>
+                        <li>Withdraw a drink or snack from sale</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <div class="panel">
+                <div class="panel-body">
+                    <a class="btn-action" href="@Url.Action("Order", "Admin")">
+                        <h2>Order Management</h2>
+                    </a>
+                    <ul>
+                        <li>View all orders of customers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <div class="panel">
+                <div class="panel-body">
+                    <a class="btn-action" href="@Url.Action("Contact", "Home")">
+                        <h2>Feedback Management</h2>
+                    </a>
+                    <ul>
+                        <li>View all feedbacks from customers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -58,6 +58,13 @@ namespace MyShop.Controllers
             return userInfo;
         }
 
+        public List<UserInfo> GetAllUserInfo()
+        {
+            var userInfo = db.userInfo.ToList();
+
+            return userInfo;
+        }
+
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             ViewBag.IsAdmin = IsAdmin();

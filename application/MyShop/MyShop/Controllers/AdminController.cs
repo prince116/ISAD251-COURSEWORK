@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,6 +15,12 @@ namespace MyShop.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            if (IsAdmin())
+            {
+                ViewBag.Title = "Admin";
+                return View("~/Views/Admin/Index.cshtml");
+            }
+
             return RedirectToRoute("Index", "Home");
         }
 
@@ -91,7 +98,24 @@ namespace MyShop.Controllers
                 }
                 else
                 {
+                    
+
+                    var users = GetAllUserInfo();
+                    var usersInfo = new ArrayList();
+
+                    foreach(var user in users)
+                    {
+                        usersInfo.Add(new UserInfo {
+                            UserId = user.UserId,
+                            FirstName = user.FirstName,
+                            LastName = user.LastName,
+                            Email = user.Email
+                        });
+                    }
+
                     ViewBag.Title = "Orders";
+                    ViewBag.UsersInfo = usersInfo;
+
                     return View("~/Views/Admin/Order/Index.cshtml");
                 }
             }

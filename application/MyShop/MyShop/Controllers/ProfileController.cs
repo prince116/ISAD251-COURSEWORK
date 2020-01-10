@@ -41,7 +41,6 @@ namespace MyShop.Controllers
             ViewBag.Title = "Purchase History";
 
             return View("~/Views/Shared/_OrderDetails.cshtml");
-            //return View();
         }
     }
 }

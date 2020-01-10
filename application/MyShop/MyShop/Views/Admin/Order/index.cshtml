@@ -3,7 +3,8 @@
         <div class="col-xs-12">
             <ol class="breadcrumb">
                 <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                <li class="active">Sales Record</li>
+                <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
+                <li class="active">Order Management</li>
             </ol>
         </div>
     </div>
@@ -12,7 +13,37 @@
 
     <div class="row hidden-xs">
         <div class="col-xs-12">
-            <h2>Sales Record</h2>
+            <h2>Order Management</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="input-group">
+                        <label for="order_id">Serach By Order ID</label>
+                    </div>
+                    <div class="input-group">
+                        <input class="form-control" type="text" name="order_id" id="order_id" placeholder="Enter Order ID..."><span class="input-group-btn">
+                            <button class="btn btn-default" name="search" type="button">Search</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="input-group">
+                        <label for="user">Serach By User</label>
+                    </div>
+                    <div class="input-group">
+                        <select class="form-control" name="user" id="user">
+                            <option value="all">All</option>
+                            @foreach (var user in ViewBag.UsersInfo)
+                            {
+                            <option value="@user.UserId">@user.FirstName @user.LastName (@user.Email)</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row hidden-xs">
@@ -36,7 +67,7 @@
         <div class="col-xs-12 col-sm-12">
             <div class="account__purchase-history-wrapper">
                 <div class="account__group">
-                    <h2>Sales Record</h2>
+                    <h2>Order Management</h2>
                 </div>
                 <div class="account__group" id="record_list"></div>
             </div>
@@ -82,55 +113,73 @@
                 }
             })
 
+            $('button[name="search"]').click(function () {
+                var Val = $('input[name="order_id"]').val();
+                var data = Val == "" ? {} : { type: "order_id", key: Val };
+                getAllOrders(data);
+            });
+
+            $('select[name="user"]').change(function () {
+                var Val = $('select[name="user"] option:selected').val();
+                var data = Val == "all" ? {} : { type: "user", key: Val };
+                getAllOrders(data);
+            });
+
             var template = $('#template').html(),
                 table_template = $("#table_template").html();
 
-            $.ajax({
-                url: "/api/Orders",
-                method: "GET",
-                dataType: "json",
-                statusCode: {
-                    200: function (response) {
-                        
-                        var html = "";
+            function getAllOrders(data) {
+                console.log(data);
+                $.ajax({
+                    url: "/api/Orders",
+                    method: "GET",
+                    data: data,
+                    dataType: "json",
+                    statusCode: {
+                        200: function (response) {
 
-                        // Mobile View
-                        Mustache.parse(template);
+                            var html = "";
 
-                        $.each(response.orders, function (index, value) {
+                            // Mobile View
+                            Mustache.parse(template);
 
-                            html += Mustache.render(template, {
-                                invoice_no: value.invoice_no,
-                                order_datetime: value.order_datetime,
-                                order_id: value.order_no,
-                                order_status: value.order_status,
-                                delivery_type: value.delivery_type,
-                                table_no: (value.delivery_type == "Dinn In") ? value.table_no : "N/A",
-                                total_amount: value.total_amount
+                            $.each(response.orders, function (index, value) {
+
+                                html += Mustache.render(template, {
+                                    invoice_no: value.invoice_no,
+                                    order_datetime: value.order_datetime,
+                                    order_id: value.order_no,
+                                    order_status: value.order_status,
+                                    delivery_type: value.delivery_type,
+                                    table_no: (value.delivery_type == "Dinn In") ? value.table_no : "N/A",
+                                    total_amount: value.total_amount
+                                });
                             });
-                        });
 
-                        $('#record_list').html(html);
+                            $('#record_list').html(html);
 
-                        // Desktop View
-                        html = "";
-                        Mustache.parse(table_template);
+                            // Desktop View
+                            html = "";
+                            Mustache.parse(table_template);
 
-                        $.each(response.orders, function (index, value) {
+                            $.each(response.orders, function (index, value) {
 
-                            html += Mustache.render(table_template, {
-                                invoice_no: value.invoice_no,
-                                order_datetime: value.order_datetime,
-                                order_id: value.order_no,
-                                order_status: value.order_status,
-                                total_amount: value.total_amount
+                                html += Mustache.render(table_template, {
+                                    invoice_no: value.invoice_no,
+                                    order_datetime: value.order_datetime,
+                                    order_id: value.order_no,
+                                    order_status: value.order_status,
+                                    total_amount: value.total_amount
+                                });
                             });
-                        });
 
-                        $('tbody').html(html);
+                            $('tbody').html(html);
+                        }
                     }
-                }
-            });
+                });
+            }
+
+            getAllOrders([]);
         })
     </script>
 }
