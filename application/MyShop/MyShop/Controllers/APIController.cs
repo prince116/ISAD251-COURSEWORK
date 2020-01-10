@@ -97,7 +97,7 @@ namespace MyShop.Controllers
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json(new { Mesasge = "Bad Request." });
+                return Json(new { Mesasge = ex.Message });
             }
 
         }
@@ -138,7 +138,7 @@ namespace MyShop.Controllers
                 catch (Exception ex)
                 {
                     Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    return Json(new { Mesasge = "Bad Request." });
+                    return Json(new { Mesasge = ex.Message });
                 }
 
             } 
@@ -176,7 +176,7 @@ namespace MyShop.Controllers
                 catch (Exception ex)
                 {
                     Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    return Json(new { Mesasge = "Bad Request." });
+                    return Json(new { Mesasge = ex.Message });
                 }
 
             }
@@ -437,7 +437,7 @@ namespace MyShop.Controllers
                 catch (Exception ex)
                 {
                     Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    return Json(new { Mesasge = "Bad Request." });
+                    return Json(new { Mesasge = ex.Message });
                 }
 
             } 
@@ -473,7 +473,7 @@ namespace MyShop.Controllers
             catch (Exception ex)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json(new { Mesasge = "Bad Request." });
+                return Json(new { Mesasge = ex.Message });
             }
         }
 
@@ -553,7 +553,7 @@ namespace MyShop.Controllers
                 }
                 else
                 {
-                    currentOrder = getCurrentOrder(userId);
+                    currentOrder = GetCurrentOrder(userId);
                     currentOrderId = currentOrder.OrderID;
                 }
 
@@ -709,7 +709,7 @@ namespace MyShop.Controllers
             if (ItemID > 0)
             {
                 var userID = GetUserId();
-                var currentOrder = getCurrentOrder(userID);
+                var currentOrder = GetCurrentOrder(userID);
 
                 var OrderItem = db.orderItems.Where(o => o.OrderID == currentOrder.OrderID)
                                             .Where(o => o.ItemID == ItemID).FirstOrDefault();
@@ -755,7 +755,7 @@ namespace MyShop.Controllers
                 if( userID != null)
                 {
                     // Delete single item from the order
-                    var currentOrder = getCurrentOrder(userID);
+                    var currentOrder = GetCurrentOrder(userID);
 
                     var orderItem = db.orderItems.Where(o => o.OrderID == currentOrder.OrderID)
                                                 .Where(o => o.ItemID == ItemID)
@@ -790,7 +790,7 @@ namespace MyShop.Controllers
 
             if ( userID != null)
             {
-                var currentOrder = getCurrentOrder(userID);
+                var currentOrder = GetCurrentOrder(userID);
 
                 var order = db.orders.Where(o => o.OrderID == currentOrder.OrderID).Where(o => o.CustomerID == userID).FirstOrDefault();
 
@@ -820,7 +820,7 @@ namespace MyShop.Controllers
             if( userID != null)
             {
                 // Get the current Order ID and remove all items from the order one by one
-                var currentOrder = getCurrentOrder(userID);
+                var currentOrder = GetCurrentOrder(userID);
 
                 var orderItems = db.orderItems.Where(o => o.OrderID == currentOrder.OrderID).ToList();
 
@@ -841,7 +841,7 @@ namespace MyShop.Controllers
             return Json(new { Status = "ERROR" });
         }
 
-        public Order getCurrentOrder(string userID)
+        public Order GetCurrentOrder(string userID)
         {
             var currentOrder = db.orders.Where(o => o.OrderStatus == "pending")
                                         .Where(o => o.CustomerID == userID)
