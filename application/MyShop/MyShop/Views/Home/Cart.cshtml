@@ -247,6 +247,9 @@
 
                 $.ajax({
                     url: "/api/Order",
+                    data: {
+                        isShoppingCart: true
+                    },
                     method: "GET",
                     dataType: "JSON",
                     statusCode: {

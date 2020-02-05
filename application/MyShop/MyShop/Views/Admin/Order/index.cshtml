@@ -129,9 +129,9 @@
                 table_template = $("#table_template").html();
 
             function getAllOrders(data) {
-                console.log(data);
+                
                 $.ajax({
-                    url: "/api/Orders",
+                    url: "/api/Order",
                     method: "GET",
                     data: data,
                     dataType: "json",

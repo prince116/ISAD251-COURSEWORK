@@ -11,6 +11,8 @@ namespace MyShop.Controllers
 {
     public class ControllerBase : Controller
     {
+        public string userId;
+
         public ApplicationDbContext db = new ApplicationDbContext();
 
         public int max_quantity_value = 30;

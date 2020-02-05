@@ -23,58 +23,58 @@ namespace MyShop.Controllers
 
         // Contact Section API
         [HttpGet]
-        [ActionName("Contacts")]
-        public JsonResult GetAllContacts()
-        {
-            if(IsAdmin())
-            {
-                var Contacts = db.contacts.OrderByDescending(c => c.ID).ToList();
-                var Records = new ArrayList();
-                Boolean IsEmpty = true;
-            
-                if( Contacts.Count > 0)
-                {
-                    foreach(var record in Contacts)
-                    {
-                        var details = new
-                        {
-                            subject = record.Subject,
-                            first_name = record.FirstName,
-                            last_name = record.LastName,
-                            email = record.Email,
-                            message = record.Message,
-                            date = record.CreatedAt.ToString("dddd, MMMM d, yyyy HH:mm:ss") // Format: Friday, December 13, 2019 12:24:21
-                        };
-                        Records.Add(details);
-                    }
-                    IsEmpty = false;
-                }
-
-                Response.StatusCode = (int)HttpStatusCode.OK;
-                return Json(new { IsEmpty, Records }, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json(new { Message = "Permission Denied" }, JsonRequestBehavior.AllowGet);
-            }
-        }
-
-        [HttpGet]
         [ActionName("Contact")]
-        public JsonResult GetContact(int id)
+        public JsonResult GetContact(int? id)
         {
-            var contact = db.contacts.FirstOrDefault(e => e.ID == id);
-
-            if (contact != null)
+            if (id != null)
             {
-                Response.StatusCode = (int)HttpStatusCode.OK;
-                return Json(new { contact }, JsonRequestBehavior.AllowGet);
+                var contact = db.contacts.FirstOrDefault(e => e.ID == id);
+
+                if (contact != null)
+                {
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+                    return Json(new { contact }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    return Json(new { Message = "Record With ID " + id.ToString() + " not found" }, JsonRequestBehavior.AllowGet);
+                }
             }
             else
             {
-                Response.StatusCode = (int)HttpStatusCode.NotFound;
-                return Json(new { Message = "Record With ID " + id.ToString() + " not found" }, JsonRequestBehavior.AllowGet);
+                if (IsAdmin())
+                {
+                    var Contacts = db.contacts.OrderByDescending(c => c.ID).ToList();
+                    var Records = new ArrayList();
+                    Boolean IsEmpty = true;
+
+                    if (Contacts.Count > 0)
+                    {
+                        foreach (var record in Contacts)
+                        {
+                            var details = new
+                            {
+                                subject = record.Subject,
+                                first_name = record.FirstName,
+                                last_name = record.LastName,
+                                email = record.Email,
+                                message = record.Message,
+                                date = record.CreatedAt.ToString("dddd, MMMM d, yyyy HH:mm:ss") // Format: Friday, December 13, 2019 12:24:21
+                            };
+                            Records.Add(details);
+                        }
+                        IsEmpty = false;
+                    }
+
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+                    return Json(new { IsEmpty, Records }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    return Json(new { Message = "Permission Denied" }, JsonRequestBehavior.AllowGet);
+                }
             }
         }
 
@@ -188,149 +188,155 @@ namespace MyShop.Controllers
         }
 
         [HttpGet]
-        [ActionName("Products")]
-        public JsonResult GetAllProducts(string keyword, int? categoryId)
+        [ActionName("Product")]
+        public JsonResult GetProduct(int? id)
         {
-            var products = new ArrayList();
-
-            QuerySetting querySetting = new QuerySetting {
-                is_admin = IsAdmin(),
-                admin_as_user = false,
-                query_by_category = false,
-                query_by_keyword = false,
-                keywords = "",
-                category_id = 0,
-                is_admin_panel = (Request["is_admin_panel"] != null && Request["is_admin_panel"] == "true") ? true : false
-            };
-
-            if ( keyword != null)
+            if (id != null)
             {
-                querySetting.query_by_keyword = true;
-                querySetting.keywords = keyword;
-            }
-            else if ( categoryId != null )
-            {
-                querySetting.query_by_category = true;
-                querySetting.category_id = (int)categoryId;
-            }
+                var product = db.products.Include(c => c.ProductCategories).FirstOrDefault(e => e.ProductID == id);
 
-            SqlParameter[] productParams = {
-                new SqlParameter("@IS_ADMIN", querySetting.is_admin),
-                new SqlParameter("@ADMIN_AS_USER", querySetting.admin_as_user),
-                new SqlParameter("@QUERY_BY_KEYWORD", querySetting.query_by_keyword),
-                new SqlParameter("@QUERY_BY_CATEGORY", querySetting.query_by_category),
-                new SqlParameter("@KEYWORDS", querySetting.keywords),
-                new SqlParameter("@CATEGORY_ID", querySetting.category_id),
-                new SqlParameter("@IS_ADMIN_PANEL", querySetting.is_admin_panel),
-            };
-
-            var entity = db.Database.SqlQuery<SPGetProducts>("SPGetProducts @IS_ADMIN, @ADMIN_AS_USER, @QUERY_BY_KEYWORD, @QUERY_BY_CATEGORY, @KEYWORDS, @CATEGORY_ID, @IS_ADMIN_PANEL", productParams).ToList();
-
-            if( entity != null)
-            {
-                foreach(var item in entity)
+                if (product != null)
                 {
-                    var product = new
+                    SqlParameter sqlParameter = new SqlParameter("@ProductID", id);
+                    var stockStatus = db.Database.SqlQuery<SPGetProductStockStatus>("SPGetProductStockStatus @ProductID", sqlParameter).FirstOrDefault();
+
+                    var totalStock = stockStatus == null ? product.StockQuantity : stockStatus.RemainStock;
+
+                    var details = new
                     {
-                        product_id = item.ProductID,
-                        product_name = item.ProductName,
-                        product_description = item.ProductDescription,
-                        category_id = item.CategoryID,
-                        category_name = item.CategoryName,
-                        price = item.Price.ToString("C"),
-                        discounted_price = item.DiscountedPrice.ToString("C"),
-                        stock = item.StockQuantity,
-                        file_path = "/Uploads/" + item.FilePath,
-                        discount = item.DiscountedPrice > 0 ? true : false,
-                        last_modifited_at = item.LastModifiedAt.ToString("dddd, MMMM d, yyyy HH:mm:ss")
+                        id = product.ProductID,
+                        is_publish = (product.IsPublish == 1) ? "Yes" : "No",
+                        name = product.ProductName,
+                        description = product.ProductDescription,
+                        category = product.ProductCategories.CategoryName,
+                        price = product.Price.ToString("C"),
+                        discounted_price = product.DiscountedPrice.ToString("C"),
+                        sales_period_start = product.SalesPeriodStartAt.ToString(string.Format("yyyy-MM-dd")),
+                        sales_period_end = product.SalesPeriodEndAt.ToString(string.Format("yyyy-MM-dd")),
+                        stock = (totalStock >= max_quantity_value) ? max_quantity_value : totalStock,
+                        file_path = "/Uploads/" + product.FilePath
                     };
 
-                    products.Add(product);
-                }
-            }
-
-            Response.StatusCode = (int)HttpStatusCode.OK;
-            return Json(new { products }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        [ActionName("Product")]
-        public JsonResult GetProduct(int id)
-        {
-            var product = db.products.Include(c => c.ProductCategories).FirstOrDefault(e => e.ProductID == id);
-
-            if (product != null)
-            {
-                SqlParameter sqlParameter = new SqlParameter("@ProductID", id);
-                var stockStatus = db.Database.SqlQuery<SPGetProductStockStatus>("SPGetProductStockStatus @ProductID", sqlParameter).FirstOrDefault();
-
-                var totalStock = stockStatus == null ? product.StockQuantity : stockStatus.RemainStock;
-
-                var details = new
-                {
-                    id = product.ProductID,
-                    is_publish = ( product.IsPublish == 1 ) ? "Yes" : "No",
-                    name = product.ProductName,
-                    description = product.ProductDescription,
-                    category = product.ProductCategories.CategoryName,
-                    price = product.Price.ToString("C"),
-                    discounted_price = product.DiscountedPrice.ToString("C"),
-                    sales_period_start = product.SalesPeriodStartAt.ToString(string.Format("yyyy-MM-dd")),
-                    sales_period_end = product.SalesPeriodEndAt.ToString(string.Format("yyyy-MM-dd")),
-                    stock = ( totalStock >= max_quantity_value ) ? max_quantity_value : totalStock,
-                    file_path = "/Uploads/" + product.FilePath
-                };
-
-                var responseObj = new
-                {
-                    product = details
-                };
-
-                var getRelatedProduct = Request["related"];
-
-                if (getRelatedProduct == "true")
-                {
-                    var relatedProducts = db.products.Where(p => p.CategoryID == product.CategoryID)
-                                                    .Where(p => p.ProductID != id)
-                                                    .Where(p => p.IsPublish == 1)
-                                                    .Where(p => p.SalesPeriodStartAt <= DateTime.Now && p.SalesPeriodEndAt >= DateTime.Now)
-                                                    .Take(4)
-                                                    .ToList();
-
-                    if( relatedProducts != null)
+                    var responseObj = new
                     {
-                        var related = new ArrayList();
+                        product = details
+                    };
 
-                        foreach(var item in relatedProducts)
+                    var getRelatedProduct = Request["related"];
+
+                    if (getRelatedProduct == "true")
+                    {
+                        var relatedProducts = db.products.Where(p => p.CategoryID == product.CategoryID)
+                                                        .Where(p => p.ProductID != id)
+                                                        .Where(p => p.IsPublish == 1)
+                                                        .Where(p => p.SalesPeriodStartAt <= DateTime.Now && p.SalesPeriodEndAt >= DateTime.Now)
+                                                        .Take(4)
+                                                        .ToList();
+
+                        if (relatedProducts != null)
                         {
-                            var relatedProductDetails = new
+                            var related = new ArrayList();
+
+                            foreach (var item in relatedProducts)
                             {
-                                id = item.ProductID,
-                                name = item.ProductName,
-                                price = item.Price.ToString("C"),
-                                discounted_price = item.DiscountedPrice.ToString("C"),
-                                discount = item.DiscountedPrice > 0 ? true : false,
-                                stock = (item.StockQuantity > 0) ? "In stock" : "Out of stock",
-                                file_path = "/Uploads/" + item.FilePath
-                            };
+                                var relatedProductDetails = new
+                                {
+                                    id = item.ProductID,
+                                    name = item.ProductName,
+                                    price = item.Price.ToString("C"),
+                                    discounted_price = item.DiscountedPrice.ToString("C"),
+                                    discount = item.DiscountedPrice > 0 ? true : false,
+                                    stock = (item.StockQuantity > 0) ? "In stock" : "Out of stock",
+                                    file_path = "/Uploads/" + item.FilePath
+                                };
 
-                            related.Add(relatedProductDetails);
+                                related.Add(relatedProductDetails);
+                            }
+
+                            Response.StatusCode = (int)HttpStatusCode.OK;
+                            return Json(new { product = details, related_product = related }, JsonRequestBehavior.AllowGet);
+
                         }
-
-                        Response.StatusCode = (int)HttpStatusCode.OK;
-                        return Json(new { product = details, related_product = related }, JsonRequestBehavior.AllowGet);
-
                     }
-                } 
-                else
-                {
-                    Response.StatusCode = (int)HttpStatusCode.OK;
-                    return Json(new { product = details }, JsonRequestBehavior.AllowGet);
+                    else
+                    {
+                        Response.StatusCode = (int)HttpStatusCode.OK;
+                        return Json(new { product = details }, JsonRequestBehavior.AllowGet);
+                    }
                 }
-            }
 
-            Response.StatusCode = (int)HttpStatusCode.NotFound;
-            return Json(new { Message = "Record With ID " + id.ToString() + " not found" }, JsonRequestBehavior.AllowGet);
+                Response.StatusCode = (int)HttpStatusCode.NotFound;
+
+                return Json(new { Message = "Record With ID " + id.ToString() + " not found" }, JsonRequestBehavior.AllowGet);
+
+            } 
+            else
+            {
+                var products = new ArrayList();
+                var keyword = Request["keyword"];
+
+                int.TryParse(Request["categoryId"], out int categoryId);
+
+                QuerySetting querySetting = new QuerySetting
+                {
+                    is_admin = IsAdmin(),
+                    admin_as_user = false,
+                    query_by_category = false,
+                    query_by_keyword = false,
+                    keywords = "",
+                    category_id = 0,
+                    is_admin_panel = (Request["is_admin_panel"] != null && Request["is_admin_panel"] == "true") ? true : false
+                };
+
+                if (keyword != null)
+                {
+                    querySetting.query_by_keyword = true;
+                    querySetting.keywords = keyword;
+                }
+                else if (categoryId > 0)
+                {
+                    querySetting.query_by_category = true;
+                    querySetting.category_id = categoryId;
+                }
+
+                SqlParameter[] productParams = {
+                    new SqlParameter("@IS_ADMIN", querySetting.is_admin),
+                    new SqlParameter("@ADMIN_AS_USER", querySetting.admin_as_user),
+                    new SqlParameter("@QUERY_BY_KEYWORD", querySetting.query_by_keyword),
+                    new SqlParameter("@QUERY_BY_CATEGORY", querySetting.query_by_category),
+                    new SqlParameter("@KEYWORDS", querySetting.keywords),
+                    new SqlParameter("@CATEGORY_ID", querySetting.category_id),
+                    new SqlParameter("@IS_ADMIN_PANEL", querySetting.is_admin_panel),
+                };
+
+                var entity = db.Database.SqlQuery<SPGetProducts>("SPGetProducts @IS_ADMIN, @ADMIN_AS_USER, @QUERY_BY_KEYWORD, @QUERY_BY_CATEGORY, @KEYWORDS, @CATEGORY_ID, @IS_ADMIN_PANEL", productParams).ToList();
+
+                if (entity != null)
+                {
+                    foreach (var item in entity)
+                    {
+                        var product = new
+                        {
+                            product_id = item.ProductID,
+                            product_name = item.ProductName,
+                            product_description = item.ProductDescription,
+                            category_id = item.CategoryID,
+                            category_name = item.CategoryName,
+                            price = item.Price.ToString("C"),
+                            discounted_price = item.DiscountedPrice.ToString("C"),
+                            stock = item.StockQuantity,
+                            file_path = "/Uploads/" + item.FilePath,
+                            discount = item.DiscountedPrice > 0 ? true : false,
+                            last_modifited_at = item.LastModifiedAt.ToString("dddd, MMMM d, yyyy HH:mm:ss")
+                        };
+
+                        products.Add(product);
+                    }
+                }
+
+                Response.StatusCode = (int)HttpStatusCode.OK;
+                return Json(new { products }, JsonRequestBehavior.AllowGet);
+            }
             
         }
 
@@ -478,134 +484,134 @@ namespace MyShop.Controllers
         }
 
         [HttpGet]
-        [ActionName("Orders")]
-        public JsonResult GetAllOrders(string type = null, string key = null)
-        {
-            var userID = GetUserId();
-
-            if( userID != null)
-            {
-                List<ViewModels.ViewSales> orders = null;
-
-                if (IsAdmin())
-                {
-                    switch (type)
-                    {
-                        case "user":
-                            orders = db.viewSales.Where(s => s.OrderStatus == "checkout").Where(s => s.CustomerID == key).OrderByDescending(s => s.OrderID).ToList();
-                            break;
-                        case "order_id":
-                            var order_id = Convert.ToInt32(key);
-                            orders = db.viewSales.Where(s => s.OrderStatus == "checkout").Where(s => s.OrderID == order_id).OrderByDescending(s => s.OrderID).ToList();
-                            break;
-                        default:
-                            orders = db.viewSales.Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList();
-                            break;
-                    }
-                }
-                else
-                {
-                    orders = db.viewSales.Where(s => s.CustomerID == userID).Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList();
-                }
-                //orders = (IsAdmin()) ? db.viewSales.Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList() : db.viewSales.Where(s => s.CustomerID == userID).Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList();
-                
-                var records = new ArrayList();
-
-                if(orders.Count > 0)
-                {
-                    foreach(var record in orders)
-                    {
-                        records.Add(new {
-                            invoice_no = record.OrderID,
-                            order_no = record.OrderID,
-                            order_datetime = record.OrderDate.ToString("dddd, MMMM d, yyyy HH:mm:ss"),
-                            order_status = record.OrderStatus.ToUpper(),
-                            total_amount = record.TotalAmount.ToString("C"),
-                            delivery_type = record.DeliveryType,
-                            table_no = record.TableNo
-                        });
-                    }
-
-                }
-
-                Response.StatusCode = (int)HttpStatusCode.OK;
-                return Json(new { orders = records }, JsonRequestBehavior.AllowGet);
-            }
-
-            Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-            return Json(new { Message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
         [ActionName("Order")]
         public JsonResult GetOrder(int? id)
         {
-            var userId = GetUserId();
+            userId = GetUserId();
 
             if( userId != null)
             {
-                var currentOrderId = 0;
-                Order currentOrder = null;
-                if ( id != null)
+                bool.TryParse(Request["isShoppingCart"], out bool isShoppingCart);
+
+                if (id != null || isShoppingCart == true)
                 {
-                    currentOrderId = Convert.ToInt32(id);
-                    currentOrder = db.orders.Where(o => o.OrderID == currentOrderId).FirstOrDefault();
+                    var currentOrderId = 0;
+                    Order currentOrder = null;
+                    if (id != null)
+                    {
+                        currentOrderId = Convert.ToInt32(id);
+                        currentOrder = db.orders.Where(o => o.OrderID == currentOrderId).FirstOrDefault();
+                    }
+                    else
+                    {
+                        currentOrder = GetCurrentOrder(userId);
+                        currentOrderId = currentOrder == null ? 0 : currentOrder.OrderID; 
+                    }
+
+                    if (currentOrderId > 0)
+                    {
+                        var orderedItems = new ArrayList();
+
+                        var orderParameter = new SqlParameter("@OrderID", currentOrderId);
+                        var orderDetails = db.Database.SqlQuery<SPSalesDetails>("SPGetOrderDetailsById @OrderID", orderParameter).ToList();
+                        decimal totalAmount = 0;
+
+                        // Get Personal Information
+                        var userInfo = GetUserInfo(currentOrder.CustomerID);
+
+                        if (orderDetails.Count > 0)
+                        {
+                            foreach (var item in orderDetails)
+                            {
+                                SqlParameter sqlParameter = new SqlParameter("@ProductID", item.ProductID);
+                                var stockStatus = db.Database.SqlQuery<SPGetProductStockStatus>("SPGetProductStockStatus @ProductID", sqlParameter).FirstOrDefault();
+                                var totalStock = stockStatus == null ? stockStatus.Stock : stockStatus.RemainStock;
+
+                                orderedItems.Add(new
+                                {
+                                    category = item.CategoryName,
+                                    item_id = item.ItemID,
+                                    product_id = item.ProductID,
+                                    product_name = item.ProductName,
+                                    product_description = item.ProductDescription,
+                                    price = item.Price.ToString("C"),
+                                    sub_total = item.SubTotal.ToString("C"),
+                                    file_path = "/Uploads/" + item.FilePath,
+                                    quantity = item.Quantity,
+                                    stock = item.Quantity >= totalStock ? item.Quantity : totalStock
+                                });
+
+                                totalAmount += item.SubTotal;
+                            }
+                        }
+
+                        Response.StatusCode = (int)HttpStatusCode.OK;
+                        return Json(new
+                        {
+                            orderedItems,
+                            totalAmount = totalAmount.ToString("C"),
+                            orderId = id,
+                            firstName = userInfo.FirstName,
+                            lastName = userInfo.LastName,
+                            email = userInfo.Email,
+                            phoneNumber = userInfo.PhoneNumber,
+                            deliveryType = currentOrder.DeliveryType,
+                            tableNo = currentOrder.TableNo,
+                            orderDate = currentOrder.OrderDate.ToString("dddd, MMMM d, yyyy HH:mm:ss"),
+                        }, JsonRequestBehavior.AllowGet);
+                    }
                 }
                 else
                 {
-                    currentOrder = GetCurrentOrder(userId);
-                    currentOrderId = currentOrder.OrderID;
-                }
+                    List<ViewModels.ViewSales> orders = null;
+                    var type = Request["type"];
+                    var key = Request["key"];
 
-                //var currentOrder = (id == null) ? getCurrentOrder(userId) : id;
-                var orderedItems = new ArrayList();
-                
-                var orderParameter = new SqlParameter("@OrderID", currentOrderId);
-                var orderDetails = db.Database.SqlQuery<SPSalesDetails>("SPGetOrderDetailsById @OrderID", orderParameter).ToList();
-                decimal totalAmount = 0;
-
-                // Get Personal Information
-                var userInfo = GetUserInfo(currentOrder.CustomerID);
-
-                if (orderDetails.Count > 0)
-                {
-                    foreach (var item in orderDetails)
+                    if (IsAdmin())
                     {
-                        SqlParameter sqlParameter = new SqlParameter("@ProductID", item.ProductID);
-                        var stockStatus = db.Database.SqlQuery<SPGetProductStockStatus>("SPGetProductStockStatus @ProductID", sqlParameter).FirstOrDefault();
-                        var totalStock = stockStatus == null ? stockStatus.Stock : stockStatus.RemainStock;
-
-                        orderedItems.Add(new
+                        switch (type)
                         {
-                            category = item.CategoryName,
-                            item_id = item.ItemID,
-                            product_id = item.ProductID,
-                            product_name = item.ProductName,
-                            product_description = item.ProductDescription,
-                            price = item.Price.ToString("C"),
-                            sub_total = item.SubTotal.ToString("C"),
-                            file_path = "/Uploads/" + item.FilePath,
-                            quantity = item.Quantity,
-                            stock = item.Quantity >= totalStock ? item.Quantity : totalStock
-                        });
-
-                        totalAmount += item.SubTotal;
+                            case "user":
+                                orders = db.viewSales.Where(s => s.OrderStatus == "checkout").Where(s => s.CustomerID == key).OrderByDescending(s => s.OrderID).ToList();
+                                break;
+                            case "order_id":
+                                var order_id = Convert.ToInt32(key);
+                                orders = db.viewSales.Where(s => s.OrderStatus == "checkout").Where(s => s.OrderID == order_id).OrderByDescending(s => s.OrderID).ToList();
+                                break;
+                            default:
+                                orders = db.viewSales.Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList();
+                                break;
+                        }
                     }
-                }
+                    else
+                    {
+                        orders = db.viewSales.Where(s => s.CustomerID == userId).Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList();
+                    }
+                    //orders = (IsAdmin()) ? db.viewSales.Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList() : db.viewSales.Where(s => s.CustomerID == userID).Where(s => s.OrderStatus == "checkout").OrderByDescending(s => s.OrderID).ToList();
 
-                Response.StatusCode = (int)HttpStatusCode.OK;
-                return Json(new { 
-                    orderedItems, 
-                    totalAmount = totalAmount.ToString("C"), 
-                    orderId = id, 
-                    firstName = userInfo.FirstName, 
-                    lastName = userInfo.LastName,
-                    email = userInfo.Email,
-                    phoneNumber = userInfo.PhoneNumber,
-                    deliveryType = currentOrder.DeliveryType,
-                    tableNo = currentOrder.TableNo,
-                    orderDate = currentOrder.OrderDate.ToString("dddd, MMMM d, yyyy HH:mm:ss"),
-                }, JsonRequestBehavior.AllowGet);
+                    var records = new ArrayList();
+
+                    if (orders.Count > 0)
+                    {
+                        foreach (var record in orders)
+                        {
+                            records.Add(new
+                            {
+                                invoice_no = record.OrderID,
+                                order_no = record.OrderID,
+                                order_datetime = record.OrderDate.ToString("dddd, MMMM d, yyyy HH:mm:ss"),
+                                order_status = record.OrderStatus.ToUpper(),
+                                total_amount = record.TotalAmount.ToString("C"),
+                                delivery_type = record.DeliveryType,
+                                table_no = record.TableNo
+                            });
+                        }
+
+                    }
+
+                    Response.StatusCode = (int)HttpStatusCode.OK;
+                    return Json(new { orders = records }, JsonRequestBehavior.AllowGet);
+                }
             }
 
             Response.StatusCode = (int)HttpStatusCode.BadRequest;

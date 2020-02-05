@@ -89,18 +89,14 @@
                 if (e.which == 13) {
                     var keyword = $(this).val();
 
-                    if (keyword != "" && keyword != null) {
-                        getProducts({ keyword: keyword });
-                    }
+                    getProducts({ keyword: keyword });
                 }
             })
 
             $('.btn-search').click(function () {
                 var keyword = $('input[name="keyword"]').val();
 
-                if (keyword != "" && keyword != null) {
-                    getProducts({ keyword: keyword });
-                }
+                getProducts({ keyword: keyword });
             });
 
             $('.btn-category').click(function () {
@@ -140,7 +136,7 @@
             function getProducts(data) {
 
                 $.ajax({
-                    url: "/api/Products",
+                    url: "/api/Product",
                     method: "GET",
                     data: data,
                     statusCode: {
