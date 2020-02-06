@@ -2,6 +2,11 @@
     <div class="row" id="product_list">
         <!-- Load Products by JS -->
     </div>
+    <div class="row">
+        <div class="col-xs-12 text-center" style="margin: 50px 0;">
+            <a href="@Url.Action("Index", "Product")" class="viewMoreButton">View more</a>
+        </div>
+    </div>
 </div>
 
 <script id="template" type="x-tmpl-mustache">
@@ -37,6 +42,19 @@
         </div>
     </div>
 </script>
+
+<style>
+.viewMoreButton {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 20px 5px;
+    background: none;
+    padding: 10px 30px;
+    border-radius: 30px;
+    border: 1px solid #2f333a;
+    transition: 0.5s;
+}
+</style>
 
 @Html.AntiForgeryToken()
 
@@ -82,7 +100,12 @@
 
                         var html = "";
 
-                        $.each(response.products, function (index, value) {
+                        var randomProducts = Shuffle(response.products);
+
+                        $.each(randomProducts, function (index, value) {
+                            if (index > 5) {
+                                return;
+                            }
                             html += Mustache.render(template, {
                                 product_id: value.product_id,
                                 product_url: "/Product/Details/" + value.product_id,
@@ -99,6 +122,11 @@
                 }
             });
 
+
+            function Shuffle(o) {
+	            for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+	            return o;
+            };
         })
     </script>
 }

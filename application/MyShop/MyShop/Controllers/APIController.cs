@@ -14,14 +14,16 @@ namespace MyShop.Controllers
 {
     public class APIController : ControllerBase
     {
-        // GET: API
         [HttpGet]
         public ActionResult Index()
         {
             return HttpNotFound();
         }
 
-        // Contact Section API
+        /*
+         * ======== Contact API ========
+         */
+        // GET
         [HttpGet]
         [ActionName("Contact")]
         public JsonResult GetContact(int? id)
@@ -78,6 +80,7 @@ namespace MyShop.Controllers
             }
         }
 
+        // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Contact")]
@@ -102,6 +105,7 @@ namespace MyShop.Controllers
 
         }
 
+        // PUT
         [HttpPut]
         [ValidateAntiForgeryToken]
         [ActionName("Contact")]
@@ -149,6 +153,7 @@ namespace MyShop.Controllers
             }
         }
 
+        // DELETE
         [HttpDelete]
         [ValidateAntiForgeryToken]
         [ActionName("Contact")]
@@ -187,6 +192,10 @@ namespace MyShop.Controllers
             }
         }
 
+        /**
+         * ======== Product API ========
+         */
+        // GET
         [HttpGet]
         [ActionName("Product")]
         public JsonResult GetProduct(int? id)
@@ -340,6 +349,7 @@ namespace MyShop.Controllers
             
         }
 
+        // POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ActionName("Product")]
@@ -391,6 +401,7 @@ namespace MyShop.Controllers
 
         }
 
+        // PUT
         [HttpPut]
         [ValidateAntiForgeryToken]
         [ActionName("Product")]
@@ -454,6 +465,7 @@ namespace MyShop.Controllers
             }
         }
 
+        // DELETE
         [HttpDelete]
         [ValidateAntiForgeryToken]
         [ActionName("Product")]
@@ -483,6 +495,10 @@ namespace MyShop.Controllers
             }
         }
 
+        /*
+         * ======== Order API ========
+         */
+        // GET
         [HttpGet]
         [ActionName("Order")]
         public JsonResult GetOrder(int? id)
@@ -618,6 +634,7 @@ namespace MyShop.Controllers
             return Json(new { Message = "Bad Request." });
         }
 
+        // POST
         [HttpPost]
         [ActionName("Order")]
         [ValidateAntiForgeryToken]
@@ -707,6 +724,7 @@ namespace MyShop.Controllers
             return Json(new { Message = "The product has been added to the shopping cart." });
         }
 
+        // PUT
         [HttpPut]
         [ActionName("Order")]
         [ValidateAntiForgeryToken]
@@ -749,6 +767,7 @@ namespace MyShop.Controllers
             return Json(new { Message = "Record not found." });
         }
 
+        // DELETE
         [HttpDelete]
         [ActionName("Order")]
         [ValidateAntiForgeryToken]
