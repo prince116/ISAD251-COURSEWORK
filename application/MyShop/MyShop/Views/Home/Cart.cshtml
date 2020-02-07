@@ -70,8 +70,8 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-xs-6 text-center">
-                        <button class="btn-option" href="javascript:void(0)" data-value="dinn_in"><span class="glyphicon glyphicon-cutlery"></span></button>
-                        <p>Dinn In</p>
+                        <button class="btn-option" href="javascript:void(0)" data-value="dine_in"><span class="glyphicon glyphicon-cutlery"></span></button>
+                        <p>Dine In</p>
                     </div>
                     <div class="col-xs-6 text-center">
                         <button class="btn-option" href="javascript:void(0)" data-value="take_away"><span class="glyphicon glyphicon-glass"></span></button>
@@ -149,7 +149,7 @@
             $('.btn-option').click(function(){
                 var Val = $(this).attr('data-value');
                 console.log(Val)
-                if( Val == "dinn_in" ){
+                if( Val == "dine_in" ){
                     $('.table-selection').show();
                 } else {
                     $('.table-selection').hide();
@@ -187,7 +187,7 @@
                     data: {
                         __requestverificationtoken: $('#CheckoutForm input[name="__RequestVerificationToken"]').val(),
                         DeliveryType: DeliveryType,
-                        TableNo: ( DeliveryType == "dinn_in" ) ? $('select[name="table_no"] option:selected').val() : 0
+                        TableNo: ( DeliveryType == "dine_in" ) ? $('select[name="table_no"] option:selected').val() : 0
                     },
                     statusCode: {
                         200: function () {

@@ -20,7 +20,7 @@
                     <h4><!-- Product Name --></h4>
                 </div>
                 <div class="product__description"><!-- Product Description--></div>
-                <div class="product__price discounted"><span class="value"><!-- Price --></span></div>
+                <div class="product__price discounted" id="product_price"><span class="value"><!-- Price --></span></div>
                 <div class="product__discounted-price"> <span class="value"><!-- Discounted Price --></span></div>
                 <div class="product__available-status"> <span class="value"><!-- Stock Status --></span></div>
                 @if (Request.IsAuthenticated)
@@ -143,6 +143,11 @@
 
                         if (outOfStock) {
                             $('.product__qty, .product__actions').hide();
+                        }
+
+                        if (response.product.discounted_price == "$0.00") {
+                            $('#product_price').removeClass("discounted");
+                            $('.product__discounted-price').hide();
                         }
 
                         var dropdown_template = $("#dropdown").html();

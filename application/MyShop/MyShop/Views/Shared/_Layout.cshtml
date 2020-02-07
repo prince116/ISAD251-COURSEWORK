@@ -24,7 +24,7 @@
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
                     <li class="@IsCurrentPage("Index", "Home")">@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li class="@IsCurrentPage("About", "Home")">@Html.ActionLink("About", "About", "Home")</li>
+                    <li class="@IsCurrentPage("About", "Home")">@Html.ActionLink("About Us", "About", "Home")</li>
                     <li class="@IsCurrentPage("Index", "Product")">@Html.ActionLink("Products", "Index", "Product")</li>
                     <li class="@IsCurrentPage("Contact", "Home")">@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
@@ -40,7 +40,7 @@
                             }
                             else
                             {
-                                <li>@Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Profile", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
+                                <li>@Html.ActionLink("My Order", "Index", "Profile", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
                                 <li><a href="@Url.Action("Cart", "Home")"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Cart&nbsp;<span class="badge">@ViewBag.NumOfCartItems</span></a></li>
                             }
                             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
@@ -103,7 +103,7 @@
                 <div class="col-xs-12 text-center">
                     <div class="myfooter__content">
                         <a class="myfooter__link" href="@Url.Action("Index", "Home")">Home</a>
-                        <a class="myfooter__link" href="@Url.Action("About", "Home")">About</a>
+                        <a class="myfooter__link" href="@Url.Action("About", "Home")">About Us</a>
                         <a class="myfooter__link" href="@Url.Action("Index", "Product")">Products</a>
                         <a class="myfooter__link" href="@Url.Action("Contact", "Home")">Contact</a>
                     </div>

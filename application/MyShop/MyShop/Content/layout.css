@@ -740,7 +740,7 @@ h1.custom-title {
       outline: none; }
 
 footer {
-  background: url("../img/common/footer-top-img.jpg") no-repeat center center;
+  background: url("../img/common/footer-top-img.jpg") #000 no-repeat center center;
   padding: 25px; }
   footer .myfooter__top-inner {
     padding: 80px 0;

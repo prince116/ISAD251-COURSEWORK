@@ -149,8 +149,8 @@ else
                             last_name: response.lastName,
                             email: response.email,
                             phone_number: response.phoneNumber,
-                            delivery_type: (response.deliveryType == "dinn_in") ? "Dinn In" : "Take Away",
-                            table_no: (response.deliveryType == "dinn_in") ? response.tableNo : "N/A"
+                            delivery_type: (response.deliveryType == "dine_in") ? "Dine In" : "Take Away",
+                            table_no: (response.deliveryType == "dine_in") ? response.tableNo : "N/A"
                         });
 
                         $('.panel-body').html(html);
