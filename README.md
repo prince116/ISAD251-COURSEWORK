@@ -1,5 +1,24 @@
 # ISAD251 - Database Application Development Coursework
 
+# Getting Started
+
+## Running Application
+
+1. Clone the source code from GitHub to Desktop
+2. Open the project file MyShop.sln (ISAD251-COURSEWORK > application > MyShop > MyShop.sln)
+3. On the menu, click Tools > NuGet Package Manager > Package Manager Console
+4. Enter command "update-database"
+5. On the menu, click View > Server Explorer, expand the Data Connections
+7. Right click on the DefaultConnection > New Query
+8. Copy all SQL statements from the SQL file (ISAD251-COURSEWORK > SQL > ISAD251.sql)
+9. Paste all SQL statements to the New Query tab and execute all SQL statements.
+10. On the top menu, click Build > Clean Solution
+11. You can run the application.
+
+## YouTube Video for how to run the application
+[https://youtu.be/ncrS5tlbLXI](https://youtu.be/ncrS5tlbLXI)
+
+
 # Application Fact Sheet
 
 The application is written by ASP.NET MVC. There are 3 RESTful APIs implemented in the system such as product, order and contact. All the APIs are requested by Ajax because the HTML tag \<form> does not support PUT and DELETE methods. When you request the API by Ajax with POST, PUT and DELETE methods, you must provide the token for validation. The usage of the token is prevent CSRF (Cross-site request forgery).
