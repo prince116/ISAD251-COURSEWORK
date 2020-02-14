@@ -18,6 +18,15 @@
 ## YouTube Video for how to run the application
 [https://youtu.be/ncrS5tlbLXI](https://youtu.be/ncrS5tlbLXI)
 
+## Accounts
+    Administrator
+    - Email: admin@myshop.com
+    - Password: Aa~11111111
+
+    Customer
+    - Email: prince@gmail.com
+    - Password: Aa~11111111
+
 
 # Application Fact Sheet
 
